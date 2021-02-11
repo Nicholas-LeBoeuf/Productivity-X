@@ -1,0 +1,5 @@
+Endpoint: calendar-db-instance.cxjmqemwojmj.us-east-1.rds.amazonaws.com
+Port: 3306
+
+Username: Calendar
+Password: *CaIend*ar#21
