@@ -11,12 +11,20 @@ namespace Productivity_X.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+//        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly DBManager _manager;
+
+/*        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
+*/
+
+        public HomeController(DBManager manager)
+		{
+            _manager = manager;
+		}
 
         public IActionResult Index()
         {
@@ -34,8 +42,10 @@ namespace Productivity_X.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult CreateAccount()
+        public IActionResult CreateAccount(User uc)
         {
+            _manager.SaveUser(uc);
+
             return View();
         }
         
