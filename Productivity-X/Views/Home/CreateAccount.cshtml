@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Create Account";
+}
+
+<h2>Create Account</h2>
+<div>
+    <label for="fname">First Name</label>
+    <input id="fname" />
+    <label for="lname">Last Name</label>
+    <input id="lname" />
+    <br>
+    <br>
+    <label for="username">Username</label>
+    <input id="username" />
+    <label for="email">Email</label>
+    <input id="email" />
+    <br>
+    <br>
+    <label for="password">Password</label>
+    <input id="password" type="password" />
+    <label for="confirmPassword">Confirm Password</label>
+    <input id="confirmPassword" type="password" />
+    <br>
+    <br>
+    <input type="button" value="Back" onclick="location.href='@Url.Action("Index")'" />
+
+    <input type="button" value="Create Account" onclick="location.href='@Url.Action("Index")'" />
+</div>

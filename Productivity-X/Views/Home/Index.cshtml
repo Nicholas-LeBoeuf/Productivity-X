@@ -2,7 +2,16 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <h1>
+        Login
+    </h1>
+    <label for="username">Username</label>
+    <input id="username" /><br><br>
+    <label for="password">Password</label>
+    <input id="Password1" type="password" /><br><br>
+    <input type="button" value="Login" onclick="location.href='@Url.Action("Main", "MainWindow")'" />
+
+    <input type="button" value="Create Account" onclick="location.href='@Url.Action("CreateAccount", "Home")'" />
 </div>
+
