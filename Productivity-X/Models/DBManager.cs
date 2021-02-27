@@ -32,8 +32,11 @@ namespace Productivity_X.Models
 			{
 				conn.Open();
 				MySqlCommand CheckUser = conn.CreateCommand();
+
+				// Checks to see if there are duplicate usernames
 				CheckUser.Parameters.AddWithValue("@username", uc.username);
 				CheckUser.CommandText = "select count(*) from Calendar_Schema.user_tbl where userName = @userName";
+
 				// if 1 then already exist
 				int UserExist = Convert.ToInt32(CheckUser.ExecuteScalar());
 
@@ -43,6 +46,7 @@ namespace Productivity_X.Models
 				}
 				else
 				{
+					// Inserting data into fields of database
 					MySqlCommand Query = conn.CreateCommand();
 					Query.CommandText = "insert into Calendar_Schema.user_tbl (user_id, firstname, lastname, username, email, password, confirmpassword, verificationcode) VALUES (@userID,@firstname,@lastname, @username, @email, @password, @confirmpassword, @verificationcode)";
 					Query.Parameters.AddWithValue("@userID", uc.userID);
