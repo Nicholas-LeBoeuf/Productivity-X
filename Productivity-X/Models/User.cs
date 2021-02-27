@@ -11,21 +11,40 @@ namespace Productivity_X.Models
 		[Key]
 		public int userID { get; set; }
 
+
+		[StringLength(64, MinimumLength = 1)]
 		[Required(ErrorMessage = "Please Enter Firstname..")]
-		public string firstname { get => firstname; set => firstname = ""; }
+		[Display(Name = "First Name:")]
+		public string fname { get; set; }
 
+
+		[StringLength(64, MinimumLength = 1)]
 		[Required(ErrorMessage = "Please Enter Lastname..")]
-		public string lastname { get => lastname; set => firstname = ""; }
+		[Display(Name = "Last Name:")]
+		public string lname { get; set; }
 
-		[Required(ErrorMessage = "Please Enter sername..")]
-		public string username { get => username; set => firstname = ""; }
+		[StringLength(64, MinimumLength = 1)]
+		[Required(ErrorMessage = "Please Enter Username..")]
+		[Display(Name = "Username:")]
+		public string username { get; set; }
 
-		[Required(ErrorMessage = "Please Enter your email..")]
-		public string email { get => email; set => firstname = ""; }
+		[StringLength(60, MinimumLength = 1)]
+		[Required(ErrorMessage = "Please Enter Email..")]
+		[Display(Name = "Email:")]
+		public string email { get; set; }
 
-		[Required(ErrorMessage = "Please Enter first name..")]
-		public string password { get => password; set => firstname = ""; }
-		public string confirmpassword { get => confirmpassword; set => firstname = ""; }
-		public string verificationcode { get => verificationcode; set => firstname = ""; }
+		[StringLength(14, MinimumLength = 1)]
+		[Required(ErrorMessage = "Please Enter Password..")]
+		[Display(Name = "Password")]
+		public string password { get; set; }
+
+		[StringLength(14, MinimumLength = 1)]
+		[Required(ErrorMessage = "Please Reenter Password..")]
+		[DataType(DataType.Password)]
+		[Display(Name = "Confirm Password")]
+		[Compare("password")]
+		public string confirmPassword { get; set; }
+
+		public string verificationcode { get; set; }
 	}
 }

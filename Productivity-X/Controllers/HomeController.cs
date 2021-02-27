@@ -42,12 +42,23 @@ namespace Productivity_X.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult CreateAccount(User uc)
+        public IActionResult CreateAccount()
         {
-            _manager.SaveUser(uc);
-
             return View();
         }
-        
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddUser(User uc)
+		{
+            if (ModelState.IsValid)
+            {
+//                uc = _manager.CreateUser();
+                _manager.SaveUser(uc);
+                return View("Index");
+            }
+            else
+                return View("CreateAccount");
+        }
     }
 }

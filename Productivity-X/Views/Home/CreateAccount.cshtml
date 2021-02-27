@@ -1,28 +1,44 @@
-﻿@{
-    ViewData["Title"] = "Create Account";
+﻿@model Productivity_X.Models.User
+
+@{
+	ViewData["Title"] = "Create Account";
 }
 
 <h2>Create Account</h2>
-<div>
-    <label for="fname">First Name</label>
-    <input id="fname" />
-    <label for="lname">Last Name</label>
-    <input id="lname" />
-    <br>
-    <br>
-    <label for="username">Username</label>
-    <input id="username" />
-    <label for="email">Email</label>
-    <input id="email" />
-    <br>
-    <br>
-    <label for="password">Password</label>
-    <input id="password" type="password" />
-    <label for="confirmPassword">Confirm Password</label>
-    <input id="confirmPassword" type="password" />
-    <br>
-    <br>
-    <input type="button" value="Back" onclick="location.href='@Url.Action("Index")'" />
 
-    <input type="button" value="Create Account" onclick="location.href='@Url.Action("Index")'" />
+<div>
+	<form asp-action="AddUser">
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+		<div class="form-group">
+			<label asp-for="fname" class="control-label"></label>
+			<input asp-for="fname" class="form-control" />
+			<span asp-validation-for="fname" class="text-danger"></span>
+
+			<label asp-for="lname" class="control-label"></label>
+			<input asp-for="lname" class="form-control" />
+			<span asp-validation-for="lname" class="text-danger"></span>
+
+			<label asp-for="username" class="control-label"></label>
+			<input asp-for="username" class="form-control" />
+			<span asp-validation-for="username" class="text-danger"></span>
+
+			<label asp-for="email" class="control-label"></label>
+			<input asp-for="email" class="form-control" />
+			<span asp-validation-for="email" class="text-danger"></span>
+
+			<label asp-for="password" class="control-label"></label>
+			<input asp-for="password" class="form-control" />
+			<span asp-validation-for="password" class="text-danger"></span>
+
+			<label asp-for="confirmPassword" class="control-label"></label>
+			<input asp-for="confirmPassword" class="form-control" />
+			<span asp-validation-for="confirmPassword" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<input type="button" value="Back" onclick="location.href='@Url.Action("Index")'" />
+			<input type="submit" value="Create Account" />
+		</div>
+	</form>
 </div>
