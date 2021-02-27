@@ -19,12 +19,13 @@ namespace Productivity_X.Models
 			return new MySqlConnection(ConnectionString);
 		}
 
-		public UserCreateAccnt CreateUser()
+/*		public UserCreateAccnt CreateUser()
 		{
 			UserCreateAccnt myUser = new UserCreateAccnt();
 			return myUser;
 		}
-		
+*/
+
 		public bool SaveUser(UserCreateAccnt uc)
 		{
 			bool bRet = false;

@@ -53,12 +53,14 @@ namespace Productivity_X.Controllers
         public IActionResult AddUser(UserCreateAccnt uc)
 		{
             bool bRet = false;
+            // Checks if all required fields are met
             if (ModelState.IsValid)
             {
                 bRet = _manager.SaveUser(uc);
 
                 if (!bRet)
                 {
+                    // Go to Login page
                     return View("Index");
                 }
                 else
@@ -66,6 +68,7 @@ namespace Productivity_X.Controllers
                     ViewBag.message = "Username taken, choose a different one!";
                 }
             }
+            // Go to Create Account page
             return View("CreateAccount");
         }
 
@@ -75,19 +78,21 @@ namespace Productivity_X.Controllers
         {
             bool bUserExists = false;
 
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid)
             {
                 bUserExists = _manager.LoadUser(loginUser);
                 if (bUserExists)
                 {
+                    // Go to main screen
                     return View("~/Views/Mainwindow/Main.cshtml");
                 }
                 else
                 {
+                    // Error message pops up on screen
                     ViewBag.message = "Username not found or password incorrect!";
                 }
             }
+            // Go to Login screen
             return View("Index");
         }
     }
