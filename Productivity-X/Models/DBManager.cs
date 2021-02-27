@@ -19,13 +19,13 @@ namespace Productivity_X.Models
 			return new MySqlConnection(ConnectionString);
 		}
 
-/*		public User CreateUser()
+		public UserCreateAccnt CreateUser()
 		{
-			User myUser = new User();
+			UserCreateAccnt myUser = new UserCreateAccnt();
 			return myUser;
 		}
-*/
-		public bool SaveUser(User uc)
+		
+		public bool SaveUser(UserCreateAccnt uc)
 		{
 			bool bRet = false;
 			using (MySqlConnection conn = GetConnection())
@@ -60,8 +60,37 @@ namespace Productivity_X.Models
 			return bRet;
 		}
 
+		public bool LoadUser(UserLogin loginUser)
+		{
+			bool bRet = false;
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				// Checks the username and password for Login Screen
+				MySqlCommand CheckData = conn.CreateCommand();
+				// Provide the username as a parameter:
+				CheckData.Parameters.AddWithValue("@username", loginUser.username);
+				CheckData.Parameters.AddWithValue("@password", loginUser.password);
+				CheckData.CommandText = "SELECT user_id FROM Calendar_Schema.user_tbl where username = @username and password = @password";
 
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = CheckData.ExecuteReader();
+				if (reader.Read()) // Read returns false if the user does not exist!
+				{
+					// Read the DB values:
+					Object[] values = new object[1];
+					int fieldCount = reader.GetValues(values);
+					if (1 == fieldCount)
+					{
+						// Successfully retrieved the user from the DB:
+						loginUser.userID = Convert.ToInt32(values[0]);
+						bRet = true;
+					}
+				}
+				reader.Close();
 
-//		public void GetUser()
+			}
+			return bRet;
+		}
 	}
 }

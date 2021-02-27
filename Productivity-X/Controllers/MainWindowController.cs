@@ -20,26 +20,5 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult LoginUser(User uc)
-        {
-            bool bUserExists = false;
-            if (ModelState.IsValid)
-            {
-                //                uc = _manager.CreateUser();
-                bUserExists = _manager.SaveUser(uc);
-				if (!bUserExists)
-				{
-                    return View("Index");
-                }
-				else
-				{
-                    ViewBag.message = "Username taken, choose a different one!";
-                }
-            }
-            return View("CreateAccount");
-        }
     }
 }

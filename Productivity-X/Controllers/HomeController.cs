@@ -14,6 +14,7 @@ namespace Productivity_X.Controllers
 //        private readonly ILogger<HomeController> _logger;
 
         private readonly DBManager _manager;
+//        private User uc = new User();
 
 /*        public HomeController(ILogger<HomeController> logger)
         {
@@ -49,14 +50,14 @@ namespace Productivity_X.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddUser(User uc)
+        public IActionResult AddUser(UserCreateAccnt uc)
 		{
-            bool bUserExists = false;
+            bool bRet = false;
             if (ModelState.IsValid)
             {
-                //                uc = _manager.CreateUser();
-                bUserExists = _manager.SaveUser(uc);
-                if (!bUserExists)
+                bRet = _manager.SaveUser(uc);
+
+                if (!bRet)
                 {
                     return View("Index");
                 }
@@ -66,6 +67,28 @@ namespace Productivity_X.Controllers
                 }
             }
             return View("CreateAccount");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult LoginUser(UserLogin loginUser)
+        {
+            bool bUserExists = false;
+
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            if (ModelState.IsValid)
+            {
+                bUserExists = _manager.LoadUser(loginUser);
+                if (bUserExists)
+                {
+                    return View("~/Views/Mainwindow/Main.cshtml");
+                }
+                else
+                {
+                    ViewBag.message = "Username taken, choose a different one!";
+                }
+            }
+            return View("Index");
         }
     }
 }
