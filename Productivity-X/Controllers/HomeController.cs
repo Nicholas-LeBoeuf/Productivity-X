@@ -85,7 +85,7 @@ namespace Productivity_X.Controllers
                 }
                 else
                 {
-                    ViewBag.message = "Username taken, choose a different one!";
+                    ViewBag.message = "Username not found or password incorrect!";
                 }
             }
             return View("Index");
