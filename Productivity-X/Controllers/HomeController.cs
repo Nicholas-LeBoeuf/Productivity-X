@@ -51,14 +51,21 @@ namespace Productivity_X.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddUser(User uc)
 		{
+            bool bUserExists = false;
             if (ModelState.IsValid)
             {
-//                uc = _manager.CreateUser();
-                _manager.SaveUser(uc);
-                return View("Index");
+                //                uc = _manager.CreateUser();
+                bUserExists = _manager.SaveUser(uc);
+                if (!bUserExists)
+                {
+                    return View("Index");
+                }
+                else
+                {
+                    ViewBag.message = "Username taken, choose a different one!";
+                }
             }
-            else
-                return View("CreateAccount");
+            return View("CreateAccount");
         }
     }
 }
