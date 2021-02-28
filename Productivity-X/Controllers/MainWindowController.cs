@@ -3,11 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Productivity_X.Models;
 
 namespace Productivity_X.Controllers
 {
     public class MainWindowController : Controller
     {
+        private readonly DBManager _manager;
+
+        public MainWindowController(DBManager manager)
+        {
+            _manager = manager;
+        }
+
         public IActionResult Main()
         {
             return View();

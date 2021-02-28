@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Productivity_X.Models;
 
 namespace Productivity_X
 {
@@ -25,6 +26,8 @@ namespace Productivity_X
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.Add(new ServiceDescriptor(typeof(DBManager), new DBManager(Configuration.GetConnectionString("DefaultConnection"))));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

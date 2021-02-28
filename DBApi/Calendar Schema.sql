@@ -1,9 +1,10 @@
 create table user_tbl (
 	user_id integer unsigned auto_increment unique not null,
-    firstName varchar(64) not null,
-    lastName varchar(64) not null,
-    email varchar(60) not null,
-    passwordHash varchar(24) not null,
+    firstName varchar(64),
+    lastName varchar(64),
+    username varchar(64),
+    email varchar(60),
+    passwordHash varchar(24),
     verificationCode integer unsigned null,
     PRIMARY KEY (user_id)
 );

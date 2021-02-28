@@ -11,12 +11,21 @@ namespace Productivity_X.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+//        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly DBManager _manager;
+//        private User uc = new User();
+
+/*        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
+*/
+
+        public HomeController(DBManager manager)
+		{
+            _manager = manager;
+		}
 
         public IActionResult Index()
         {
@@ -38,6 +47,53 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
-        
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddUser(UserCreateAccnt uc)
+		{
+            bool bRet = false;
+            // Checks if all required fields are met
+            if (ModelState.IsValid)
+            {
+                bRet = _manager.SaveUser(uc);
+
+                if (!bRet)
+                {
+                    // Go to Login page
+                    return View("Index");
+                }
+                else
+                {
+                    ViewBag.message = "Username taken, choose a different one!";
+                }
+            }
+            // Go to Create Account page
+            return View("CreateAccount");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult LoginUser(UserLogin loginUser)
+        {
+            bool bUserExists = false;
+
+            if (ModelState.IsValid)
+            {
+                bUserExists = _manager.LoadUser(loginUser);
+                if (bUserExists)
+                {
+                    // Go to main screen
+                    return View("~/Views/Mainwindow/Main.cshtml");
+                }
+                else
+                {
+                    // Error message pops up on screen
+                    ViewBag.message = "Username not found or password incorrect!";
+                }
+            }
+            // Go to Login screen
+            return View("Index");
+        }
     }
 }
