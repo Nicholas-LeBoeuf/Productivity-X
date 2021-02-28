@@ -26,18 +26,19 @@ namespace Productivity_X.Models
 		[Display(Name = "Username:")]
 		public string username { get; set; }
 
-		[StringLength(60, MinimumLength = 1)]
+		[StringLength(60, MinimumLength = 4)]
+		[EmailAddress]
 		[Required(ErrorMessage = "Please Enter Email..")]
 		[Display(Name = "Email:")]
 		public string email { get; set; }
 
-		[StringLength(14, MinimumLength = 1)]
+		[StringLength(14, MinimumLength = 4)]
 		[Required(ErrorMessage = "Please Enter Password..")]
 		[DataType(DataType.Password)]
 		[Display(Name = "Password")]
 		public string password { get; set; }
 
-		[StringLength(14, MinimumLength = 1)]
+		[StringLength(14, MinimumLength = 4)]
 		[Required(ErrorMessage = "Please Reenter Password..")]
 		[DataType(DataType.Password)]
 		[Display(Name = "Confirm Password")]
@@ -45,6 +46,5 @@ namespace Productivity_X.Models
 		public string confirmPassword { get; set; }
 
 		public string verificationcode { get; set; }
-
 	}
 }
