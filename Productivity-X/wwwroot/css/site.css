@@ -97,3 +97,15 @@ body {
     background-size: cover;
     opacity: .75;
 }
+#bg3 {
+    position: absolute;
+    top: 0px;
+    right: 50%;
+    width: 1%;
+    height: 795px;
+    z-index: -1;
+    background-image: url(../Images/middleBar.PNG);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
