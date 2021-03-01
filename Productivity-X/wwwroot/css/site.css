@@ -97,6 +97,7 @@ body {
     background-size: cover;
     opacity: .75;
 }
+
 #bg3 {
     position: absolute;
     top: 0px;
@@ -108,4 +109,118 @@ body {
     background-position: 0 0;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+#loginLogo {
+    height: 1px;
+    left: 15%;
+    position: absolute;
+    top: 10%;
+    width: 1px;
+    transform: scale(.75, .75);
+}
+
+#loginTextInput {
+    height: 1px;
+    left: 14.5%;
+    position: absolute;
+    top: 52%;
+    width: 300px;
+}
+
+input[type=text] {
+    background-color: #FFA700;
+    color: black;
+    border: unset;
+    border-radius: 25px;
+    text-align: center;
+}
+input[type=text]:focus {
+    background-color: #FFA700;
+    color: black;
+}
+
+input[type=password] {
+    background-color: #FFA700;
+    color: black;
+    border: unset;
+    border-radius: 25px;
+    text-align: center;
+}
+
+input[type=password]:focus {
+    background-color: #FFA700;
+    color: black;
+}
+
+#loginButton {
+    width: 100px;
+    height: 35px;
+    border-radius: 25px;
+    position: absolute;
+    top: 72%;
+    left: 21%;
+    background-color: #0084FF;
+    outline: none;
+    border: unset;
+    color: white;
+}
+
+#loginButton:hover {
+    background-color: #0062ff;
+}
+
+#loginButton:active {
+    background-color: #0062ff;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+    border: unset;
+}
+
+#createButton {
+    width: 175px;
+    height: 35px;
+    border-radius: 25px;
+    position: absolute;
+    top: 83%;
+    left: 10%;
+    background-color: #0084FF;
+    outline: none;
+    border: unset;
+    color: white;
+}
+
+#createButton:hover {
+    background-color: #0062ff;
+}
+
+#createButton:active {
+    background-color: #0062ff;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+    border: unset;
+}
+
+#forgotPwButton {
+    width: 175px;
+    height: 35px;
+    border-radius: 25px;
+    position: absolute;
+    top: 83%;
+    left: 27%;
+    background-color: #0084FF;
+    outline: none;
+    border: unset;
+    color: white;
+}
+
+#forgotPwButton:hover {
+    background-color: #0062ff;
+}
+
+#forgotPwButton:active {
+    background-color: #0062ff;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+    border: unset;
 }

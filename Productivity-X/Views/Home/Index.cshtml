@@ -5,28 +5,29 @@
 }
 
 <div class="container">
-	<h1>
-		Login
-	</h1>
-	<form asp-action="LoginUser">
-		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-		<div class="form-group">
-			<label asp-for="username" class="control-label"></label>
-			<input asp-for="username" class="form-control" />
-			<span asp-validation-for="username" class="text-danger"></span>
-			<br />
-			<label asp-for="password" class="control-label"></label>
-			<input asp-for="password" class="form-control" />
-			<span asp-validation-for="password" class="text-danger"></span>
-			
-			<div class="form-group">
-				<input type="submit" value="Login" />
+    <form asp-action="LoginUser">
+        <div id="loginLogo">
+            <img src="~/Images/ProductivityXLogo.png" alt="Productivity X Logo" />
+        </div>
 
-				<input type="button" value="Create Account" onclick="location.href='@Url.Action("CreateAccount", "Home")'" />
-			</div>
-		</div>
-	</form>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div id="loginTextInput">
+            <input asp-for="username" placeholder="Username" class="form-control" />
+            <span asp-validation-for="username" class="text-danger"></span>
+            <br />
+            <br />
+            <input asp-for="password" placeholder="Password" class="form-control" />
+            <span asp-validation-for="password" class="text-danger"></span>
+        </div>
+
+        <input type="submit" id="loginButton" value="Login" />
+
+        <input type="button" id="createButton" value="Create Account" onclick="location.href='@Url.Action("CreateAccount", "Home")'" />
+
+        <input type="button" id="forgotPwButton" value="Forgot Password" onclick="location.href='@Url.Action("ForgotPassword", "Home")'" />
+    </form>
 </div>
 
 @if (ViewBag.Message != null)
