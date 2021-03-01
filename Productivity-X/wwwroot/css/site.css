@@ -153,6 +153,19 @@ input[type=password]:focus {
     color: black;
 }
 
+input[type=email] {
+    background-color: #FFA700;
+    color: black;
+    border: unset;
+    border-radius: 25px;
+    text-align: center;
+}
+
+input[type=email]:focus {
+    background-color: #FFA700;
+    color: black;
+}
+
 #loginButton {
     width: 100px;
     height: 35px;
@@ -219,6 +232,78 @@ input[type=password]:focus {
 }
 
 #forgotPwButton:active {
+    background-color: #0062ff;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+    border: unset;
+}
+
+#createLogo {
+    height: 1px;
+    left: 15%;
+    position: absolute;
+    top: 10%;
+    width: 1px;
+    transform: scale(.75, .75);
+}
+
+#createAccountTextInput {
+    height: 1px;
+    left: 4%;
+    position: absolute;
+    top: 52%;
+    width: 300px;
+}
+#createAccountTextInput2 {
+    height: 1px;
+    left: 25%;
+    position: absolute;
+    top: 52%;
+    width: 300px;
+}
+
+#backButton {
+    width: 175px;
+    height: 35px;
+    border-radius: 25px;
+    position: absolute;
+    top: 83%;
+    left: 8%;
+    background-color: #0084FF;
+    outline: none;
+    border: unset;
+    color: white;
+}
+
+#backButton:hover {
+    background-color: #0062ff;
+}
+
+#backButton:active {
+    background-color: #0062ff;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+    border: unset;
+}
+
+#createAccountButton {
+    width: 175px;
+    height: 35px;
+    border-radius: 25px;
+    position: absolute;
+    top: 83%;
+    left: 29%;
+    background-color: #0084FF;
+    outline: none;
+    border: unset;
+    color: white;
+}
+
+#createAccountButton:hover {
+    background-color: #0062ff;
+}
+
+#createAccountButton:active {
     background-color: #0062ff;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
