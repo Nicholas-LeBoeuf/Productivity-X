@@ -9,5 +9,10 @@ namespace Productivity_X.Models
     {
         public string email { get; set; }
 
+        public string verificationCode { get; set; }
+
+        public string newPassword { get; set; }
+
+        public string confirmPassword { get; set; }
     }
 }
