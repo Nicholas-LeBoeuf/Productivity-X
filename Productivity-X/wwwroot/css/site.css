@@ -331,15 +331,23 @@ input[type=email]:focus {
     border-radius: 25px;
 }
 
-#forgotPwTextInput {
+#forgotPwEmailInput {
     height: 1px;
-    left: 14.5%;
+    left: 25%;
     position: absolute;
     top: 63%;
     width: 300px;
 }
 
-#verifyEmailButton {
+#forgotPwUsernameInput {
+    height: 1px;
+    left: 4%;
+    position: absolute;
+    top: 63%;
+    width: 300px;
+}
+
+#verifyButton {
     width: 150px;
     height: 35px;
     border-radius: 25px;
@@ -352,11 +360,11 @@ input[type=email]:focus {
     color: white;
 }
 
-#verifyEmailButton:hover {
+#verifyButton:hover {
     background-color: #0062ff;
 }
 
-#verifyEmailButton:active {
+#verifyButton:active {
     background-color: #0062ff;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
