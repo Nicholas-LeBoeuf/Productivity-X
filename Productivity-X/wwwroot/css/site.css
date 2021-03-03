@@ -339,6 +339,14 @@ input[type=email]:focus {
     width: 300px;
 }
 
+#forgotPwTextInput {
+    height: 1px;
+    left: 14.5%;
+    position: absolute;
+    top: 63%;
+    width: 300px;
+}
+
 #forgotPwUsernameInput {
     height: 1px;
     left: 4%;
