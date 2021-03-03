@@ -26,6 +26,7 @@ namespace Productivity_X
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddMvc().AddRazorRuntimeCompilation();
             services.Add(new ServiceDescriptor(typeof(DBManager), new DBManager(Configuration.GetConnectionString("DefaultConnection"))));
 
         }

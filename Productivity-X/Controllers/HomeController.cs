@@ -52,6 +52,14 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
+        public IActionResult ForgotPassword2()
+        {
+            return View();
+        }
+        public IActionResult ForgotPassword3()
+        {
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
