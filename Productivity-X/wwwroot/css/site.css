@@ -309,3 +309,80 @@ input[type=email]:focus {
     transform: translateY(4px);
     border: unset;
 }
+
+#forgotLogo {
+    height: 1px;
+    left: 15%;
+    position: absolute;
+    top: 10%;
+    width: 1px;
+    transform: scale(.75, .75);
+}
+
+#forgotPwText {
+    text-align: center;
+    background: rgba(91, 86, 85, .48);
+    color: #D1CFCF;
+    height: 50px;
+    left: 13%;
+    position: absolute;
+    top: 53%;
+    width: 350px;
+    border-radius: 25px;
+}
+
+#forgotPwTextInput {
+    height: 1px;
+    left: 14.5%;
+    position: absolute;
+    top: 63%;
+    width: 300px;
+}
+
+#verifyEmailButton {
+    width: 150px;
+    height: 35px;
+    border-radius: 25px;
+    position: absolute;
+    top: 74%;
+    left: 19%;
+    background-color: #0084FF;
+    outline: none;
+    border: unset;
+    color: white;
+}
+
+#verifyEmailButton:hover {
+    background-color: #0062ff;
+}
+
+#verifyEmailButton:active {
+    background-color: #0062ff;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+    border: unset;
+}
+
+#backButtonPW {
+    width: 150px;
+    height: 35px;
+    border-radius: 25px;
+    position: absolute;
+    top: 83%;
+    left: 19%;
+    background-color: #0084FF;
+    outline: none;
+    border: unset;
+    color: white;
+}
+
+#backButtonPW:hover {
+    background-color: #0062ff;
+}
+
+#backButtonPW:active {
+    background-color: #0062ff;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+    border: unset;
+}
