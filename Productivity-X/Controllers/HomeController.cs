@@ -13,17 +13,7 @@ namespace Productivity_X.Controllers
 {
     public class HomeController : Controller
     {
-//        private readonly ILogger<HomeController> _logger;
-
         private readonly DBManager _manager;
-        private int m_UserID = 0;
-//        private User uc = new User();
-
-/*        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-*/
 
         public HomeController(DBManager manager)
 		{
@@ -46,37 +36,88 @@ namespace Productivity_X.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult CreateAccount()
+        // Login user screen, first screen seen as user opens applications
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult LoginUser(UserLogin loginUser)
         {
-            return View();
+            bool bUserExists = false;
+
+            if (ModelState.IsValid)
+            {
+                bUserExists = _manager.CheckPassword(loginUser);
+                if (bUserExists)
+                {
+                    // Go to main screen
+                    return View("~/Views/Mainwindow/Main.cshtml");
+                }
+                else
+                {
+                    // Error message pops up on screen
+                    ViewBag.message = "Username not found or password incorrect!";
+                }
+            }
+            // Go to Login screen
+            return View("Index");
         }
-        
-        public IActionResult ForgotPassword()
+
+        // Create accounts screens
+        public IActionResult CreateAccount()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ForgotPassword2(ForgotPw1 forgotpassword)
+        public IActionResult AddUser(UserCreateAccnt uc)
         {
-            int nID;
+            bool bRet = false;
+            // Checks if all required fields are met
+            if (ModelState.IsValid)
+            {
+                bRet = _manager.SaveUser(uc);
+
+                if (!bRet)
+                {
+                    // Go to Login page
+                    return View("Index");
+                }
+                else
+                {
+                    ViewBag.message = "Username taken, choose a different one!";
+                }
+            }
+            // Go to Create Account page
+            return View("CreateAccount");
+        }
+
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        // Forgot password screens
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EnterUsernameEmail(ForgotPw1 forgotpassword)
+        {
             SecurityCodeGenerator securityCode = new SecurityCodeGenerator();
             string sCode;
+            int userid;
 
             // Checks if all required fields are met
             if (ModelState.IsValid)
             {
-                nID = _manager.GetUserID(forgotpassword);
+                userid = _manager.GetUserID(forgotpassword);
 
-                if (nID != -1)
+                if (userid!= -1)
                 {
-                    m_UserID = nID;
                     sCode = securityCode.GetSecurityCode();
 
-                    _manager.SaveSecurityCode(nID, sCode);
+                    _manager.SaveSecurityCode(userid, sCode);
+                    _manager.m_UserID = userid;
 
-                    // Email
+                    // Email 
                     MimeMessage message = new MimeMessage();
                     MailboxAddress from = new MailboxAddress("Productivity X",
                     "productivityx2021@gmail.com");
@@ -102,7 +143,7 @@ namespace Productivity_X.Controllers
                     client.Disconnect(true);
                     client.Dispose();
 
-                    // Go to Login page
+                    // Go to "enter verification code" screen
                     return View("ForgotPassword2");
                 }
                 else
@@ -115,57 +156,42 @@ namespace Productivity_X.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ForgotPassword3()
+        public IActionResult EnterSecurityCode(ForgotPw2 forgotpw2)
         {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddUser(UserCreateAccnt uc)
-		{
-            bool bRet = false;
-            // Checks if all required fields are met
+            bool bValidSecurityCode;
             if (ModelState.IsValid)
             {
-                bRet = _manager.SaveUser(uc);
-
-                if (!bRet)
+                bValidSecurityCode = _manager.GetSecurityCode(_manager.m_UserID, forgotpw2);
+                if (bValidSecurityCode)
                 {
-                    // Go to Login page
-                    return View("Index");
-                }
-                else
-                {
-                    ViewBag.message = "Username taken, choose a different one!";
-                }
-            }
-            // Go to Create Account page
-            return View("CreateAccount");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult LoginUser(UserLogin loginUser)
-        {
-            bool bUserExists = false;
-
-            if (ModelState.IsValid)
-            {
-                bUserExists = _manager.CheckPassword(loginUser);
-                if (bUserExists)
-                {
-                    // Go to main screen
-                    return View("~/Views/Mainwindow/Main.cshtml");
+                    // Go to update password screen
+                    return View("ForgotPassword3");
                 }
                 else
                 {
                     // Error message pops up on screen
-                    ViewBag.message = "Username not found or password incorrect!";
+                    ViewBag.message = "Invalid Security Code!";
                 }
             }
             // Go to Login screen
-            return View("Index");
+            return View("ForgotPassword2");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EnterNewPassword(ForgotPw3 forgotpw3)
+        {
+            if (ModelState.IsValid)
+            {
+                _manager.UpdatePassword(_manager.m_UserID, forgotpw3);
+                
+                // Message pops up on screen if successful
+                ViewBag.message = "Password Updated!";
+                // Go to update password screen
+                return View("Index");
+            }
+            // Go to Login screen
+            return View("ForgotPassword3");
         }
     }
 }

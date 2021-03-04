@@ -13,13 +13,11 @@ namespace Productivity_X.Models
 
 		[StringLength(64, MinimumLength = 1)]
 		[Required(ErrorMessage = "Please Enter Username..")]
-		[Display(Name = "Username:")]
 		public string username { get; set; }
 
 		[StringLength(14, MinimumLength = 1)]
 		[Required(ErrorMessage = "Please Enter Password..")]
 		[DataType(DataType.Password)]
-		[Display(Name = "Password")]
 		public string password { get; set; }
 	}
 }

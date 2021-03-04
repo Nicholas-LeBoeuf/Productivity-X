@@ -9,6 +9,7 @@ namespace Productivity_X.Models
 	public class DBManager
 	{
 		public string ConnectionString { get; set; }
+		public int m_UserID;
 
 		public DBManager(string connectionString)
 		{
@@ -20,13 +21,7 @@ namespace Productivity_X.Models
 			return new MySqlConnection(ConnectionString);
 		}
 
-/*		public UserCreateAccnt CreateUser()
-		{
-			UserCreateAccnt myUser = new UserCreateAccnt();
-			return myUser;
-		}
-*/
-
+		// Saves user info to database
 		public bool SaveUser(UserCreateAccnt uc)
 		{
 			bool bRet = false;
@@ -70,6 +65,7 @@ namespace Productivity_X.Models
 			return bRet;
 		}
 
+		// Checks if password matches with username
 		public bool CheckPassword(UserLogin loginUser)
 		{
 			bool bRet = false;
@@ -104,11 +100,33 @@ namespace Productivity_X.Models
 					}
 				}
 				reader.Close();
-
 			}
 			return bRet;
 		}
 
+		// Update password and confirm password fields in database
+		public void UpdatePassword(int nUserID, ForgotPw3 forgotpw3)
+		{
+			bool bRet = false;
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+
+				// Inserting data into fields of database
+				MySqlCommand Query = conn.CreateCommand();
+				Query.CommandText = "update Calendar_Schema.user_tbl set password = @newpassword, confirmpassword = @confirmpassword where (user_id = @userid)";
+
+				// Hash passwords
+				forgotpw3.newPassword = BCrypt.Net.BCrypt.HashPassword(forgotpw3.newPassword);
+				forgotpw3.confirmPassword = BCrypt.Net.BCrypt.HashPassword(forgotpw3.confirmPassword);
+				Query.Parameters.AddWithValue("@newpassword", forgotpw3.newPassword);
+				Query.Parameters.AddWithValue("@confirmpassword", forgotpw3.confirmPassword);
+				Query.Parameters.AddWithValue("@userid", nUserID);
+				Query.ExecuteNonQuery();
+			}
+		}
+
+		// Gets the userid from Database
 		public int GetUserID(ForgotPw1 forgotpassword)
 		{
 			int nUserID = -1;
@@ -133,13 +151,6 @@ namespace Productivity_X.Models
 					{
 						// Successfully retrieved the user from the DB:
 						nUserID = Convert.ToInt32(values[0]);
-
-						//loginUser.password = Convert.ToString(values[1]);
-
-						//						if (isValidPassword)
-						//						{
-						//							bRet = true;
-						//						}
 					}
 				}
 				reader.Close();
@@ -147,6 +158,7 @@ namespace Productivity_X.Models
 			return nUserID;
 		}
 
+		// Update verificationcode field in database
 		public void SaveSecurityCode(int nUserID, string sCode)
 		{
 			using (MySqlConnection conn = GetConnection())
@@ -162,5 +174,38 @@ namespace Productivity_X.Models
 				Query.ExecuteNonQuery();
 			}
 		}
+
+		// Get the security code from user table in database
+		public bool GetSecurityCode(int nUserID, ForgotPw2 forgotpw2)
+		{
+			bool bRet = false;
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+
+				// Inserting data into fields of database
+				MySqlCommand FindSecurityCode = conn.CreateCommand();
+				FindSecurityCode.CommandText = "SELECT verificationcode FROM Calendar_Schema.user_tbl where user_id = @userid";
+				FindSecurityCode.Parameters.AddWithValue("@userID", nUserID);
+				FindSecurityCode.ExecuteNonQuery();
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = FindSecurityCode.ExecuteReader();
+				if (reader.Read()) // Read returns false if the verificationcode does not exist!
+				{
+					// Read the DB values:
+					Object[] values = new object[1];
+					int fieldCount = reader.GetValues(values);
+					if (1 == fieldCount && values[0].ToString() == forgotpw2.verificationCode)
+					{
+						bRet = true;
+					}
+				}
+				reader.Close();
+			}
+			return bRet;
+		}
+
+
 	}
 }

@@ -10,14 +10,11 @@ namespace Productivity_X.Models
     {
         [StringLength(64, MinimumLength = 1)]
         [Required(ErrorMessage = "Please Enter Username..")]
-        [Display(Name = "Username:")]
         public string username { get; set; }
 
         [StringLength(60, MinimumLength = 4)]
         [EmailAddress]
         [Required(ErrorMessage = "Please Enter Email..")]
-        [Display(Name = "Email:")]
         public string email { get; set; }
-
     }
 }
