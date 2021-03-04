@@ -62,7 +62,7 @@ namespace Productivity_X.Models
 					Query.Parameters.AddWithValue("@email", uc.email);
 					Query.Parameters.AddWithValue("@password", uc.password);
 					Query.Parameters.AddWithValue("@confirmpassword", uc.confirmPassword);
-					Query.Parameters.AddWithValue("@verificationcode", uc.verificationcode);
+					Query.Parameters.AddWithValue("@verificationcode", " ");
 
 					Query.ExecuteNonQuery();
 				}
@@ -155,7 +155,7 @@ namespace Productivity_X.Models
 
 				// Inserting data into fields of database
 				MySqlCommand Query = conn.CreateCommand();
-				Query.CommandText = "update Calendar_Schema.user_tbl set verificationcode = @verificationcode where user_id = @userid)";
+				Query.CommandText = "update Calendar_Schema.user_tbl set verificationcode = @verificationcode where (user_id = @userid)";
 				Query.Parameters.AddWithValue("@userID", nUserID);
 				Query.Parameters.AddWithValue("@verificationcode", sCode);
 

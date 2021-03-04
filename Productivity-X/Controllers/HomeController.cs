@@ -78,7 +78,7 @@ namespace Productivity_X.Controllers
 
                     // Email
                     MimeMessage message = new MimeMessage();
-                    MailboxAddress from = new MailboxAddress("Admin",
+                    MailboxAddress from = new MailboxAddress("Productivity X",
                     "productivityx2021@gmail.com");
                     message.From.Add(from);
 
@@ -86,9 +86,11 @@ namespace Productivity_X.Controllers
                     forgotpassword.email.ToString());
                     message.To.Add(to);
                     message.Subject = "Productivity X Security Code";
-                    BodyBuilder bodyBuilder = new BodyBuilder();
-                    bodyBuilder.HtmlBody = "<h1>Security Code is below:</h1>";
-                    bodyBuilder.TextBody = sCode.ToString();
+
+                    message.Body = new TextPart("plain")
+                    {
+                        Text = @"Code: " + sCode.ToString()
+                    };
 
                     // Connect and authenticate with SMTP server
                     SmtpClient client = new SmtpClient();
