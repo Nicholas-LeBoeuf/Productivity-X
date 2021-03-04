@@ -44,7 +44,5 @@ namespace Productivity_X.Models
 		[Display(Name = "Confirm Password")]
 		[Compare("password")]
 		public string confirmPassword { get; set; }
-
-		public string verificationcode { get; set; }
 	}
 }

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace Productivity_X.Controllers
 {
@@ -14,6 +16,7 @@ namespace Productivity_X.Controllers
 //        private readonly ILogger<HomeController> _logger;
 
         private readonly DBManager _manager;
+        private int m_UserID = 0;
 //        private User uc = new User();
 
 /*        public HomeController(ILogger<HomeController> logger)
@@ -52,10 +55,64 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
-        public IActionResult ForgotPassword2()
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ForgotPassword2(ForgotPw1 forgotpassword)
         {
-            return View();
+            int nID;
+            SecurityCodeGenerator securityCode = new SecurityCodeGenerator();
+            string sCode;
+
+            // Checks if all required fields are met
+            if (ModelState.IsValid)
+            {
+                nID = _manager.GetUserID(forgotpassword);
+
+                if (nID != -1)
+                {
+                    m_UserID = nID;
+                    sCode = securityCode.GetSecurityCode();
+
+                    _manager.SaveSecurityCode(nID, sCode);
+
+                    // Email
+                    MimeMessage message = new MimeMessage();
+                    MailboxAddress from = new MailboxAddress("Admin",
+                    "productivityx2021@gmail.com");
+                    message.From.Add(from);
+
+                    MailboxAddress to = new MailboxAddress("User",
+                    forgotpassword.email.ToString());
+                    message.To.Add(to);
+                    message.Subject = "Productivity X Security Code";
+                    BodyBuilder bodyBuilder = new BodyBuilder();
+                    bodyBuilder.HtmlBody = "<h1>Security Code is below:</h1>";
+                    bodyBuilder.TextBody = sCode.ToString();
+
+                    // Connect and authenticate with SMTP server
+                    SmtpClient client = new SmtpClient();
+                    client.Connect("smtp.gmail.com", 465, true);
+					client.Authenticate("productivityx2021@gmail.com", "ProDucTIvityx#$2021");
+
+                    // Send email and then disconnect
+                    client.Send(message);
+                    client.Disconnect(true);
+                    client.Dispose();
+
+                    // Go to Login page
+                    return View("ForgotPassword2");
+                }
+                else
+                {
+                    ViewBag.message = "Username or email not found!";
+                }
+            }
+            return View("ForgotPassword");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ForgotPassword3()
         {
             return View();
@@ -93,7 +150,7 @@ namespace Productivity_X.Controllers
 
             if (ModelState.IsValid)
             {
-                bUserExists = _manager.LoadUser(loginUser);
+                bUserExists = _manager.CheckPassword(loginUser);
                 if (bUserExists)
                 {
                     // Go to main screen
