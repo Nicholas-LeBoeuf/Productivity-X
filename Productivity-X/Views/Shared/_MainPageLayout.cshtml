@@ -4,10 +4,34 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/css/mainLayout.css" />
+    <script src="https://kit.fontawesome.com/1e6384ea85.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div>
+
+    <div class="wrapper">
         @RenderBody()
+        <div class="sidebar">
+            <div id="logo">
+                <img src="~/Images/ProductivityXLogo.png" alt="Productivity X Logo" />
+            </div>
+            <ul>
+                <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
+                <li><a href="#"><i class="fas fa-calendar-week"></i>Weekly</a></li>
+                <li><a href="#"><i class="fas fa-calendar-day"></i>Today</a></li>
+                <li><a href="#"><i class="fas fa-check-circle"></i>To-Do</a></li>
+                <li><a href="#"><i class="fas fa-list"></i>Categories</a></li>
+                <li><a href="#"><i class="fas fa-user-friends"></i>Friends</a></li>
+            </ul>
+        </div>
+        <div class="main_content">
+            <div class="header">Welcome! Have a nice day.</div>
+            <div class="info">
+                <div>lorem</div>
+            </div>
+        </div>
+
     </div>
+
 </body>
 </html>
