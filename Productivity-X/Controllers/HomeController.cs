@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Productivity_X.Models;
 using System;
@@ -49,7 +49,7 @@ namespace Productivity_X.Controllers
                 if (bUserExists)
                 {
                     // Go to main screen
-                    return View("~/Views/Mainwindow/Main.cshtml");
+                    return View("~/Views/MainWindow/Main.cshtml");
                 }
                 else
                 {

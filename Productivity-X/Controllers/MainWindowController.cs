@@ -20,5 +20,25 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
+        public IActionResult Weekly()
+        {
+            return View();
+        }
+        public IActionResult Today()
+        {
+            return View();
+        }
+        public IActionResult ToDo()
+        {
+            return View();
+        }
+        public IActionResult Categories()
+        {
+            return View();
+        }
+        public IActionResult Friends()
+        {
+            return View();
+        }
     }
 }
