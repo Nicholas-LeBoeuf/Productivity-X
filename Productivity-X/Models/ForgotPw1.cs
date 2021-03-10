@@ -6,11 +6,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Productivity_X.Models
 {
-    public class ForgotPw1
+    public class ForgotPw1 : DBObject
     {
         [StringLength(64, MinimumLength = 1)]
         [Required(ErrorMessage = "Please Enter Username..")]
-        public string username { get; set; }
+        public string username { get => UserName; set => DBObject.sUsername = value; }
 
         [StringLength(60, MinimumLength = 4)]
         [EmailAddress]

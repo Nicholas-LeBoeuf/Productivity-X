@@ -46,6 +46,7 @@ namespace Productivity_X.Controllers
             if (ModelState.IsValid)
             {
                 bUserExists = _manager.CheckPassword(loginUser);
+                _manager.LoadUser(loginUser);
                 if (bUserExists)
                 {
                     // Go to main screen
@@ -114,7 +115,7 @@ namespace Productivity_X.Controllers
                 {
                     sCode = securityCode.GetSecurityCode();
 
-                    _manager.SaveSecurityCode(userid, sCode);
+                    _manager.SaveSecurityCode(sCode);
                     _manager.m_UserID = userid;
 
                     // Email 
@@ -161,7 +162,7 @@ namespace Productivity_X.Controllers
             bool bValidSecurityCode;
             if (ModelState.IsValid)
             {
-                bValidSecurityCode = _manager.GetSecurityCode(_manager.m_UserID, forgotpw2);
+                bValidSecurityCode = _manager.CheckSecurityCode(forgotpw2);
                 if (bValidSecurityCode)
                 {
                     // Go to update password screen
@@ -183,7 +184,7 @@ namespace Productivity_X.Controllers
         {
             if (ModelState.IsValid)
             {
-                _manager.UpdatePassword(_manager.m_UserID, forgotpw3);
+                _manager.UpdatePassword(forgotpw3);
                 
                 // Message pops up on screen if successful
                 ViewBag.message = "Password Updated!";
