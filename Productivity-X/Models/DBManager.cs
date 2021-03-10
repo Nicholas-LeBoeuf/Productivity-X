@@ -141,7 +141,7 @@ namespace Productivity_X.Models
 
 				// Checks to see if there are duplicate usernames
 				CheckData.Parameters.AddWithValue("@username", DBObject.sUsername);
-				CheckData.CommandText = "SELECT user_id, password FROM Calendar_schema.user_tbl where userName = @userName";
+				CheckData.CommandText = "SELECT user_id, password FROM Calendar_Schema.user_tbl where userName = @userName";
 
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = CheckData.ExecuteReader();
@@ -175,7 +175,7 @@ namespace Productivity_X.Models
 
 				// Inserting data into fields of database
 				MySqlCommand FindUsername = conn.CreateCommand();
-				FindUsername.CommandText = "select username from calendar_schema.user_tbl where user_id = @userID;";
+				FindUsername.CommandText = "select username from Calendar_Schema.user_tbl where user_id = @userID;";
 				FindUsername.Parameters.AddWithValue("@userID", DBObject.sID);
 				FindUsername.ExecuteNonQuery();
 
@@ -206,7 +206,7 @@ namespace Productivity_X.Models
 
 				// Inserting data into fields of database
 				MySqlCommand FindPassword = conn.CreateCommand();
-				FindPassword.CommandText = "select password from calendar_schema.user_tbl where user_id = @userID;";
+				FindPassword.CommandText = "select password from Calendar_Schema.user_tbl where user_id = @userID;";
 				FindPassword.Parameters.AddWithValue("@userID", DBObject.sID);
 				FindPassword.ExecuteNonQuery();
 
