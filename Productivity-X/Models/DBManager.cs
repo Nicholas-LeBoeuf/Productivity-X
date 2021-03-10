@@ -49,8 +49,7 @@ namespace Productivity_X.Models
 
 					// Inserting data into fields of database
 					MySqlCommand Query = conn.CreateCommand();
-					Query.CommandText = "insert into Calendar_Schema.user_tbl (user_id, firstname, lastname, username, email, password, confirmpassword, verificationcode) VALUES (@userID,@firstname,@lastname, @username, @email, @password, @confirmpassword, @verificationcode)";
-					Query.Parameters.AddWithValue("@userID", uc.userID);
+					Query.CommandText = "insert into Calendar_Schema.user_tbl (firstname, lastname, username, email, password, confirmpassword, verificationcode) VALUES (@firstname,@lastname, @username, @email, @password, @confirmpassword, @verificationcode)";
 					Query.Parameters.AddWithValue("@firstname", uc.fname);
 					Query.Parameters.AddWithValue("@lastname", uc.lname);
 					Query.Parameters.AddWithValue("@username", uc.username);
@@ -65,6 +64,169 @@ namespace Productivity_X.Models
 			return bRet;
 		}
 
+		// Get userid from database without any arguments to meet
+		public int GetUserID()
+		{
+			int nUserID = -1;
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand FindUser = conn.CreateCommand();
+
+				// Checks to see if there are duplicate usernames
+				FindUser.Parameters.AddWithValue("@username", DBObject.sUsername);
+				FindUser.CommandText = "SELECT user_id FROM Calendar_Schema.user_tbl where username = @username";
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = FindUser.ExecuteReader();
+				if (reader.Read()) // Read returns false if the user does not exist!
+				{
+					// Read the DB values:
+					Object[] values = new object[1];
+					int fieldCount = reader.GetValues(values);
+					if (1 == fieldCount)
+					{
+						// Successfully retrieved the user from the DB:
+						nUserID = nUserID = Convert.ToInt32(values[0]);
+						DBObject.sID = nUserID;
+					}
+				}
+				reader.Close();
+			}
+			return nUserID;
+		}
+
+		// Gets the userid from Database
+		public int GetUserID(ForgotPw1 forgotpassword)
+		{
+			int nUserID = -1;
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand FindUser = conn.CreateCommand();
+
+				// Checks to see if there are duplicate usernames
+				FindUser.Parameters.AddWithValue("@username", DBObject.sUsername);
+				FindUser.Parameters.AddWithValue("@email", forgotpassword.email);
+				FindUser.CommandText = "SELECT user_id FROM Calendar_Schema.user_tbl where username = @username and email = @email";
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = FindUser.ExecuteReader();
+				if (reader.Read()) // Read returns false if the user does not exist!
+				{
+					// Read the DB values:
+					Object[] values = new object[1];
+					int fieldCount = reader.GetValues(values);
+					if (1 == fieldCount)
+					{
+						// Successfully retrieved the user from the DB:
+						nUserID = Convert.ToInt32(values[0]);
+						DBObject.sID = nUserID;
+					}
+				}
+				reader.Close();
+			}
+			return nUserID;
+		}
+
+		public bool LoadUser(UserLogin dbUser)
+		{
+			bool bRet = false;
+
+			// Checks the username and password for Login Screen
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand CheckData = conn.CreateCommand();
+
+				// Checks to see if there are duplicate usernames
+				CheckData.Parameters.AddWithValue("@username", DBObject.sUsername);
+				CheckData.CommandText = "SELECT user_id, password FROM Calendar_schema.user_tbl where userName = @userName";
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = CheckData.ExecuteReader();
+				if (reader.Read()) // Read returns false if the user does not exist!
+				{
+					// Read the DB values:
+					Object[] values = new object[2];
+					int fieldCount = reader.GetValues(values);
+					if (2 == fieldCount) // Asked for 2 values, so expecting 2 values!
+					{
+						// Successfully retrieved the user from the DB:
+						DBObject.sID = Convert.ToInt32(values[0]);
+						dbUser.password = values[1].ToString();
+
+						bRet = true;
+					}
+				}
+				reader.Close();
+			}
+
+			return bRet;
+		}
+
+		// Gets the username based upon id
+		public string GetUserName()
+		{
+			string sRet = "";
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+
+				// Inserting data into fields of database
+				MySqlCommand FindUsername = conn.CreateCommand();
+				FindUsername.CommandText = "select username from calendar_schema.user_tbl where user_id = @userID;";
+				FindUsername.Parameters.AddWithValue("@userID", DBObject.sID);
+				FindUsername.ExecuteNonQuery();
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = FindUsername.ExecuteReader();
+				if (reader.Read()) // Read returns false if the verificationcode does not exist!
+				{
+					// Read the DB values:
+					Object[] values = new object[1];
+					int fieldCount = reader.GetValues(values);
+					if (1 == fieldCount)
+					{
+						sRet = values[0].ToString();
+					}
+				}
+				reader.Close();
+			}
+			return sRet;
+		}
+
+		// Gets the password based upon id
+		public string GetPassword()
+		{
+			string sRet = "";
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+
+				// Inserting data into fields of database
+				MySqlCommand FindPassword = conn.CreateCommand();
+				FindPassword.CommandText = "select password from calendar_schema.user_tbl where user_id = @userID;";
+				FindPassword.Parameters.AddWithValue("@userID", DBObject.sID);
+				FindPassword.ExecuteNonQuery();
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = FindPassword.ExecuteReader();
+				if (reader.Read()) // Read returns false if the verificationcode does not exist!
+				{
+					// Read the DB values:
+					Object[] values = new object[1];
+					int fieldCount = reader.GetValues(values);
+					if (1 == fieldCount)
+					{
+						sRet = values[0].ToString();
+					}
+				}
+				reader.Close();
+			}
+			return sRet;
+		}
+
 		// Checks if password matches with username
 		public bool CheckPassword(UserLogin loginUser)
 		{
@@ -75,7 +237,7 @@ namespace Productivity_X.Models
 				// Checks the username and password for Login Screen
 				MySqlCommand CheckData = conn.CreateCommand();
 				// Provide the username as a parameter:
-				CheckData.Parameters.AddWithValue("@username", loginUser.username);
+				CheckData.Parameters.AddWithValue("@username", DBObject.sUsername);
 				CheckData.CommandText = "SELECT user_id, password FROM Calendar_Schema.user_tbl where username = @username";
 
 				// Execute the SQL command against the DB:
@@ -88,7 +250,7 @@ namespace Productivity_X.Models
 					if (2 == fieldCount)
 					{
 						// Successfully retrieved the user from the DB:
-						loginUser.userID = Convert.ToInt32(values[0]);
+						DBObject.sID = Convert.ToInt32(values[0]);
 						string password = Convert.ToString(values[1]);
 						//loginUser.password = Convert.ToString(values[1]);
 
@@ -104,8 +266,7 @@ namespace Productivity_X.Models
 			return bRet;
 		}
 
-		// Update password and confirm password fields in database
-		public void UpdatePassword(int nUserID, ForgotPw3 forgotpw3)
+		public void UpdatePassword(ForgotPw3 forgotPassword)
 		{
 			bool bRet = false;
 			using (MySqlConnection conn = GetConnection())
@@ -117,49 +278,17 @@ namespace Productivity_X.Models
 				Query.CommandText = "update Calendar_Schema.user_tbl set password = @newpassword, confirmpassword = @confirmpassword where (user_id = @userid)";
 
 				// Hash passwords
-				forgotpw3.newPassword = BCrypt.Net.BCrypt.HashPassword(forgotpw3.newPassword);
-				forgotpw3.confirmPassword = BCrypt.Net.BCrypt.HashPassword(forgotpw3.confirmPassword);
-				Query.Parameters.AddWithValue("@newpassword", forgotpw3.newPassword);
-				Query.Parameters.AddWithValue("@confirmpassword", forgotpw3.confirmPassword);
-				Query.Parameters.AddWithValue("@userid", nUserID);
+				forgotPassword.newPassword = BCrypt.Net.BCrypt.HashPassword(forgotPassword.newPassword);
+				forgotPassword.confirmPassword = BCrypt.Net.BCrypt.HashPassword(forgotPassword.confirmPassword);
+				Query.Parameters.AddWithValue("@newpassword", forgotPassword.newPassword);
+				Query.Parameters.AddWithValue("@confirmpassword", forgotPassword.confirmPassword);
+				Query.Parameters.AddWithValue("@userid", DBObject.sID);
 				Query.ExecuteNonQuery();
 			}
 		}
 
-		// Gets the userid from Database
-		public int GetUserID(ForgotPw1 forgotpassword)
-		{
-			int nUserID = -1;
-			using (MySqlConnection conn = GetConnection())
-			{
-				conn.Open();
-				MySqlCommand FindUser = conn.CreateCommand();
-
-				// Checks to see if there are duplicate usernames
-				FindUser.Parameters.AddWithValue("@username", forgotpassword.username);
-				FindUser.Parameters.AddWithValue("@email", forgotpassword.email);
-				FindUser.CommandText = "SELECT user_id FROM Calendar_Schema.user_tbl where username = @username and email = @email";
-
-				// Execute the SQL command against the DB:
-				MySqlDataReader reader = FindUser.ExecuteReader();
-				if (reader.Read()) // Read returns false if the user does not exist!
-				{
-					// Read the DB values:
-					Object[] values = new object[1];
-					int fieldCount = reader.GetValues(values);
-					if (1 == fieldCount)
-					{
-						// Successfully retrieved the user from the DB:
-						nUserID = Convert.ToInt32(values[0]);
-					}
-				}
-				reader.Close();
-			}
-			return nUserID;
-		}
-
 		// Update verificationcode field in database
-		public void SaveSecurityCode(int nUserID, string sCode)
+		public void SaveSecurityCode(string sCode)
 		{
 			using (MySqlConnection conn = GetConnection())
 			{
@@ -168,7 +297,7 @@ namespace Productivity_X.Models
 				// Inserting data into fields of database
 				MySqlCommand Query = conn.CreateCommand();
 				Query.CommandText = "update Calendar_Schema.user_tbl set verificationcode = @verificationcode where (user_id = @userid)";
-				Query.Parameters.AddWithValue("@userID", nUserID);
+				Query.Parameters.AddWithValue("@userID", DBObject.sID);
 				Query.Parameters.AddWithValue("@verificationcode", sCode);
 
 				Query.ExecuteNonQuery();
@@ -176,7 +305,7 @@ namespace Productivity_X.Models
 		}
 
 		// Get the security code from user table in database
-		public bool GetSecurityCode(int nUserID, ForgotPw2 forgotpw2)
+		public bool CheckSecurityCode(ForgotPw2 forgotpw2)
 		{
 			bool bRet = false;
 			using (MySqlConnection conn = GetConnection())
@@ -186,7 +315,7 @@ namespace Productivity_X.Models
 				// Inserting data into fields of database
 				MySqlCommand FindSecurityCode = conn.CreateCommand();
 				FindSecurityCode.CommandText = "SELECT verificationcode FROM Calendar_Schema.user_tbl where user_id = @userid";
-				FindSecurityCode.Parameters.AddWithValue("@userID", nUserID);
+				FindSecurityCode.Parameters.AddWithValue("@userID", DBObject.sID);
 				FindSecurityCode.ExecuteNonQuery();
 
 				// Execute the SQL command against the DB:

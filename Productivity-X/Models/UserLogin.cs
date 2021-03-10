@@ -6,14 +6,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Productivity_X.Models
 {
-	public class UserLogin
+	public class UserLogin : DBObject
 	{
-		[Key]
+/*		[Key]
 		public int userID { get; set; }
-
+*/
 		[StringLength(64, MinimumLength = 1)]
 		[Required(ErrorMessage = "Please Enter Username..")]
-		public string username { get; set; }
+		public string username { get => UserName; set => DBObject.sUsername = value; }
 
 		[StringLength(14, MinimumLength = 1)]
 		[Required(ErrorMessage = "Please Enter Password..")]
