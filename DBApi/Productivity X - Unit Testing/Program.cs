@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Productivity_X___Unit_Testing.Models;
 
 namespace Productivity_X___Unit_Testing
@@ -7,8 +8,8 @@ namespace Productivity_X___Unit_Testing
 	{
 		static void Main(string[] args)
 		{
-			// Please use your own database server
-			string connectionstring = "server = ; user id = ; password = ";
+			// Please use your own database server, tested with local database on MySQL Workbench
+			string connectionstring = "server= ;user id= ;password= ";
 			DBManager manager = new DBManager(connectionstring);
 
 			bool bRet;
@@ -93,8 +94,22 @@ namespace Productivity_X___Unit_Testing
 			bRet = manager.EditEvent(editEvent);
 			Console.WriteLine("Edited Event:" + bRet);
 
+			List<string> data = new List<string>();
+			data = manager.FindEventInfo();
+
+			Console.WriteLine("");
+			Console.WriteLine("data extracted from events_tbl");
+			foreach(string str in data)
+			{
+				Console.WriteLine(str);
+			}
+
 			bRet = manager.DeleteEvent();
 			Console.WriteLine("Event has been deleted: " + bRet);
+
+	    //-----------Today Button------------
+//		manager.
+
 		}
 	}
 }

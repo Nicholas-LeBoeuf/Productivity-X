@@ -538,6 +538,48 @@ namespace Productivity_X___Unit_Testing.Models
 			return bRet;
 		}
 
+		// Not sure how we want to implement below, but can call the GetEventID function with parameters
+		public List<string> FindEventInfo()
+		{
+			List<string> eventData = new List<string>();
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+
+				MySqlCommand UpdateEvent = conn.CreateCommand();
+				UpdateEvent.CommandText = "select * from Calendar_Schema.events_tbl where user_id = @userid and event_id = @eventid";
+				UpdateEvent.Parameters.AddWithValue("@userid", DBObject.id);
+				UpdateEvent.Parameters.AddWithValue("@eventid", DBObject.eventid);
+				UpdateEvent.ExecuteNonQuery();
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = UpdateEvent.ExecuteReader();
+				if (reader.Read()) // Read returns false if the verificationcode does not exist!
+				{
+					// Read the DB values:
+					Object[] values = new object[13];
+					int fieldCount = reader.GetValues(values);
+					if (13 == fieldCount)
+					{
+						for(int counter = 0; counter < values.Length; counter++)
+						{
+							eventData.Add(values[counter].ToString());
+						}
+
+						// Successfully retrieved the user from the DB:
+						// string to bool...  = bool.Parse(eventdata)
+						// string to int....  = Convert.ToInt32(values[0]);
+					}
+				}
+				reader.Close();
+			}
+			return eventData;
+		}
+
+	//-----------TodayButton, find events with todays date, pass back details----------------
+
+
+
 		// Find total account created
 		public int CountUsers()
 		{
