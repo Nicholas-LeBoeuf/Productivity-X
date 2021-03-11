@@ -2,35 +2,41 @@ create table user_tbl (
 	user_id integer unsigned auto_increment unique not null,
     firstName varchar(64),
     lastName varchar(64),
-    username varchar(64),
+	username varchar(64) not null,
     email varchar(60),
-    passwordHash varchar(24),
-    verificationCode integer unsigned null,
+    password varchar(64),
+    confirmpassword varchar(64),
+    verificationCode varchar(16),
     PRIMARY KEY (user_id)
 );
 
 create table events_tbl (
 	user_id integer unsigned not null,
+	event_id integer unsigned auto_increment unique not null,
     eventName varchar(25) unique not null,
-    color varchar(25),
     event_date date not null,
     start_at time null,
     end_at time null,
     notification boolean not null,
+    reminder int,
     location varchar(20) not null,
 	description varchar (100) null,
-    guest_id integer unsigned not null,
-	PRIMARY KEY (guest_id),
+	color varchar(25),
+	guest boolean not null,
+	friend boolean not null,
+	PRIMARY KEY (event_id),
     FOREIGN KEY (user_id) REFERENCES user_tbl(user_id)
 );
 
 create table guest_tbl(
 	user_id integer unsigned not null,
-    guest_id integer unsigned not null,
-    addGuest boolean not null,
+	event_id integer unsigned not null,
+    guest_id integer unsigned auto_increment unique not null,
+	guest_username varchar(64) not null,
     guest_email varchar(60) null,
+	isfriend boolean not null,
 	FOREIGN KEY (user_id) REFERENCES user_tbl(user_id),
-    FOREIGN KEY (guest_id) REFERENCES events_tbl(guest_id)
+    FOREIGN KEY (event_id) REFERENCES events_tbl(event_id)
 );
 
 create table category_tbl (
@@ -51,7 +57,8 @@ create table todo_tbl(
 create table friends_tbl(
 	user_id integer unsigned not null,
     friend_id integer unsigned unique not null,
-    email_friend varchar(60) not null,
+	friend_username varchar(64) not null,
+    friend_email varchar(60) null,
     PRIMARY KEY (friend_id),
 	FOREIGN KEY (user_id) REFERENCES user_tbl(user_id)
 );
