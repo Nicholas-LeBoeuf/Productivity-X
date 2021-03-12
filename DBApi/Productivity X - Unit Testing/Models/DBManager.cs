@@ -554,19 +554,21 @@ namespace Productivity_X___Unit_Testing.Models
 
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = UpdateEvent.ExecuteReader();
-/*				while (reader.Read())
+/*				
+				while (reader.Read())
 				{
 					eventData.Add(Convert.ToString(reader[0]));
 				}
-*/
-				if (reader.Read()) // Read returns false if the verificationcode does not exist!
+				
+*/				
+				if (reader.Read())
 				{
 					// Read the DB values:
 					Object[] values = new object[13];
 					int fieldCount = reader.GetValues(values);
 					if (13 == fieldCount)
 					{
-						for(int counter = 0; counter < values.Length; counter++)
+						for (int counter = 0; counter < values.Length; counter++)
 						{
 							eventData.Add(values[counter].ToString());
 						}
@@ -576,14 +578,15 @@ namespace Productivity_X___Unit_Testing.Models
 						// string to int....  = Convert.ToInt32(values[0]);
 					}
 				}
+				
 
 				reader.Close();
 			}
 			return eventData;
 		}
 
-		//-----------TodayButton, find events with todays date, pass back event id----------------
-/*		public List<string> FindTodaysEvents(string todaysDate)
+	//-----------TodayButton, find events with todays date, pass back event id----------------
+		public List<string> FindTodaysEvents(string todaysDate)
 		{
 			List<string> eventData = new List<string>();
 			using (MySqlConnection conn = GetConnection())
@@ -591,9 +594,9 @@ namespace Productivity_X___Unit_Testing.Models
 				conn.Open();
 
 				MySqlCommand UpdateEvent = conn.CreateCommand();
-				UpdateEvent.CommandText = "select event_id, event_name from Calendar_Schema.events_tbl where user_id = @userid and event_date = @eventdate";
+				UpdateEvent.CommandText = "select event_id, eventname from Calendar_Schema.events_tbl where user_id = @userid and event_date = @eventdate";
 				UpdateEvent.Parameters.AddWithValue("@userid", DBObject.id);
-				UpdateEvent.Parameters.AddWithValue("@eventdate", todaysDate);
+				UpdateEvent.Parameters.AddWithValue("@eventdate", Convert.ToDateTime(todaysDate));
 				UpdateEvent.ExecuteNonQuery();
 
 				// Execute the SQL command against the DB:
@@ -603,18 +606,11 @@ namespace Productivity_X___Unit_Testing.Models
 					eventData.Add(Convert.ToString(reader[0]));
 				}
 
-
-				Object[] values = new object[1];
-				if (reader.Read()) // Read returns false if the verificationcode does not exist!
-				{
-					nRetID = Convert.ToInt32(values[0]);
-				}
-
 				reader.Close();
 			}
-			return nRetID;
+			return eventData;
 		}
-*/
+
 
 		// Find total account created
 		public int CountUsers()

@@ -9,7 +9,7 @@ namespace Productivity_X___Unit_Testing
 		static void Main(string[] args)
 		{
 			// Please use your own database server, tested with local database on MySQL Workbench
-			string connectionstring = "server= ;user id= ;password= ";
+			string connectionstring = "server=;user id=;password=";
 			DBManager manager = new DBManager(connectionstring);
 
 			bool bRet;
@@ -107,11 +107,17 @@ namespace Productivity_X___Unit_Testing
 				Console.WriteLine(str);
 			}
 
+		//-----------Today Button queries------------
+			List<string> todayEventIDs = new List<string>();
+			// Passes back event ids:
+			todayEventIDs = manager.FindTodaysEvents(todaysdate);
 
-		//-----------Today Button query------------
-
-//			data = manager.FindTodaysEvents(todaysdate);
-
+			// Find data for each event based upon the eventid
+			foreach(string sEventID in todayEventIDs) {
+				// Get event info for each id
+				data = manager.FindEventInfo(Int32.Parse(sEventID));
+				Console.WriteLine("Found data for id:" + sEventID);
+			}
 
 			bRet = manager.DeleteEvent();
 			Console.WriteLine("Event has been deleted: " + bRet);
