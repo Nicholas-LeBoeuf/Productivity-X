@@ -9,7 +9,7 @@ namespace Productivity_X___Unit_Testing
 		static void Main(string[] args)
 		{
 			// Please use your own database server, tested with local database on MySQL Workbench
-			string connectionstring = "server=localhost;user id=root;password=MhiglayJAV1";
+			string connectionstring = "server= ;user id= ;password= ";
 			DBManager manager = new DBManager(connectionstring);
 
 			bool bRet;
@@ -98,7 +98,7 @@ namespace Productivity_X___Unit_Testing
 			Console.WriteLine("Edited Event:" + bRet);
 
 			// Find event info, pass back from the database
-			data = manager.FindEventInfo();
+			data = manager.FindEventInfo(DBObject.eventid);
 
 			Console.WriteLine("");
 			Console.WriteLine("data extracted from events_tbl");
@@ -110,7 +110,7 @@ namespace Productivity_X___Unit_Testing
 
 		//-----------Today Button query------------
 
-			data = manager.FindTodaysEvents(todaysdate);
+//			data = manager.FindTodaysEvents(todaysdate);
 
 
 			bRet = manager.DeleteEvent();

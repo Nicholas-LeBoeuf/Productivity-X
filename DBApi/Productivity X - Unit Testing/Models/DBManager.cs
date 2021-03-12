@@ -583,7 +583,7 @@ namespace Productivity_X___Unit_Testing.Models
 		}
 
 		//-----------TodayButton, find events with todays date, pass back event id----------------
-		public List<string> FindTodaysEvents(string todaysDate)
+/*		public List<string> FindTodaysEvents(string todaysDate)
 		{
 			List<string> eventData = new List<string>();
 			using (MySqlConnection conn = GetConnection())
@@ -614,7 +614,7 @@ namespace Productivity_X___Unit_Testing.Models
 			}
 			return nRetID;
 		}
-
+*/
 
 		// Find total account created
 		public int CountUsers()
