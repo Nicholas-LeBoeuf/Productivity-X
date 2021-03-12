@@ -6,6 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\新文件夹1\**" />
+    <Compile Remove="Views\新文件夹\**" />
+    <Content Remove="Views\新文件夹1\**" />
+    <Content Remove="Views\新文件夹\**" />
+    <EmbeddedResource Remove="Views\新文件夹1\**" />
+    <EmbeddedResource Remove="Views\新文件夹\**" />
+    <None Remove="Views\新文件夹1\**" />
+    <None Remove="Views\新文件夹\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\Images\background.jpg" />
     <None Include="wwwroot\Images\ProductivityXLogin.png" />
   </ItemGroup>
