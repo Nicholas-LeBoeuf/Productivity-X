@@ -12,12 +12,10 @@
 		public string m_sDescription;
 		public string m_sColor;
 
-
 		public bool m_bGuest;
 		public string m_sGuestUsername;
 		public string m_sGuestEmail;
 		public bool m_bIsFriend;
-
 
 		public CreateEvent(string sNameEvent, string sEventDate, string nTimeStart_At, string nTimeEnd_At, bool nNotification, int nReminder, string sLocation, 
 			string sDescription, string sColor,	bool bGuest, bool bisFriend, string sGuestUsername = "", string sGuestEmail = "")

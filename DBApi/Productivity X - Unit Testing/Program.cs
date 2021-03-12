@@ -9,7 +9,7 @@ namespace Productivity_X___Unit_Testing
 		static void Main(string[] args)
 		{
 			// Please use your own database server, tested with local database on MySQL Workbench
-			string connectionstring = "server= ;user id= ;password= ";
+			string connectionstring = "server=localhost;user id=root;password=MhiglayJAV1";
 			DBManager manager = new DBManager(connectionstring);
 
 			bool bRet;
@@ -104,11 +104,17 @@ namespace Productivity_X___Unit_Testing
 				Console.WriteLine(str);
 			}
 
+
+		//-----------Today Button query------------
+			string todaysdate = DateTime.Now.ToString("MM-dd-yyyy");
+			manager.FindTodaysEvents(todaysdate);
+
+
+
 			bRet = manager.DeleteEvent();
 			Console.WriteLine("Event has been deleted: " + bRet);
 
-	    //-----------Today Button------------
-//		manager.
+
 
 		}
 	}

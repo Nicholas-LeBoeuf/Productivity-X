@@ -554,6 +554,11 @@ namespace Productivity_X___Unit_Testing.Models
 
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = UpdateEvent.ExecuteReader();
+/*				while (reader.Read())
+				{
+					eventData.Add(Convert.ToString(reader[0]));
+				}
+*/
 				if (reader.Read()) // Read returns false if the verificationcode does not exist!
 				{
 					// Read the DB values:
@@ -571,13 +576,55 @@ namespace Productivity_X___Unit_Testing.Models
 						// string to int....  = Convert.ToInt32(values[0]);
 					}
 				}
+
 				reader.Close();
 			}
 			return eventData;
 		}
 
-	//-----------TodayButton, find events with todays date, pass back details----------------
+		//-----------TodayButton, find events with todays date, pass back details----------------
+		public List<string> FindTodaysEvents(string todaysDate)
+		{
+			List<string> eventData = new List<string>();
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
 
+				MySqlCommand UpdateEvent = conn.CreateCommand();
+				UpdateEvent.CommandText = "select * from Calendar_Schema.events_tbl where user_id = @userid and event_id = @eventid";
+				UpdateEvent.Parameters.AddWithValue("@userid", DBObject.id);
+				UpdateEvent.Parameters.AddWithValue("@eventid", DBObject.eventid);
+				UpdateEvent.ExecuteNonQuery();
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = UpdateEvent.ExecuteReader();
+				/*				while (reader.Read())
+								{
+									eventData.Add(Convert.ToString(reader[0]));
+								}
+				*/
+				if (reader.Read()) // Read returns false if the verificationcode does not exist!
+				{
+					// Read the DB values:
+					Object[] values = new object[13];
+					int fieldCount = reader.GetValues(values);
+					if (13 == fieldCount)
+					{
+						for (int counter = 0; counter < values.Length; counter++)
+						{
+							eventData.Add(values[counter].ToString());
+						}
+
+						// Successfully retrieved the user from the DB:
+						// string to bool...  = bool.Parse(eventdata)
+						// string to int....  = Convert.ToInt32(values[0]);
+					}
+				}
+
+				reader.Close();
+			}
+			return eventData;
+		}
 
 
 		// Find total account created
