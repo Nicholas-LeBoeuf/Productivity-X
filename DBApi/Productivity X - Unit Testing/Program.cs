@@ -15,6 +15,9 @@ namespace Productivity_X___Unit_Testing
 			bool bRet;
 			string sRet;
 			int nUserid, nNum;
+			List<string> data = new List<string>();
+			// Get todays date
+			string todaysdate = DateTime.Now.ToString("MM-dd-yyyy");
 
 		//---------------Create an Account:---------------
 			// Testing create account and save into database:
@@ -86,15 +89,15 @@ namespace Productivity_X___Unit_Testing
 		//-----------Create event for calendar-----------
 			Console.WriteLine("");
 			Console.WriteLine("Create event for Calendar test cases");
-			CreateEvent createevent = new CreateEvent("class", "2021-03-15", "000500 pm", "000530 pm", true, 30, "school", "Description", "red", true, true);
+			CreateEvent createevent = new CreateEvent("class", todaysdate, "000500 pm", "000530 pm", true, 30, "school", "Description", "red", true, true);
 			bRet=manager.SaveEvent(createevent);
 			Console.WriteLine("Created Event: " + bRet);
 
-			EditEvent editEvent = new EditEvent("class", "2021-03-15", "083000 am", "101500 am", true, 30, "school", "Description", "red", false, false);
+			EditEvent editEvent = new EditEvent("class", todaysdate, "083000 am", "101500 am", true, 30, "school", "Description", "red", false, false);
 			bRet = manager.EditEvent(editEvent);
 			Console.WriteLine("Edited Event:" + bRet);
 
-			List<string> data = new List<string>();
+			// Find event info, pass back from the database
 			data = manager.FindEventInfo();
 
 			Console.WriteLine("");
@@ -106,16 +109,12 @@ namespace Productivity_X___Unit_Testing
 
 
 		//-----------Today Button query------------
-			string todaysdate = DateTime.Now.ToString("MM-dd-yyyy");
-			manager.FindTodaysEvents(todaysdate);
 
+			data = manager.FindTodaysEvents(todaysdate);
 
 
 			bRet = manager.DeleteEvent();
 			Console.WriteLine("Event has been deleted: " + bRet);
-
-
-
 		}
 	}
 }
