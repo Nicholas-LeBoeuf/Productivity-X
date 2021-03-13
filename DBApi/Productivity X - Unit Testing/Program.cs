@@ -112,15 +112,22 @@ namespace Productivity_X___Unit_Testing
 			// Passes back event ids:
 			todayEventIDs = manager.FindTodaysEvents(todaysdate);
 
-			// Find data for each event based upon the eventid
+			// Find data for each event based upon the eventid:
 			foreach(string sEventID in todayEventIDs) {
 				// Get event info for each id
 				data = manager.FindEventInfo(Int32.Parse(sEventID));
 				Console.WriteLine("Found data for id:" + sEventID);
 			}
 
+		// Create, edit and delete a category:
+
 			bRet = manager.DeleteEvent();
 			Console.WriteLine("Event has been deleted: " + bRet);
+
+		// Create, add, delete a friend
+
+		// main screen functionalites with database:
+
 		}
 	}
 }

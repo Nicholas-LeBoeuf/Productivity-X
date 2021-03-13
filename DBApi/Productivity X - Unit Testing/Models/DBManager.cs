@@ -538,7 +538,6 @@ namespace Productivity_X___Unit_Testing.Models
 			return bRet;
 		}
 
-		// Not sure how we want to implement below, but can call the GetEventID function with parameters
 		public List<string> FindEventInfo(int eventid)
 		{
 			List<string> eventData = new List<string>();
@@ -578,8 +577,6 @@ namespace Productivity_X___Unit_Testing.Models
 						// string to int....  = Convert.ToInt32(values[0]);
 					}
 				}
-				
-
 				reader.Close();
 			}
 			return eventData;
@@ -641,5 +638,8 @@ namespace Productivity_X___Unit_Testing.Models
 			}
 			return nRet;
 		}
+	//----------Category Button------------------
+
+	//----------Friend Button---------------
 	}
 }
