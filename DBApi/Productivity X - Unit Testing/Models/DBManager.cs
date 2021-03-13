@@ -405,6 +405,11 @@ namespace Productivity_X___Unit_Testing.Models
 						InsertIntoGuestTable.Parameters.AddWithValue("@isfriend", ce.m_bIsFriend);
 						InsertIntoGuestTable.ExecuteNonQuery();
 					}
+					else
+					{
+						DBObject.eventid = GetEventID(ce.m_sEventName, ce.m_sEventDate, ce.m_sTimeStartAt, ce.m_sTimeEndAt);
+					}
+
 				}
 			}
 			return bRet;
@@ -508,7 +513,8 @@ namespace Productivity_X___Unit_Testing.Models
 			return bRet;
 		}
 
-		public bool DeleteEvent()
+		/*
+		public bool DeleteEvent(int eventid)
 		{
 			bool bRet = true;
 			using (MySqlConnection conn = GetConnection())
@@ -517,7 +523,7 @@ namespace Productivity_X___Unit_Testing.Models
 				MySqlCommand CheckData = conn.CreateCommand();
 				// Checks to see if user invited any guests or friends
 				CheckData.Parameters.AddWithValue("@inviteguest", true);
-				CheckData.CommandText = "SELECT guest FROM Calendar_schema.events_tbl where guest = @inviteguest";
+				CheckData.CommandText = "SELECT eventid FROM Calendar_schema.events_tbl where guest = @inviteguest";
 				CheckData.ExecuteNonQuery();
 
 				// Execute the SQL command against the DB:
@@ -525,11 +531,11 @@ namespace Productivity_X___Unit_Testing.Models
 				if (reader.Read())
 				{			
 					MySqlCommand deleteGuestRow = conn.CreateCommand();
-					CheckData.Parameters.AddWithValue("@eventid", DBObject.eventid);
+					CheckData.Parameters.AddWithValue("@eventid", Convert.ToString(reader[0]));
 					deleteGuestRow.CommandText = "delete FROM Calendar_Schema.guest_tbl where event_id = @eventid";
-					deleteGuestRow.ExecuteNonQuery();	
+					deleteGuestRow.ExecuteNonQuery();
+					reader.Close();
 				}
-				reader.Close();
 				MySqlCommand deleteEventRow = conn.CreateCommand();
 				deleteEventRow.Parameters.AddWithValue("@eventid", DBObject.eventid);
 				deleteEventRow.CommandText = "delete FROM Calendar_Schema.events_tbl where event_id = @eventid";
@@ -537,6 +543,7 @@ namespace Productivity_X___Unit_Testing.Models
 			}
 			return bRet;
 		}
+		*/
 
 		public List<string> FindEventInfo(int eventid)
 		{
@@ -552,13 +559,7 @@ namespace Productivity_X___Unit_Testing.Models
 				UpdateEvent.ExecuteNonQuery();
 
 				// Execute the SQL command against the DB:
-				MySqlDataReader reader = UpdateEvent.ExecuteReader();
-/*				
-				while (reader.Read())
-				{
-					eventData.Add(Convert.ToString(reader[0]));
-				}	
-*/				
+				MySqlDataReader reader = UpdateEvent.ExecuteReader();	
 				if (reader.Read())
 				{
 					// Read the DB values:
@@ -645,7 +646,7 @@ namespace Productivity_X___Unit_Testing.Models
 
 
 		// Pass back Category names that match userid -> can be used for dropdown box in create event form
-		List<string> CategoryNamesForUserID()
+		public List<string> CategoryNamesForUserID(int UserID)
 		{
 			List<string> categoryNames = new List<string>();
 			using (MySqlConnection conn = GetConnection())
@@ -654,7 +655,7 @@ namespace Productivity_X___Unit_Testing.Models
 
 				MySqlCommand GetCategoryNames = conn.CreateCommand();
 				GetCategoryNames.CommandText = "select category_id, categoryname from Calendar_Schema.category_tbl where user_id = @userid";
-				GetCategoryNames.Parameters.AddWithValue("@userid", DBObject.id);
+				GetCategoryNames.Parameters.AddWithValue("@userid", UserID);
 
 				GetCategoryNames.ExecuteNonQuery();
 
@@ -663,46 +664,38 @@ namespace Productivity_X___Unit_Testing.Models
 				while (reader.Read())
 				{
 					categoryNames.Add(Convert.ToString(reader[0]));
+					categoryNames.Add(Convert.ToString(reader[1]));
 				}
-
+				
 				reader.Close();
 			}
 			return categoryNames;
 		}
 
-
-
-
 		// Get data from category table including categoryname, color, description based upon the categoryid
-		List<string> CategoryData(int categoryid)
+		public List<string> CategoryData(int categoryid)
 		{
-			List<string> categoryData = new List<string>();
+			List<string> categoryDataList = new List<string>();
 
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
 
 				MySqlCommand FindCategoryData = conn.CreateCommand();
-				FindCategoryData.CommandText = "select eventname, event_id from Calendar_Schema.category_tbl where category_id = @categoryid";
+				FindCategoryData.CommandText = "select categoryname, color, description from Calendar_Schema.category_tbl where category_id = @categoryid";
 				FindCategoryData.Parameters.AddWithValue("@categoryid", categoryid);
-
 				FindCategoryData.ExecuteNonQuery();
-
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = FindCategoryData.ExecuteReader();
-				if (reader.Read()) // Read returns false if the verificationcode does not exist!
+				while (reader.Read())
 				{
-					// Read the DB values:
-					Object[] values = new object[3];
-
-					for (int counter = 0; counter < values.Length; counter++)
-					{
-						categoryData.Add(values[counter].ToString());
-					}
+					categoryDataList.Add(Convert.ToString(reader[0]));
+					categoryDataList.Add(Convert.ToString(reader[1]));
+					categoryDataList.Add(Convert.ToString(reader[2]));
 				}
 				reader.Close();
 			}
-			return categoryData;
+			return categoryDataList;
 		}
 		
 
