@@ -110,23 +110,12 @@
 
 <script type="text/javascript">
     var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    var daysInEng = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th',
+    var daysInEng = ['','1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th',
         '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th',
         '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th', '31st'];
-    var weeksInEng = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    function getTime(n) {
-        var now = new Date();
-        var year = now.getFullYear();
-        var month = now.getMonth() + 1;
-        var day = now.getDay(); //返回星期几的某一天;
-        n = day == 0 ? n + 6 : n + (day - 1)
-        now.setDate(now.getDate() - n);
-        date = now.getDate();
-        var s = year + "-" + (month < 10 ? ('0' + month) : month) + "-" + (date < 10 ? ('0' + date) : date);
-        return s;
-    }
-    document.getElementById("currentWeek").innerHTML = weeksInEng[new Date(getTime(-4)).getDay()];
-    document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(getTime(-4)).getMonth() + 1];
-    document.getElementById("currentdate").innerHTML = daysInEng[new Date(getTime(-4)).getDate()];
-
+    var weeksInEng = ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var t = new Date().getTime();
+    document.getElementById("currentWeek").innerHTML = weeksInEng[new Date(t).getDay()];
+    document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(t).getMonth() + 1];
+    document.getElementById("currentdate").innerHTML = daysInEng[new Date(t).getDate()];
 </script>
