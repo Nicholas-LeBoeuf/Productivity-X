@@ -107,13 +107,28 @@ namespace Productivity_X___Unit_Testing
 				Console.WriteLine(str);
 			}
 
-		//-----------Today Button queries------------
+		//-------------Weekly Calendar---------------
+			// Might need queries below and build the date off of the labels being shown on screen.......
 			List<string> todayEventIDs = new List<string>();
 			// Passes back event ids:
 			todayEventIDs = manager.FindTodaysEvents(todaysdate);
 
 			// Find data for each event based upon the eventid:
-			foreach(string sEventID in todayEventIDs) {
+			foreach (string sEventID in todayEventIDs)
+			{
+				// Get event info for each id
+				data = manager.FindEventInfo(Int32.Parse(sEventID));
+				Console.WriteLine("Found data for id:" + sEventID);
+			}
+
+
+		//-----------Today Button queries------------
+			List<string> todayEventIDs2 = new List<string>();
+			// Passes back event ids:
+			todayEventIDs = manager.FindTodaysEvents(todaysdate);
+
+			// Find data for each event based upon the eventid:
+			foreach(string sEventID in todayEventIDs2) {
 				// Get event info for each id
 				data = manager.FindEventInfo(Int32.Parse(sEventID));
 				Console.WriteLine("Found data for id:" + sEventID);
@@ -121,12 +136,15 @@ namespace Productivity_X___Unit_Testing
 
 		// Create, edit and delete a category:
 
-			bRet = manager.DeleteEvent();
-			Console.WriteLine("Event has been deleted: " + bRet);
-
 		// Create, add, delete a friend
 
 		// main screen functionalites with database:
+
+			// Delete Event button
+			bRet = manager.DeleteEvent();
+			Console.WriteLine("Event has been deleted: " + bRet);
+
+		
 
 		}
 	}
