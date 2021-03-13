@@ -89,11 +89,17 @@ namespace Productivity_X___Unit_Testing
 		//-----------Create event for calendar-----------
 			Console.WriteLine("");
 			Console.WriteLine("Create event for Calendar test cases");
-			CreateEvent createevent = new CreateEvent("class", todaysdate, "000500 pm", "000530 pm", true, 30, "school", "Description", "red", true, true);
+			CreateEvent createevent = new CreateEvent("class", todaysdate, "000500 pm", "000530 pm", true, 30, "school", "Description", "College", true, true, "Tom", "jasonmckearney2@gmail.com");
 			bRet=manager.SaveEvent(createevent);
 			Console.WriteLine("Created Event: " + bRet);
 
-			EditEvent editEvent = new EditEvent("class", todaysdate, "083000 am", "101500 am", true, 30, "school", "Description", "red", false, false);
+
+			// Get categoryname data from category_tbl -> will return the color, can use this for color of event..
+			List<string> categoryData = new List<string>();
+			categoryData = manager.
+
+
+			EditEvent editEvent = new EditEvent("class", todaysdate, "083000 am", "101500 am", true, 30, "school", "Description", "College", false, false);
 			bRet = manager.EditEvent(editEvent);
 			Console.WriteLine("Edited Event:" + bRet);
 

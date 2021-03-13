@@ -365,8 +365,8 @@ namespace Productivity_X___Unit_Testing.Models
 					// Inserting data into fields of database, can have duplicate events:
 					MySqlCommand Query = conn.CreateCommand();
 					Query.CommandText = "insert into Calendar_Schema.events_tbl (user_id, eventname, event_date, start_at, end_at, notification, reminder, " +
-						"location, description, color, guest, friend) VALUES (@user_id, @eventname, @event_date, @start_at, @end_at, @notification, @reminder, @location, @description, " +
-						"@color, @guest, @friend)";
+						"location, description, categoryname, guest, friend) VALUES (@user_id, @eventname, @event_date, @start_at, @end_at, @notification, @reminder, @location, @description, " +
+						"@categoryname, @guest, @friend)";
 
 					Query.Parameters.AddWithValue("@user_id", DBObject.id);
 					Query.Parameters.AddWithValue("@eventname", ce.m_sEventName);
@@ -380,7 +380,7 @@ namespace Productivity_X___Unit_Testing.Models
 					Query.Parameters.AddWithValue("@reminder", ce.m_nReminder);
 					Query.Parameters.AddWithValue("@location", ce.m_sLocation);
 					Query.Parameters.AddWithValue("@description", ce.m_sDescription);
-					Query.Parameters.AddWithValue("@color", ce.m_sColor);
+					Query.Parameters.AddWithValue("@categoryname", ce.m_sCategory);
 					Query.Parameters.AddWithValue("@guest", ce.m_bGuest);
 					Query.Parameters.AddWithValue("@friend", ce.m_bIsFriend);
 
@@ -455,7 +455,7 @@ namespace Productivity_X___Unit_Testing.Models
 
 				MySqlCommand UpdateEvent = conn.CreateCommand();
 				UpdateEvent.CommandText = "update Calendar_Schema.events_tbl set user_id = @user_id, event_date = @event_date, " +
-					"start_at = @start_at, end_at = @end_at, notification = @notification, reminder = @reminder, location = @location, description = @description, color = @color, " +
+					"start_at = @start_at, end_at = @end_at, notification = @notification, reminder = @reminder, location = @location, description = @description, categoryname = @categoryname, " +
 					"guest = @guest, friend = @friendbool where eventname = @eventname and event_id = @eventid";
 
 				UpdateEvent.Parameters.AddWithValue("@user_id", DBObject.id);
@@ -471,7 +471,7 @@ namespace Productivity_X___Unit_Testing.Models
 				UpdateEvent.Parameters.AddWithValue("@reminder", ee.m_nReminder);
 				UpdateEvent.Parameters.AddWithValue("@location", ee.m_sLocation);
 				UpdateEvent.Parameters.AddWithValue("@description", ee.m_sDescription);
-				UpdateEvent.Parameters.AddWithValue("@color", ee.m_sColor);
+				UpdateEvent.Parameters.AddWithValue("@categoryname", ee.m_sCategory);
 				UpdateEvent.Parameters.AddWithValue("@guest", ee.m_bGuest);
 				UpdateEvent.Parameters.AddWithValue("@friendbool", ee.m_bIsFriend);
 
@@ -557,8 +557,7 @@ namespace Productivity_X___Unit_Testing.Models
 				while (reader.Read())
 				{
 					eventData.Add(Convert.ToString(reader[0]));
-				}
-				
+				}	
 */				
 				if (reader.Read())
 				{
@@ -638,7 +637,74 @@ namespace Productivity_X___Unit_Testing.Models
 			}
 			return nRet;
 		}
+	
 	//----------Category Button------------------
+		// Create category with fields
+		// Edit category with fields
+		// Delete a certain category
+
+
+		// Pass back Category names that match userid -> can be used for dropdown box in create event form
+		List<string> CategoryNamesForUserID()
+		{
+			List<string> categoryNames = new List<string>();
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+
+				MySqlCommand GetCategoryNames = conn.CreateCommand();
+				GetCategoryNames.CommandText = "select category_id, categoryname from Calendar_Schema.category_tbl where user_id = @userid";
+				GetCategoryNames.Parameters.AddWithValue("@userid", DBObject.id);
+
+				GetCategoryNames.ExecuteNonQuery();
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = GetCategoryNames.ExecuteReader();
+				while (reader.Read())
+				{
+					categoryNames.Add(Convert.ToString(reader[0]));
+				}
+
+				reader.Close();
+			}
+			return categoryNames;
+		}
+
+
+
+
+		// Get data from category table including categoryname, color, description based upon the categoryid
+		List<string> CategoryData(int categoryid)
+		{
+			List<string> categoryData = new List<string>();
+
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+
+				MySqlCommand FindCategoryData = conn.CreateCommand();
+				FindCategoryData.CommandText = "select eventname, event_id from Calendar_Schema.category_tbl where category_id = @categoryid";
+				FindCategoryData.Parameters.AddWithValue("@categoryid", categoryid);
+
+				FindCategoryData.ExecuteNonQuery();
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = FindCategoryData.ExecuteReader();
+				if (reader.Read()) // Read returns false if the verificationcode does not exist!
+				{
+					// Read the DB values:
+					Object[] values = new object[3];
+
+					for (int counter = 0; counter < values.Length; counter++)
+					{
+						categoryData.Add(values[counter].ToString());
+					}
+				}
+				reader.Close();
+			}
+			return categoryData;
+		}
+		
 
 	//----------Friend Button---------------
 	}
