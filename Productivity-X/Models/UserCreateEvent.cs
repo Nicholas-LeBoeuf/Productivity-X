@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Productivity_X.Models
 {
-    public class CreateEvent
+    public class UserCreateEvent
     {
         public string eventName { get; set; }
         public string event_date { get; set; }
@@ -18,6 +18,7 @@ namespace Productivity_X.Models
         public string category { get; set; }
         public bool guest { get; set; }
         public bool friend { get; set; }
-        public string usernameInvite { get; set; }
+        public string guestUsername { get; set; }
+        public string guestEmail { get; set; }
     }
 }

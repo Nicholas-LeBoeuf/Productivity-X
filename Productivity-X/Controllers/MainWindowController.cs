@@ -40,9 +40,5 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
-        public ActionResult CreateEvent()
-        {
-            return PartialView();
-        }
     }
 }

@@ -103,6 +103,7 @@
         #btnclick:hover {
             background: #424242;
         }
+
     </style>
 </head>
 <body>
@@ -124,27 +125,72 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Create Event</h4>
-                                            <button type="button" class="close" data-dismiss="modal">
-                                                x
-                                            </button>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
 
                                         </div>
                                         <div class="modal-body">
                                             <form>
                                                 <div class="form-group">
                                                     <input class="form-control" type="text"
-                                                           placeholder="Username" id="=usrnametxt" />
+                                                           placeholder="Event Name" id="eventName" />
                                                 </div>
                                                 <div class="form-group">
-                                                    <input class="form-control" placeholder="Password"
-                                                           type="password" id="passwordtxt" />
+                                                    <input class="form-control" type="text"
+                                                           placeholder="Event Date" id="event_date" />
                                                 </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="Event Start Time" id="start_at" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="Event End Time" id="end_at" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="Description" id="description" />
+                                                </div>
+                                                <div class="form-groupCheck">
+                                                    <input class="form-controlCheck" type="checkbox"
+                                                           id="notification" name="notification" />
+                                                    <label for="notification">Reminder?</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="reminders">Minutes:</label>
+                                                    <input class="form-controlSpinner" type="number"
+                                                           min="5" max="60" step="5" value="15" size="1"
+                                                           placeholder="Minutes" id="reminders" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="Location" id="location" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="Category" id="category" />
+                                                </div>
+                                                <div class="form-groupCheck">
+                                                    <input class="form-controlCheck" type="checkbox"
+                                                           id="guest" name="guest" />
+                                                    <label for="guest">Guest?</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="Guest Username" id="guestUsername" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-control" type="text"
+                                                           placeholder="Guest Email" id="guestEmail" />
+                                                </div>
+
+
+
                                             </form>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">Login</button>
+                                            <button type="submit" class="btn btn-primary">Create</button>
                                             <button type="button" id="HidebtnModal" class="btn btn-primary">
-                                                Hide
+                                                Close
                                             </button>
                                         </div>
                                     </div>
