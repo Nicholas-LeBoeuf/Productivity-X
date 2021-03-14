@@ -24,6 +24,31 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateEvent(UserCreateEvent createEvent)
+		{
+
+            bool bRet = false;
+            // Checks if all required fields are met
+            if (ModelState.IsValid)
+            {
+                bRet = _manager.SaveEvent(createEvent);
+                
+                if (!bRet)
+                {
+                    // Go to Weekly page
+                    return View("Weekly");
+                }
+                else
+                {
+                    ViewBag.message = "Event Created Successfully!";
+                }
+            }
+
+            return View("Weekly");
+		}
         public IActionResult Today()
         {
             return View();

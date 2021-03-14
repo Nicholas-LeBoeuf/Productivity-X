@@ -8,7 +8,8 @@ namespace Productivity_X.Models
 	public class DBObject
 	{
 		public static string sUsername;
-		public static int sID;
+		public static int nUserID;
+		public static int nEventID;
 
 		public string UserName
 		{
@@ -18,8 +19,14 @@ namespace Productivity_X.Models
 
 		public int UserID
 		{
-			get => sID;
-			set => sID = value;
+			get => nUserID;
+			set => nUserID = value;
+		}
+
+		public int EventID
+		{
+			get => nEventID;
+			set => nEventID = value;
 		}
 	}
 }
