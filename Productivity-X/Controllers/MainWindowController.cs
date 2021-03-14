@@ -22,6 +22,8 @@ namespace Productivity_X.Controllers
         }
         public IActionResult Weekly()
         {
+            // Will need to populate the calendar before opening it, query is in DBManager....
+
             return View();
         }
 
