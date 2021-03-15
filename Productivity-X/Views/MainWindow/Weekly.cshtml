@@ -33,11 +33,11 @@
             position: relative;
         }
 
-            .my-event.with-time {
-                position: absolute;
-                right: 4px;
-                margin-right: 0px;
-            }
+        .my-event.with-time {
+            position: absolute;
+            right: 4px;
+            margin-right: 0px;
+        }
 
         .theme--light.v-calendar-daily {
             background-color: #303030;
@@ -45,9 +45,9 @@
             border-top: 1px solid #e0e0e0;
         }
 
-            .theme--light.v-calendar-daily .v-calendar-daily_head-day {
-                color: #fff;
-            }
+        .theme--light.v-calendar-daily .v-calendar-daily_head-day {
+            color: #fff;
+        }
 
         .my-app.v-application .primary--text {
             color: #fff !important;
@@ -96,11 +96,47 @@
             font-family: 'Roboto',sans-serif;
             font-weight: 300;
             background-color: #353535;
-            color: #ACACAC;
+            color: #FFA700;
             text-align: center;
             transition: all 0.2s;
         }
         #btnclick:hover {
+            background: #424242;
+        }
+        #HidebtnModal {
+            display: inline-block;
+            padding: 0.35em 1.2em;
+            border: 0.1em solid #353535;
+            margin: 0 0.3em 0.3em 0;
+            border-radius: 0.40em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            background-color: #353535;
+            color: #FFA700;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        #HidebtnModal:hover {
+            background: #424242;
+        }
+        #createEventSubmit {
+            display: inline-block;
+            padding: 0.35em 1.2em;
+            border: 0.1em solid #353535;
+            margin: 0 0.3em 0.3em 0;
+            border-radius: 0.40em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            background-color: #353535;
+            color: #FFA700;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        #createEventSubmit:hover {
             background: #424242;
         }
         .container #eventModal1 {
@@ -124,6 +160,9 @@
         .container #guest {
             background-color: white;
         }
+        small {
+            color:blue;
+        }
     </style>
 </head>
 <body>
@@ -143,8 +182,8 @@
                             <div class="modal fade" id="login">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
-                                        <div class="modal-header text-center">
-                                            <h3 class="modal-title w-100">Create Event</h3>
+                                        <div class="modal-header text-center" style=" background: #1C1C1C">
+                                            <h3 class="modal-title w-100" style="color: #FFA700">Create Event</h3>
 
                                         </div>
                                         <div class="modal-body">
@@ -162,12 +201,13 @@
                                                     </div>
                                                     <br />
                                                     <div class="form-group" id="eventDesc">
-                                                        <textarea name="description" cols="41" rows="4"
-                                                               placeholder="Description" id="description"
-                                                               style="background-color: white;"></textarea>
+                                                        <small>Event Descritpion (100 characters)</small>
+                                                        <textarea name="description" cols="41" rows="5"
+                                                               placeholder="Description" id="description" maxlength="100"
+                                                               style="background-color: white; border-radius: 5px;"></textarea>
                                                     </div>
                                                     <br />
-                                                    <div class="container" id="rem">
+                                                    <div class="container" id="rem" style="height: 175px;">
                                                         <div class="form-group" id="eventNotifCheck" style="padding-top: 15px;">
                                                             <input class="form-controlCheck" type="checkbox"
                                                                    id="notification" name="notification" />
@@ -195,11 +235,13 @@
                                                     </div>
                                                     <br />
                                                     <div class="form-group" id="eventCategory">
-                                                        <select name="categories" style="background-color: white; width: 360px;">
+                                                        <small>Event Category</small>
+                                                        <select name="categories" style="background-color: white; width: 360px; height: 37px; border-radius: 5px;">
                                                             <option value="" disabled selected hidden>Choose Category...</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group" id="eventLocation">
+                                                        <small>Event Location</small>
                                                         <input class="form-control" type="text"
                                                                placeholder="Location" id="location" />
                                                     </div>
@@ -222,9 +264,9 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" id="HidebtnModal" class="btn btn-primary">Close</button>
-                                            <button type="submit" class="btn btn-primary float-right">Create</button>
+                                        <div class="modal-footer" style="background: #1C1C1C">
+                                            <button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>
+                                            <button type="submit" id="createEventSubmit" class="btn btn-primary float-right">Create</button>
                                         </div>
                                     </div>
                                 </div>
