@@ -151,12 +151,14 @@
                                             <form>
                                                 <div class="container" id="eventModal1">
                                                     <div class="form-group" id="eventNm">
+                                                        <small>Event Name</small>
                                                         <input class="form-control" type="text"
                                                                placeholder="Event Name" id="eventName" />
                                                     </div>
                                                     <div class="form-group" id="eventStart">
-                                                        <input class="form-control" type="text"
-                                                               placeholder="Event Start Time" id="start_at" />
+                                                        <small>Event start time</small>
+                                                        <input class="form-control" type="time" name="eventStart"
+                                                               min="07:00" max="23:00" required />
                                                     </div>
                                                     <br />
                                                     <div class="form-group" id="eventDesc">
@@ -182,18 +184,19 @@
                                                 </div>
 
                                                 <div class="container" id="eventModal2">
-                                                    <div class="form-group" id="eventDt">
-                                                        <input class="form-control" type="text"
-                                                               placeholder="Event Date" id="event_date" />
+                                                    <div class="form-group" id="eventDate">
+                                                        <small>Event Date</small>
+                                                        <input class="form-control" type="date" name="eventDate" />
                                                     </div>
-                                                    <div class="form-group" id="eventEnd">
-                                                        <input class="form-control" type="text"
-                                                               placeholder="Event End Time" id="end_at" />
+                                                    <div class="form-group" id="eventStart">
+                                                        <small>Event end time</small>
+                                                        <input class="form-control" type="time" name="eventEnd"
+                                                               min="07:00" max="00:00" required />
                                                     </div>
                                                     <br />
                                                     <div class="form-group" id="eventCategory">
                                                         <select name="categories" style="background-color: white; width: 360px;">
-                                                               <option value="" disabled selected hidden>Choose Category...</option>
+                                                            <option value="" disabled selected hidden>Choose Category...</option>
                                                         </select>
                                                     </div>
                                                     <div class="form-group" id="eventLocation">
@@ -219,11 +222,9 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="modal-footer text-center">
-                                            <button type="submit" class="btn btn-primary">Create</button>
-                                            <button type="button" id="HidebtnModal" class="btn btn-primary">
-                                                Close
-                                            </button>
+                                        <div class="modal-footer">
+                                            <button type="button" id="HidebtnModal" class="btn btn-primary">Close</button>
+                                            <button type="submit" class="btn btn-primary float-right">Create</button>
                                         </div>
                                     </div>
                                 </div>
@@ -262,6 +263,7 @@
     </div>
 
 </body>
+</html>
 <script src="~/js/vue.js"></script>
 <script src="~/js/vuetify.js"></script>
 
