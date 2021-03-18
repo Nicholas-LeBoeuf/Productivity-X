@@ -5247,8 +5247,8 @@
                         },
                         intervalCount: {
                             type: [Number, String],
-                            default: 16,
-                            validate: validateNumber
+                            default: 18,
+                            validate: validateNumbers
                         },
                         intervalFormat: {
                             type: Function,
