@@ -85,13 +85,158 @@
             flex-wrap: nowrap;
             justify-content: center;
         }
+<<<<<<< HEAD
+=======
+        #btnclick {
+            display: inline-block;
+            padding: 0.35em 1.2em;
+            border: 0.1em solid #353535;
+            margin: 0 0.3em 0.3em 0;
+            border-radius: 0.40em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            background-color: #353535;
+            color: #ACACAC;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        #btnclick:hover {
+            background: #424242;
+        }
+        .container #eventModal1 {
+            width: 50%;
+            float: left;
+        }
+        .container #eventModal2 {
+            width: 50%;
+            float: right;
+        }
+        .form-group #eventDesc {
+            height: 100px;
+        }
+        
+        .modal-body {
+            background-color: #777474;
+        }
+        .container #rem {
+            background-color: white;
+        }
+        .container #guest {
+            background-color: white;
+        }
+>>>>>>> parent of b34f6c3 (Styled the popup window to the best of my ability. Still not sure what to do with the reminder box so technically its not final.)
     </style>
 </head>
 <body style="background-color: #1C1C1C; color: #fff;">
     <div id="app"  style=" width: 100%; padding-left: 12%; background-color: #303030">
         <div id="weekHeader">
             <div id="create">
+<<<<<<< HEAD
                 <img src="~/Images/add.png" alt=""><span>Create Event</span>
+=======
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <button id="btnclick" type="button">
+                                Create Event
+                            </button>
+
+
+                            <div class="modal fade" id="login">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header text-center">
+                                            <h3 class="modal-title w-100">Create Event</h3>
+
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="container" id="eventModal1">
+                                                    <div class="form-group" id="eventNm">
+                                                        <small>Event Name</small>
+                                                        <input class="form-control" type="text"
+                                                               placeholder="Event Name" id="eventName" />
+                                                    </div>
+                                                    <div class="form-group" id="eventStart">
+                                                        <small>Event start time</small>
+                                                        <input class="form-control" type="time" name="eventStart"
+                                                               min="07:00" max="23:00" required />
+                                                    </div>
+                                                    <br />
+                                                    <div class="form-group" id="eventDesc">
+                                                        <textarea name="description" cols="41" rows="4"
+                                                               placeholder="Description" id="description"
+                                                               style="background-color: white;"></textarea>
+                                                    </div>
+                                                    <br />
+                                                    <div class="container" id="rem">
+                                                        <div class="form-group" id="eventNotifCheck" style="padding-top: 15px;">
+                                                            <input class="form-controlCheck" type="checkbox"
+                                                                   id="notification" name="notification" />
+                                                            <label for="notification">Reminder?</label>
+                                                        </div>
+                                                        <div class="form-group" id="eventReminderNum">
+                                                            <label for="reminders">Minutes:</label>
+                                                            <input class="form-controlSpinner" type="number"
+                                                                   min="5" max="60" step="5" value="15" size="1"
+                                                                   placeholder="Minutes" id="reminders"
+                                                                   style="background-color: white; border-width: 2px; border-style: solid; border-color: #777474"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="container" id="eventModal2">
+                                                    <div class="form-group" id="eventDate">
+                                                        <small>Event Date</small>
+                                                        <input class="form-control" type="date" name="eventDate" />
+                                                    </div>
+                                                    <div class="form-group" id="eventStart">
+                                                        <small>Event end time</small>
+                                                        <input class="form-control" type="time" name="eventEnd"
+                                                               min="07:00" max="00:00" required />
+                                                    </div>
+                                                    <br />
+                                                    <div class="form-group" id="eventCategory">
+                                                        <select name="categories" style="background-color: white; width: 360px;">
+                                                            <option value="" disabled selected hidden>Choose Category...</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group" id="eventLocation">
+                                                        <input class="form-control" type="text"
+                                                               placeholder="Location" id="location" />
+                                                    </div>
+                                                    <br />
+                                                    <div class="container" id="guest">
+                                                        <div class="form-group" id="eventGuestCheck">
+                                                            <input class="form-controlCheck" type="checkbox"
+                                                                   id="guest" name="guest" />
+                                                            <label for="guest">Guest?</label>
+                                                        </div>
+                                                        <div class="form-group" id="eventGuestUsername">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Guest Username" id="guestUsername" />
+                                                        </div>
+                                                        <div class="form-group" id="eventGuestEmail">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Guest Email" id="guestEmail" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" id="HidebtnModal" class="btn btn-primary">Close</button>
+                                            <button type="submit" class="btn btn-primary float-right">Create</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+>>>>>>> parent of b34f6c3 (Styled the popup window to the best of my ability. Still not sure what to do with the reminder box so technically its not final.)
             </div>
             <div class="title">
                 <span id="currentMonth"></span>
