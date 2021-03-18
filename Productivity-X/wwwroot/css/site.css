@@ -135,13 +135,7 @@ input[type=text] {
     border-radius: 25px;
     text-align: center;
 }
-
 input[type=text]:focus {
-    background-color: #FFA700;
-    color: black;
-}
-
-input[type=text]::selection {
     background-color: #FFA700;
     color: black;
 }

@@ -5,3 +5,226 @@
     ViewData["Title"] = "Today";
     Layout = "~/Views/Shared/_MainPageLayout.cshtml";
 }
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Today</title>
+    <link href="~/css/family.css" rel="stylesheet">
+    <link href="~/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="~/css/vuetify.min.css" rel="stylesheet">
+
+    <style>
+        .my-event {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            border-radius: 2px;
+            background-color: #1867c0;
+            color: #ffffff;
+            border: 1px solid #1867c0;
+            font-size: 12px;
+            padding: 3px;
+            cursor: pointer;
+            margin-bottom: 1px;
+            left: 4px;
+            margin-right: 8px;
+            position: relative;
+        }
+
+            .my-event.with-time {
+                position: absolute;
+                right: 4px;
+                margin-right: 0px;
+            }
+
+        .theme--light.v-calendar-daily {
+            background-color: #303030;
+        }
+
+            .theme--light.v-calendar-daily .v-calendar-daily_head-day {
+                color: #fff;
+            }
+
+        .my-app.v-application .primary--text {
+            color: #fff !important;
+        }
+
+        .title {
+            justify-content: center;
+            font-size: 25px;
+            color: gold;
+        }
+
+        .round_icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #weekHeader {
+            display: flex;
+            justify-content: center;
+            flex-wrap: nowrap;
+            align-content: space-evenly;
+            color: gold;
+        }
+
+        #todayTitle {
+            font-size: 25px;
+            color: gold;
+            text-align: center;
+        }
+
+        #createBtn {
+            background-image: url(../test/img/c3.jpg);
+        }
+
+        #create {
+            flex-wrap: nowrap;
+            justify-content: center;
+        }
+
+        .v-calendar-daily__head {
+            height: 0px;
+        }
+
+        .v-calendar-daily__intervals-head {
+            height: 0px;
+        }
+    </style>
+</head>
+<body style="background-color: #303030; color: #fff;">
+    <div id="app"  style="width: 100%;padding-left: 12%;">
+        <div style="margin: 2%;">
+            <div id="todayTitle">Today</div>
+            <div id="weekHeader">
+                <div class="title">
+                    <span id="currentWeek"></span>,
+                    <span id="currentMonth"></span>
+                    <span id="currentDate"></span>,
+                    <span id="currentYear"></span>
+                </div>
+            </div>
+        </div>
+
+        <v-app id="inspire">
+            <v-row class="fill-height">
+                <v-col>
+                    <v-sheet height="64">
+                        <v-toolbar flat>
+                            <v-btn outlined
+                                   class="mr-4"
+                                   color="grey darken-2"
+                                   @@click="setToday">
+                                Today
+                            </v-btn>
+                            <v-btn fab
+                                   text
+                                   small
+                                   color="grey darken-2"
+                                   cclick="prev">
+                                <v-icon small>
+                                    mdi-chevron-left
+                                </v-icon>
+                            </v-btn>
+                            <v-btn fab
+                                   text
+                                   small
+                                   color="grey darken-2"
+                                   @@click="next">
+                                <v-icon small>
+                                    mdi-chevron-right
+                                </v-icon>
+                            </v-btn>
+                            <v-toolbar-title v-if="$refs.calendar">
+                                {{ $refs.calendar.title }}
+                            </v-toolbar-title>
+                            <v-spacer></v-spacer>
+                        </v-toolbar>
+                    </v-sheet>
+                    <v-sheet height="600">
+                        <v-calendar ref="calendar"
+                                    v-model="focus"
+                                    color="primary"
+                                    type="category"
+                                    category-show-all
+                                    :categories="categories"
+                                    :events="events"
+                                    :event-color="getEventColor"
+                                    @@change="fetchEvents"></v-calendar>
+                    </v-sheet>
+                </v-col>
+            </v-row>
+        </v-app>
+    </div>
+
+</body>
+
+<script src="~/js/vue.js"></script>
+<script src="~/js/vuetify.js"></script>
+
+<script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+        data: () => ({
+            focus: '',
+            events: [],
+            colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
+            names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+            categories: ['John Smith'],
+        }),
+        mounted() {
+            this.$refs.calendar.checkChange()
+        },
+        methods: {
+            getEventColor(event) {
+                return event.color
+            },
+            setToday() {
+                this.focus = ''
+            },
+            prev() {
+                this.$refs.calendar.prev()
+            },
+            next() {
+                this.$refs.calendar.next()
+            },
+            fetchEvents({ start, end }) {
+                const events = []
+                events.push({
+                    name: 'Meeting',
+                    start: '2021-03-18 12:30',
+                    end: '2021-03-18 15:30',
+                    color: 'blue',
+                    timed: !288,
+                    category: 'John Smith',
+                })
+                this.events = events
+            },
+        },
+    })
+</script>
+<script type="text/javascript">
+    var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var weeksInEng = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var t = new Date().getTime();
+    document.getElementById("currentWeek").innerHTML = weeksInEng[new Date(t).getDay()];
+    document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(t).getMonth() + 1];
+    document.getElementById("currentDate").innerHTML = new Date(t).getDate();
+    document.getElementById("currentYear").innerHTML = new Date(t).getFullYear();
+
+    var chArr = document.getElementsByClassName("v-calendar-daily__head");
+    for (i = 0; i < chArr.length; i++) {
+        if (chArr[i] != null)
+            chArr[i].parentNode.removeChild(chArr[i]);
+    }
+</script>
+
