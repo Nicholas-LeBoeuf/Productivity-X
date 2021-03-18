@@ -3940,7 +3940,7 @@
                             var singline = Object(_util_timestamp__WEBPACK_IMPORTED_MODULE_6__["diffMinutes"])(event.start, event.end) <= this.parsedEventOverlapThreshold;
                             var formatTime = this.formatTime;
                             var timeSummary = function timeSummary() {
-                                return event.start.time + ' - ' + event.end.time;
+                                return formatTime(event.start, overlapsNoon) + ' - ' + formatTime(event.end, true);
                             };
                             var eventSummary = function eventSummary() {
                                 var name = _this.eventNameFunction(event, timedEvent);
@@ -5247,7 +5247,7 @@
                         },
                         intervalCount: {
                             type: [Number, String],
-                            default: 18,
+                            default: 16,
                             validate: validateNumber
                         },
                         intervalFormat: {
@@ -11245,7 +11245,6 @@
                                     length: 4
                                 }),
                                 titleDate: this.titleDateFormat || (this.isMultiple ? this.defaultTitleMultipleDateFormatter : this.defaultTitleDateFormatter)
-                            
                             };
                         },
                         defaultTitleMultipleDateFormatter: function defaultTitleMultipleDateFormatter() {
@@ -21177,13 +21176,13 @@
                             }, this.themeClasses), this.elevationClasses), this.roundedClasses);
                         },
                         styles: function styles() {
-                            return this.measurableStyles;
+                            // return this.measurableStyles;
                         }
                     },
                     render: function render(h) {
                         var data = {
                             class: this.classes,
-                            style: this.styles,
+                            // style: this.styles,
                             on: this.listeners$
                         };
                         return h(this.tag, this.setBackgroundColor(this.color, data), this.$slots.default);
@@ -26524,14 +26523,14 @@
                                 staticClass: 'v-toolbar__image'
                             }, [image]);
                         },
-                        genContent: function genContent() {
-                            return this.$createElement('div', {
-                                staticClass: 'v-toolbar__content',
-                                style: {
-                                    height: Object(_util_helpers__WEBPACK_IMPORTED_MODULE_3__["convertToUnit"])(this.computedContentHeight)
-                                }
-                            }, Object(_util_helpers__WEBPACK_IMPORTED_MODULE_3__["getSlot"])(this));
-                        },
+                        // genContent: function genContent() {
+                        //   return this.$createElement('div', {
+                        //     staticClass: 'v-toolbar__content',
+                        //     style: {
+                        //       height: Object(_util_helpers__WEBPACK_IMPORTED_MODULE_3__["convertToUnit"])(this.computedContentHeight)
+                        //     }
+                        //   }, Object(_util_helpers__WEBPACK_IMPORTED_MODULE_3__["getSlot"])(this));
+                        // },
                         genExtension: function genExtension() {
                             return this.$createElement('div', {
                                 staticClass: 'v-toolbar__extension',
