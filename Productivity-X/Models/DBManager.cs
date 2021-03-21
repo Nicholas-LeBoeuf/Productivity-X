@@ -9,6 +9,8 @@ namespace Productivity_X.Models
 	public class DBManager
 	{
 		public string ConnectionString { get; set; }
+		public object TempData { get; private set; }
+
 		public int m_UserID;
 
 		public DBManager(string connectionString)
@@ -65,8 +67,9 @@ namespace Productivity_X.Models
 		}
 
 		// Get userid from database without any arguments to meet
-		public int GetUserID()
+		public int GetUserID(string sUsername)
 		{
+			
 			int userID = -1;
 			using (MySqlConnection conn = GetConnection())
 			{
@@ -74,7 +77,7 @@ namespace Productivity_X.Models
 				MySqlCommand FindUser = conn.CreateCommand();
 
 				// Checks to see if there are duplicate usernames
-				FindUser.Parameters.AddWithValue("@username", DBObject.sUsername);
+				FindUser.Parameters.AddWithValue("@username", sUsername);
 				FindUser.CommandText = "SELECT user_id FROM Calendar_Schema.user_tbl where username = @username";
 
 				// Execute the SQL command against the DB:
@@ -88,7 +91,6 @@ namespace Productivity_X.Models
 					{
 						// Successfully retrieved the user from the DB:
 						userID = userID = Convert.ToInt32(values[0]);
-						DBObject.nUserID = userID;
 					}
 				}
 				reader.Close();
@@ -97,7 +99,7 @@ namespace Productivity_X.Models
 		}
 
 		// Gets the userid from Database
-		public int GetUserID(ForgotPw1 forgotpassword)
+		public int GetUserID(ForgotPw1 forgotpassword, string sUsername)
 		{
 			int userID = -1;
 			using (MySqlConnection conn = GetConnection())
@@ -106,7 +108,7 @@ namespace Productivity_X.Models
 				MySqlCommand FindUser = conn.CreateCommand();
 
 				// Checks to see if there are duplicate usernames
-				FindUser.Parameters.AddWithValue("@username", DBObject.sUsername);
+				FindUser.Parameters.AddWithValue("@username", sUsername);
 				FindUser.Parameters.AddWithValue("@email", forgotpassword.email);
 				FindUser.CommandText = "SELECT user_id FROM Calendar_Schema.user_tbl where username = @username and email = @email";
 
@@ -121,7 +123,6 @@ namespace Productivity_X.Models
 					{
 						// Successfully retrieved the user from the DB:
 						userID = Convert.ToInt32(values[0]);
-						DBObject.nUserID = userID;
 					}
 				}
 				reader.Close();
@@ -129,7 +130,7 @@ namespace Productivity_X.Models
 			return userID;
 		}
 
-		public bool LoadUser(UserLogin dbUser)
+		public bool LoadUser(UserLogin dbUser, ref int userid, string sUsername)
 		{
 			bool bRet = false;
 
@@ -140,7 +141,7 @@ namespace Productivity_X.Models
 				MySqlCommand CheckData = conn.CreateCommand();
 
 				// Checks to see if there are duplicate usernames
-				CheckData.Parameters.AddWithValue("@username", DBObject.sUsername);
+				CheckData.Parameters.AddWithValue("@username", sUsername);
 				CheckData.CommandText = "SELECT user_id, password FROM Calendar_Schema.user_tbl where userName = @userName";
 
 				// Execute the SQL command against the DB:
@@ -152,8 +153,9 @@ namespace Productivity_X.Models
 					int fieldCount = reader.GetValues(values);
 					if (2 == fieldCount) // Asked for 2 values, so expecting 2 values!
 					{
+
 						// Successfully retrieved the user from the DB:
-						DBObject.nUserID = Convert.ToInt32(values[0]);
+						userid = Convert.ToInt32(values[0]);
 						dbUser.password = values[1].ToString();
 
 						bRet = true;
@@ -166,7 +168,7 @@ namespace Productivity_X.Models
 		}
 
 		// Gets the username based upon id
-		public string GetUserName()
+		public string GetUserName(int nUserID)
 		{
 			string sRet = "";
 			using (MySqlConnection conn = GetConnection())
@@ -176,7 +178,7 @@ namespace Productivity_X.Models
 				// Inserting data into fields of database
 				MySqlCommand FindUsername = conn.CreateCommand();
 				FindUsername.CommandText = "select username from Calendar_Schema.user_tbl where user_id = @userID;";
-				FindUsername.Parameters.AddWithValue("@userID", DBObject.nUserID);
+				FindUsername.Parameters.AddWithValue("@userID", nUserID);
 				FindUsername.ExecuteNonQuery();
 
 				// Execute the SQL command against the DB:
@@ -197,7 +199,7 @@ namespace Productivity_X.Models
 		}
 
 		// Gets the password based upon id
-		public string GetPassword()
+		public string GetPassword(int nUserID)
 		{
 			string sRet = "";
 			using (MySqlConnection conn = GetConnection())
@@ -207,7 +209,7 @@ namespace Productivity_X.Models
 				// Inserting data into fields of database
 				MySqlCommand FindPassword = conn.CreateCommand();
 				FindPassword.CommandText = "select password from Calendar_Schema.user_tbl where user_id = @userID;";
-				FindPassword.Parameters.AddWithValue("@userID", DBObject.nUserID);
+				FindPassword.Parameters.AddWithValue("@userID", nUserID);
 				FindPassword.ExecuteNonQuery();
 
 				// Execute the SQL command against the DB:
@@ -228,7 +230,7 @@ namespace Productivity_X.Models
 		}
 
 		// Checks if password matches with username
-		public bool CheckPassword(UserLogin loginUser)
+		public bool CheckPassword(UserLogin loginUser, string sUsername, int nUserID)
 		{
 			bool bRet = false;
 			using (MySqlConnection conn = GetConnection())
@@ -237,7 +239,7 @@ namespace Productivity_X.Models
 				// Checks the username and password for Login Screen
 				MySqlCommand CheckData = conn.CreateCommand();
 				// Provide the username as a parameter:
-				CheckData.Parameters.AddWithValue("@username", DBObject.sUsername);
+				CheckData.Parameters.AddWithValue("@username", sUsername);
 				CheckData.CommandText = "SELECT user_id, password FROM Calendar_Schema.user_tbl where username = @username";
 
 				// Execute the SQL command against the DB:
@@ -250,7 +252,7 @@ namespace Productivity_X.Models
 					if (2 == fieldCount)
 					{
 						// Successfully retrieved the user from the DB:
-						DBObject.nUserID = Convert.ToInt32(values[0]);
+						nUserID = Convert.ToInt32(values[0]);
 						string password = Convert.ToString(values[1]);
 						//loginUser.password = Convert.ToString(values[1]);
 
@@ -266,7 +268,7 @@ namespace Productivity_X.Models
 			return bRet;
 		}
 
-		public void UpdatePassword(ForgotPw3 forgotPassword)
+		public void UpdatePassword(ForgotPw3 forgotPassword, int nUserID)
 		{
 			bool bRet = false;
 			using (MySqlConnection conn = GetConnection())
@@ -282,13 +284,13 @@ namespace Productivity_X.Models
 				forgotPassword.confirmPassword = BCrypt.Net.BCrypt.HashPassword(forgotPassword.confirmPassword);
 				Query.Parameters.AddWithValue("@newpassword", forgotPassword.newPassword);
 				Query.Parameters.AddWithValue("@confirmpassword", forgotPassword.confirmPassword);
-				Query.Parameters.AddWithValue("@userid", DBObject.nUserID);
+				Query.Parameters.AddWithValue("@userid", nUserID);
 				Query.ExecuteNonQuery();
 			}
 		}
 
 		// Update verificationcode field in database
-		public void SaveSecurityCode(string sCode)
+		public void SaveSecurityCode(string sCode, int nUserID)
 		{
 			using (MySqlConnection conn = GetConnection())
 			{
@@ -297,7 +299,7 @@ namespace Productivity_X.Models
 				// Inserting data into fields of database
 				MySqlCommand Query = conn.CreateCommand();
 				Query.CommandText = "update Calendar_Schema.user_tbl set verificationcode = @verificationcode where (user_id = @userid)";
-				Query.Parameters.AddWithValue("@userID", DBObject.nUserID);
+				Query.Parameters.AddWithValue("@userID", nUserID);
 				Query.Parameters.AddWithValue("@verificationcode", sCode);
 
 				Query.ExecuteNonQuery();
@@ -305,7 +307,7 @@ namespace Productivity_X.Models
 		}
 
 		// Get the security code from user table in database
-		public bool CheckSecurityCode(ForgotPw2 forgotpw2)
+		public bool CheckSecurityCode(ForgotPw2 forgotpw2, int nUserID)
 		{
 			bool bRet = false;
 			using (MySqlConnection conn = GetConnection())
@@ -315,7 +317,7 @@ namespace Productivity_X.Models
 				// Inserting data into fields of database
 				MySqlCommand FindSecurityCode = conn.CreateCommand();
 				FindSecurityCode.CommandText = "SELECT verificationcode FROM Calendar_Schema.user_tbl where user_id = @userid";
-				FindSecurityCode.Parameters.AddWithValue("@userID", DBObject.nUserID);
+				FindSecurityCode.Parameters.AddWithValue("@userID", nUserID);
 				FindSecurityCode.ExecuteNonQuery();
 
 				// Execute the SQL command against the DB:
@@ -337,9 +339,10 @@ namespace Productivity_X.Models
 
 	//Create Event Button:
 		// Saves event info to database
-		public bool SaveEvent(UserCreateEvent ce)
+		public bool SaveEvent(UserCreateEvent ce, int nUserID)
 		{
 			bool bRet = true;
+			
 			using (MySqlConnection conn = GetConnection())
 			{
 				int nEventExists = 0;
@@ -367,7 +370,7 @@ namespace Productivity_X.Models
 						"location, description, categoryname, guest, friend) VALUES (@user_id, @eventname, @event_date, @start_at, @end_at, @notification, @reminder, @location, @description, " +
 						"@categoryname, @guest, @friend)";
 
-					Query.Parameters.AddWithValue("@user_id", DBObject.nUserID);
+					Query.Parameters.AddWithValue("@user_id", nUserID);
 					Query.Parameters.AddWithValue("@eventname", ce.eventName);
 					// Saved as date
 					Query.Parameters.AddWithValue("@event_date", ce.event_date);//Convert.ToDateTime(ce.event_date));
@@ -397,24 +400,24 @@ namespace Productivity_X.Models
 							"@guestemail, @isfriend)";
 
 
-						InsertIntoGuestTable.Parameters.AddWithValue("@user_id", DBObject.nUserID);
-						InsertIntoGuestTable.Parameters.AddWithValue("@eventid", GetEventID(ce.eventName, ce.event_date, ce.start_at, ce.end_at));
+						InsertIntoGuestTable.Parameters.AddWithValue("@user_id", nUserID);
+						InsertIntoGuestTable.Parameters.AddWithValue("@eventid", GetEventID(ce.eventName, ce.event_date, ce.start_at, ce.end_at, nUserID));
 						InsertIntoGuestTable.Parameters.AddWithValue("@guestusername", ce.guestUsername);
 						InsertIntoGuestTable.Parameters.AddWithValue("@guestemail", ce.guestEmail);
 						InsertIntoGuestTable.Parameters.AddWithValue("@isfriend", ce.friend);
 						InsertIntoGuestTable.ExecuteNonQuery();
 					}
-					else
+/*					else
 					{
-						DBObject.nEventID = GetEventID(ce.eventName, ce.event_date, ce.start_at, ce.end_at);
+						nEventID = GetEventID(ce.eventName, ce.event_date, ce.start_at, ce.end_at);
 					}
-
+*/
 				}
 			}
 			return bRet;
 		}
 
-		public int GetEventID(string eventname, string eventdate, string startat, string endat)
+		public int GetEventID(string eventname, string eventdate, string startat, string endat, int nUserID)
 		{
 			int nRet = 0;
 			using (MySqlConnection conn = GetConnection())
@@ -425,7 +428,7 @@ namespace Productivity_X.Models
 				MySqlCommand FindEventID = conn.CreateCommand();
 				FindEventID.CommandText = "select event_ID from Calendar_Schema.events_tbl where user_id = @userID and eventname = @eventname and event_date = @event_date " +
 					"and start_at = @start_at and end_at = @end_at";
-				FindEventID.Parameters.AddWithValue("@userID", DBObject.nUserID);
+				FindEventID.Parameters.AddWithValue("@userID", nUserID);
 				FindEventID.Parameters.AddWithValue("@eventname", eventname);
 				FindEventID.Parameters.AddWithValue("@event_date", Convert.ToDateTime(eventdate));
 				FindEventID.Parameters.AddWithValue("@start_at", startat);
@@ -442,7 +445,6 @@ namespace Productivity_X.Models
 					if (1 == fieldCount)
 					{
 						nRet = Convert.ToInt32(values[0]);
-						DBObject.nEventID = nRet;
 					}
 				}
 				reader.Close();
@@ -536,41 +538,34 @@ namespace Productivity_X.Models
 				}
 		*/
 
-		public List<string> FindEventInfo(int eventid)
+		public List<Events> EventData(int eventid, int nUserID)
 		{
+			object[] eventDataList = new object[12];
 			List<string> eventData = new List<string>();
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
 
-				MySqlCommand UpdateEvent = conn.CreateCommand();
-				UpdateEvent.CommandText = "select * from Calendar_Schema.events_tbl where user_id = @userid and event_id = @eventid";
-				UpdateEvent.Parameters.AddWithValue("@userid", DBObject.nUserID);
-				UpdateEvent.Parameters.AddWithValue("@eventid", eventid);//DBObject.eventid);
-				UpdateEvent.ExecuteNonQuery();
+				MySqlCommand FindEventData = conn.CreateCommand();
+				FindEventData.CommandText = "select * from Calendar_Schema.events_tbl where user_id = @userid";
+				FindEventData.Parameters.AddWithValue("@userid", nUserID);
+				FindEventData.ExecuteNonQuery();
 
 				// Execute the SQL command against the DB:
-				MySqlDataReader reader = UpdateEvent.ExecuteReader();
-				if (reader.Read())
+				MySqlDataReader reader = FindEventData.ExecuteReader();
+				while (reader.Read())
 				{
-					// Read the DB values:
-					Object[] values = new object[13];
-					int fieldCount = reader.GetValues(values);
-					if (13 == fieldCount)
-					{
-						for (int counter = 0; counter < values.Length; counter++)
-						{
-							eventData.Add(values[counter].ToString());
-						}
-
-						// Successfully retrieved the user from the DB:
-						// string to bool...  = bool.Parse(eventdata)
-						// string to int....  = Convert.ToInt32(values[0]);
-					}
+					//categoryDataList[0]=(Convert.ToInt32(reader[0]));
+					eventid = Convert.ToInt32(reader[0]);
+					eventData[0] = (Convert.ToString(reader[1]));
+					eventData[1] = (Convert.ToString(reader[2]));
+					eventData[2] = (Convert.ToString(reader[3]));
+					eventData.Add(new Events(categoryDataList, userid, categoryid));
+					counter++;
 				}
 				reader.Close();
 			}
-			return eventData;
+			return categoryObj;
 		}
 
 		/*
@@ -629,49 +624,56 @@ namespace Productivity_X.Models
 			// Edit category with fields
 			// Delete a certain category
 			// Pass back Category names that match userid -> can be used for dropdown box in create event form
-			public List<string> CategoryNamesForUserID(int UserID)
+/*			public int TotalCategories(int UserID)
 			{
-				List<string> categoryNames = new List<string>();
+				int numCategories = -1;
 				using (MySqlConnection conn = GetConnection())
 				{
 					conn.Open();
-					MySqlCommand GetCategoryNames = conn.CreateCommand();
-					GetCategoryNames.CommandText = "select category_id, categoryname from Calendar_Schema.category_tbl where user_id = @userid";
-					GetCategoryNames.Parameters.AddWithValue("@userid", UserID);
-					GetCategoryNames.ExecuteNonQuery();
+					MySqlCommand FindCategories = conn.CreateCommand();
+					FindCategories.CommandText = "select * count from Calendar_Schema.category_tbl where user_id = @userid";
+					FindCategories.Parameters.AddWithValue("@userid", UserID);
+					FindCategories.ExecuteNonQuery();
 					// Execute the SQL command against the DB:
-					MySqlDataReader reader = GetCategoryNames.ExecuteReader();
+					MySqlDataReader reader = FindCategories.ExecuteReader();
 					while (reader.Read())
 					{
-						categoryNames.Add(Convert.ToString(reader[0]));
-						categoryNames.Add(Convert.ToString(reader[1]));
+						numCategories = Convert.ToInt32(reader[0]);
 					}
 					reader.Close();
 				}
-				return categoryNames;
+				return numCategories;
 			}
+*/
 			// Get data from category table including categoryname, color, description based upon the categoryid
-			public List<string> CategoryData(int categoryid)
+			public List<Categories> CategoryData(int userid)
 			{
-				List<string> categoryDataList = new List<string>();
+				object[] categoryDataList = new object[3];
+				List<Categories> categoryObj = new List<Categories>();
 				using (MySqlConnection conn = GetConnection())
 				{
 					conn.Open();
 					MySqlCommand FindCategoryData = conn.CreateCommand();
-					FindCategoryData.CommandText = "select categoryname, color, description from Calendar_Schema.category_tbl where category_id = @categoryid";
-					FindCategoryData.Parameters.AddWithValue("@categoryid", categoryid);
+					FindCategoryData.CommandText = "select category_id, categoryname, color, description from Calendar_Schema.category_tbl where user_id = @user_id";
+					FindCategoryData.Parameters.AddWithValue("@user_id", userid);
 					FindCategoryData.ExecuteNonQuery();
 					// Execute the SQL command against the DB:
 					MySqlDataReader reader = FindCategoryData.ExecuteReader();
+					int counter = 0;
+					int categoryid = 0;	
 					while (reader.Read())
 					{
-						categoryDataList.Add(Convert.ToString(reader[0]));
-						categoryDataList.Add(Convert.ToString(reader[1]));
-						categoryDataList.Add(Convert.ToString(reader[2]));
+					//categoryDataList[0]=(Convert.ToInt32(reader[0]));
+						categoryid = Convert.ToInt32(reader[0]);
+						categoryDataList[0] = (Convert.ToString(reader[1]));
+						categoryDataList[1] = (Convert.ToString(reader[2]));
+						categoryDataList[2] = (Convert.ToString(reader[3]));
+						categoryObj.Add(new Categories(categoryDataList, categoryid));
+						counter++;
 					}
 					reader.Close();
 				}
-				return categoryDataList;
+				return categoryObj;
 			}
 			//----------Friend Button---------------
 	}

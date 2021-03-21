@@ -21,7 +21,7 @@ namespace Productivity_X.Models
 
 		[StringLength(64, MinimumLength = 1)]
 		[Required(ErrorMessage = "Please Enter Username..")]
-		public string username { get => UserName; set => DBObject.sUsername = value; }
+		public string username { get; set; }
 
 		[StringLength(60, MinimumLength = 4)]
 		[EmailAddress]

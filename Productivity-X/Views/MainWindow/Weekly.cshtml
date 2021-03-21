@@ -254,14 +254,18 @@
 														<small>Event Category</small>
 														<select name="category" style="background-color: white; width: 360px; height: 37px; border-radius: 5px;">
 															<option value="" disabled selected hidden>Choose Category...</option>
-															@for (int counter = 0; counter < DBObject.categoriesForUserID.Count; counter++)
-															{
-																counter++;
-																<option value="@DBObject.categoriesForUserID[counter]">
-																	@DBObject.categoriesForUserID[counter]
-																</option>
+															@{
+																List<Categories> categorylist = new List<Categories>();
+																categorylist = ViewData["categoryobjects"] as List<Categories>;
+																for (int counter = 0; counter < categorylist.Count; counter++)
+																{
+																	<option value="@categorylist[counter].GetCategoryName()">
+																		@categorylist[counter].GetCategoryName();
+																	</option>
+																}
 															}
 														</select>
+
 														<input id="category" asp-for="category" />
 													</div>
 													<div class="form-group" id="eventLocation">

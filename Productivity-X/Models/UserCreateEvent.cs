@@ -20,5 +20,6 @@ namespace Productivity_X.Models
         public bool friend { get; set; }
         public string guestUsername { get; set; }
         public string guestEmail { get; set; }
+
     }
 }

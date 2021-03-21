@@ -7,12 +7,12 @@ namespace Productivity_X.Models
 {
 	public class DBObject
 	{
-		public static string sUsername;
-		public static int nUserID;
-		public static int nEventID;
-		public static List<string> categoriesForUserID;
+//		private string sUsername;
+//		private int nUserID;
+//		public static int nEventID;
+//		public static List<string> categoriesForUserID;
 
-		public string UserName
+/*		public string UserName
 		{
 			get => sUsername;
 			set => sUsername = value;
@@ -35,5 +35,6 @@ namespace Productivity_X.Models
 			get => categoriesForUserID;
 			set => categoriesForUserID = value;
 		}
+*/
 	}
 }
