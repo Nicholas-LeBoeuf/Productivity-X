@@ -158,7 +158,26 @@
         .container #colorChoice {
             width: 250px;
         }
-
+        table, th, td {
+            border: 1px solid black;
+        }
+        table {
+            background-color: #7a7a7a;
+        }
+        table.center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        td {
+            padding: 10px;
+            font-weight: bold;
+        }
+        th {
+            text-align: center;
+        }
+        tr {
+            text-align: center;
+        }
     </style>
 </head>
 <body style="        background-color: #1C1C1C;
@@ -228,7 +247,8 @@
                                 </div>
                             </div>
 
-                            <h1>Place categories here</h1>
+
+
                         </div>
                     </div>
                 </div>
@@ -241,6 +261,27 @@
 
 
         </div>
+        <table id="categoriesTable" class="center" style="width:1000px;">
+            <thead>
+                <tr>
+                    <th>Color</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Grey</td>
+                    <td>Default</td>
+                    <td>This is a default category that cannot get deleted or edited</td>
+                </tr>
+                <tr style="background-color:pink">
+                    <td>Pink</td>
+                    <td>Friends</td>
+                    <td>This is a Friends category that cannot get deleted or edited</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
 </body>
