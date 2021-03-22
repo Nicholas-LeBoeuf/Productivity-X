@@ -1,4 +1,9 @@
-﻿ @-webkit-keyframes v-shake {
+﻿
+/*!
+* Vuetify v2.4.6
+* Forged by John Leider
+* Released under the MIT License.
+*/ @-webkit-keyframes v-shake {
     59% {
         margin-left: 0
     }
@@ -17665,7 +17670,7 @@ html {
     }
 
 .theme--dark.v-application {
-    background: #121212;
+    background: #1C1C1C;
     color: #fff;
 }
 
@@ -17701,7 +17706,8 @@ html {
     flex-direction: column;
     min-height: 100vh;
     max-width: 100%;
-    position: relative
+    position: relative;
+    background-color: #1C1C1C;
 }
 
 @-moz-document url-prefix() {
@@ -22315,7 +22321,7 @@ html {
     }
 
 .theme--dark.v-calendar-events .v-event-more {
-    background-color: #1C1C1C
+    background-color: #303030
 }
 
     .theme--dark.v-calendar-events .v-event-more.v-outside {
@@ -22414,7 +22420,7 @@ html {
     }
 
 .theme--dark.v-calendar-weekly {
-    background-color: #fff;
+    background-color: #303030;
     border-top: 1px solid #9e9e9e;
     border-left: 1px solid #9e9e9e
 }
@@ -22559,18 +22565,16 @@ html {
 
 .theme--light.v-calendar-daily {
     background-color: #fff;
-    border-left: 1px solid #e0e0e0;
-    border-top: 1px solid #e0e0e0
+    /* border-left: 1px solid #e0e0e0;
+    border-top: 1px solid #e0e0e0 */
 }
-
-    .theme--light.v-calendar-daily .v-calendar-daily__intervals-head {
-        border-right: 1px solid #e0e0e0
+    /* .theme--light.v-calendar-daily .v-calendar-daily__intervals-head {
+    border-right: 1px solid #e0e0e0
+} */
+    .theme--light.v-calendar-daily .v-calendar-daily__intervals-head:after {
+        background: #e0e0e0;
+        background: linear-gradient(90deg,transparent,#e0e0e0)
     }
-
-        .theme--light.v-calendar-daily .v-calendar-daily__intervals-head:after {
-            background: #e0e0e0;
-            background: linear-gradient(90deg,transparent,#e0e0e0)
-        }
 
     .theme--light.v-calendar-daily .v-calendar-daily_head-day {
         border-right: 1px solid #e0e0e0;
@@ -22581,14 +22585,12 @@ html {
         .theme--light.v-calendar-daily .v-calendar-daily_head-day.v-past .v-calendar-daily_head-day-label, .theme--light.v-calendar-daily .v-calendar-daily_head-day.v-past .v-calendar-daily_head-weekday {
             color: #fff;
         }
-
-    .theme--light.v-calendar-daily .v-calendar-daily__intervals-body {
-        border-right: 1px solid #e0e0e0
+    /* .theme--light.v-calendar-daily .v-calendar-daily__intervals-body {
+    border-right: 1px solid #e0e0e0
+} */
+    .theme--light.v-calendar-daily .v-calendar-daily__intervals-body .v-calendar-daily__interval-text {
+        color: #fff;
     }
-
-        .theme--light.v-calendar-daily .v-calendar-daily__intervals-body .v-calendar-daily__interval-text {
-            color: #fff;
-        }
 
     .theme--light.v-calendar-daily .v-calendar-daily__day {
         border-right: 1px solid #e0e0e0;
@@ -28699,7 +28701,7 @@ html {
 }
 
 .theme--dark.v-stepper {
-    background: #1C1C1C
+    background: #303030
 }
 
     .theme--dark.v-stepper .v-stepper__step:not(.v-stepper__step--active):not(.v-stepper__step--complete):not(.v-stepper__step--error) .v-stepper__step__step {
@@ -30377,5 +30379,4 @@ html {
     position: absolute;
     right: 0
 }
-
 
