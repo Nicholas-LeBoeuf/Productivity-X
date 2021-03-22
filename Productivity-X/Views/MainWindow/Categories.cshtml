@@ -1,7 +1,305 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     ViewData["Title"] = "Categories";
     Layout = "~/Views/Shared/_MainPageLayout.cshtml";
 }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Today</title>
+    <link href="~/css/family.css" rel="stylesheet">
+    <link href="~/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="~/css/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <style>
+       .title {
+            justify-content: center;
+            font-size: 25px;
+            color: gold;
+        }
+
+        .round_icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #weekHeader {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            align-content: space-evenly;
+            margin: 3%;
+        }
+
+        #createBtn {
+            background-image: url(../test/img/c3.jpg);
+        }
+
+        #create {
+            flex-wrap: nowrap;
+            justify-content: center;
+        }
+
+        #btnclick {
+            display: inline-block;
+            padding: 0.35em 1.2em;
+            border: 0.1em solid #353535;
+            margin: 0 0.3em 0.3em 0;
+            border-radius: 0.40em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            background-color: #353535;
+            color: #FFA700;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        #btnclick:hover {
+            background: #424242;
+        }
+
+        #HidebtnModal {
+            display: inline-block;
+            padding: 0.35em 1.2em;
+            border: 0.1em solid #353535;
+            margin: 0 0.3em 0.3em 0;
+            border-radius: 0.40em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            background-color: #353535;
+            color: #FFA700;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        #HidebtnModal:hover {
+            background: #424242;
+        }
+
+        #createCatSubmit {
+            display: inline-block;
+            padding: 0.35em 1.2em;
+            border: 0.1em solid #353535;
+            margin: 0 0.3em 0.3em 0;
+            border-radius: 0.40em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            background-color: #353535;
+            color: #FFA700;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        #createCatSubmit:hover {
+            background: #424242;
+        }
+
+        .container #eventModal1 {
+            width: 50%;
+            float: left;
+        }
+
+        .modal-body {
+            background-color: #777474;
+        }
+
+        option.red {
+            color: white;
+            background-color: red;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        option.blue {
+            color: white;
+            background-color: blue;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        option.green {
+            color: white;
+            background-color: green;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        option.cyan {
+            color: white;
+            background-color: cyan;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        option.brown {
+            color: white;
+            background-color: brown;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        option.purple {
+            color: white;
+            background-color: purple;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        .container #catName {
+            width: 250px;
+        }
+        .container #colorChoice {
+            width: 250px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        table {
+            background-color: #7a7a7a;
+        }
+        table.center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        td {
+            padding: 10px;
+            font-weight: bold;
+        }
+        th {
+            text-align: center;
+        }
+        tr {
+            text-align: center;
+        }
+    </style>
+</head>
+<body style="        background-color: #1C1C1C;
+        color: #fff;">
+    <div id="app" style="width: 100%;padding-left: 12%;">
+        <div id="weekHeader">
+
+            <div id="create">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <button id="btnclick" type="button">
+                                Create Category
+                            </button>
+
+
+                            <div class="modal fade" id="login">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header text-center" style=" background: #1C1C1C">
+                                            <h3 class="modal-title w-100" style="color: #FFA700">Create Category</h3>
+
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="container" id="catName">
+                                                    <div class="form-group" id="categoryNm">
+                                                        <small>Category Name</small>
+                                                        <input class="form-control" type="text"
+                                                               placeholder="Category Name" id="categoryName" />
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="container" id="colorChoice">
+                                                    <div class="form-group" id="eventCategory">
+                                                        <small>Category Color</small>
+                                                        <select name="category" style="background-color: white; width: 225px; height: 37px; border-radius: 5px;">
+                                                            <option value="" disabled selected hidden>Choose Color...</option>
+                                                            <option class="red" value="red">Red</option>
+                                                            <option class="blue" value="blue">Blue</option>
+                                                            <option class="green" value="green">Green</option>
+                                                            <option class="cyan" value="cyan">Cyan</option>
+                                                            <option class="brown" value="brown">Brown</option>
+                                                            <option class="purple" value="purple">Purple</option>
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="container" id="catDesc" style="padding-left: 120px;">
+                                                    <small>Category Descritpion (100 characters)</small>
+                                                    <textarea name="categoryDescription" cols="25" rows="4"
+                                                              placeholder="Category Description" id="description" maxlength="100"
+                                                              style="background-color: white; border-radius: 5px;"></textarea>
+                                                    <input id="description" />
+                                                </div>
+                                                <div class="modal-footer" style="background: #1C1C1C">
+                                                    <button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>
+                                                    <button type="submit" id="createCatSubmit" class="btn btn-primary float-right">Create</button>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="title">Categories</div>
+            <div>
+                <img src="~/Images/ProductivityXLogin.png" class="round_icon" alt="">
+
+            </div>
+
+
+        </div>
+        <table id="categoriesTable" class="center" style="width:1000px;">
+            <thead>
+                <tr>
+                    <th>Color</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Grey</td>
+                    <td>Default</td>
+                    <td>This is a default category that cannot get deleted or edited</td>
+                </tr>
+                <tr style="background-color:pink">
+                    <td>Pink</td>
+                    <td>Friends</td>
+                    <td>This is a Friends category that cannot get deleted or edited</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("#btnclick").click(function () {
+			$("#login").modal('show');
+		});
+
+		$("#HidebtnModal").click(function () {
+			$("#login").modal('hide');
+		});
+	});
+</script>
