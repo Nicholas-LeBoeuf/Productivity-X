@@ -11,46 +11,10 @@
     <link href="~/css/family.css" rel="stylesheet">
     <link href="~/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="~/css/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <style>
-        .my-event {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            border-radius: 2px;
-            background-color: #1867c0;
-            color: #ffffff;
-            border: 1px solid #1867c0;
-            font-size: 12px;
-            padding: 3px;
-            cursor: pointer;
-            margin-bottom: 1px;
-            left: 4px;
-            margin-right: 8px;
-            position: relative;
-        }
-
-            .my-event.with-time {
-                position: absolute;
-                right: 4px;
-                margin-right: 0px;
-            }
-
-        .theme--light.v-calendar-daily {
-            background-color: #303030;
-            border-left: 1px solid #e0e0e0;
-            border-top: 1px solid #e0e0e0;
-        }
-
-            .theme--light.v-calendar-daily .v-calendar-daily_head-day {
-                color: #fff;
-            }
-
-        .my-app.v-application .primary--text {
-            color: #fff !important;
-        }
-
-        .title {
+       .title {
             justify-content: center;
             font-size: 25px;
             color: gold;
@@ -99,9 +63,9 @@
             transition: all 0.2s;
         }
 
-            #btnclick:hover {
-                background: #424242;
-            }
+        #btnclick:hover {
+            background: #424242;
+        }
 
         #HidebtnModal {
             display: inline-block;
@@ -119,11 +83,11 @@
             transition: all 0.2s;
         }
 
-            #HidebtnModal:hover {
-                background: #424242;
-            }
+        #HidebtnModal:hover {
+            background: #424242;
+        }
 
-        #createEventSubmit {
+        #createCatSubmit {
             display: inline-block;
             padding: 0.35em 1.2em;
             border: 0.1em solid #353535;
@@ -139,9 +103,9 @@
             transition: all 0.2s;
         }
 
-            #createEventSubmit:hover {
-                background: #424242;
-            }
+        #createCatSubmit:hover {
+            background: #424242;
+        }
 
         .container #eventModal1 {
             width: 50%;
@@ -150,6 +114,49 @@
 
         .modal-body {
             background-color: #777474;
+        }
+
+        option.red {
+            color: white;
+            background-color: red;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        option.blue {
+            color: white;
+            background-color: blue;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        option.green {
+            color: white;
+            background-color: green;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        option.cyan {
+            color: white;
+            background-color: cyan;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        option.brown {
+            color: white;
+            background-color: brown;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        option.purple {
+            color: white;
+            background-color: purple;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        .container #catName {
+            width: 250px;
+        }
+        .container #colorChoice {
+            width: 250px;
         }
 
     </style>
@@ -169,7 +176,7 @@
 
 
                             <div class="modal fade" id="login">
-                                <div class="modal-dialog modal-lg">
+                                <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header text-center" style=" background: #1C1C1C">
                                             <h3 class="modal-title w-100" style="color: #FFA700">Create Category</h3>
@@ -177,29 +184,38 @@
                                         </div>
                                         <div class="modal-body">
                                             <form>
-                                                
-                                                    <div class="form-group" id="eventNm">
-                                                        <small>Event Name</small>
+                                                <div class="container" id="catName">
+                                                    <div class="form-group" id="categoryNm">
+                                                        <small>Category Name</small>
                                                         <input class="form-control" type="text"
-                                                               placeholder="Event Name" id="eventName" />
+                                                               placeholder="Category Name" id="categoryName" />
 
                                                     </div>
+                                                </div>
 
-                                                    <div class="form-group" id="eventDesc">
-                                                        <small>Event Descritpion (100 characters)</small>
-                                                        <textarea name="description" cols="41" rows="5"
-                                                                  placeholder="Description" id="description" maxlength="100"
-                                                                  style="background-color: white; border-radius: 5px;"></textarea>
-                                                        <input id="description" />
+                                                <div class="container" id="colorChoice">
+                                                    <div class="form-group" id="eventCategory">
+                                                        <small>Category Color</small>
+                                                        <select name="category" style="background-color: white; width: 225px; height: 37px; border-radius: 5px;">
+                                                            <option value="" disabled selected hidden>Choose Color...</option>
+                                                            <option class="red" value="red">Red</option>
+                                                            <option class="blue" value="blue">Blue</option>
+                                                            <option class="green" value="green">Green</option>
+                                                            <option class="cyan" value="cyan">Cyan</option>
+                                                            <option class="brown" value="brown">Brown</option>
+                                                            <option class="purple" value="purple">Purple</option>
+
+                                                        </select>
 
                                                     </div>
-
+                                                </div>
                            
                                                 <div class="modal-footer" style="background: #1C1C1C">
                                                     <button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>
-                                                    <button type="submit" id="createEventSubmit" class="btn btn-primary float-right">Create</button>
+                                                    <button type="submit" id="createCatSubmit" class="btn btn-primary float-right">Create</button>
                                                 </div>
                                             </form>
+
                                         </div>
                                     </div>
                                 </div>
