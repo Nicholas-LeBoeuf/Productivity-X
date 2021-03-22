@@ -45,10 +45,16 @@ namespace Productivity_X.Controllers
 
             if (ModelState.IsValid)
             {
-                bUserExists = _manager.CheckPassword(loginUser);
-                _manager.LoadUser(loginUser);
+                TempData["username"] = loginUser.username;
+                int nUserID = _manager.GetUserID(TempData["username"] as string);
+                bUserExists = _manager.CheckPassword(loginUser, TempData["username"] as string, nUserID);
+                TempData["userid"] = nUserID;
+
+                _manager.LoadUser(loginUser, ref nUserID, loginUser.username);
+//                TempData["userid"] = nUserID;
                 if (bUserExists)
                 {
+                    
                     // Go to main screen
                     return View("~/Views/MainWindow/Main.cshtml");
                 }
@@ -109,14 +115,17 @@ namespace Productivity_X.Controllers
             // Checks if all required fields are met
             if (ModelState.IsValid)
             {
-                userid = _manager.GetUserID(forgotpassword);
+                // Save username
+                TempData["username"] = forgotpassword.username;
+                userid = _manager.GetUserID(forgotpassword, TempData["username"] as string);
+                TempData["userid"] = userid;
 
                 if (userid!= -1)
                 {
                     sCode = securityCode.GetSecurityCode();
 
-                    _manager.SaveSecurityCode(sCode);
-                    _manager.m_UserID = userid;
+                    _manager.SaveSecurityCode(sCode, userid);
+//                    _manager.m_UserID = userid;
 
                     // Email 
                     MimeMessage message = new MimeMessage();
@@ -162,7 +171,11 @@ namespace Productivity_X.Controllers
             bool bValidSecurityCode;
             if (ModelState.IsValid)
             {
-                bValidSecurityCode = _manager.CheckSecurityCode(forgotpw2);
+                int nUserid = (int)TempData["userid"];
+
+                bValidSecurityCode = _manager.CheckSecurityCode(forgotpw2, nUserid);
+                TempData["userid"] = nUserid;
+
                 if (bValidSecurityCode)
                 {
                     // Go to update password screen
@@ -184,7 +197,7 @@ namespace Productivity_X.Controllers
         {
             if (ModelState.IsValid)
             {
-                _manager.UpdatePassword(forgotpw3);
+                _manager.UpdatePassword(forgotpw3,(int)TempData["userid"]);
                 
                 // Message pops up on screen if successful
                 ViewBag.message = "Password Updated!";
