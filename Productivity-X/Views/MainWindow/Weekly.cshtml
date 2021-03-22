@@ -254,14 +254,18 @@
 														<small>Event Category</small>
 														<select name="category" style="background-color: white; width: 360px; height: 37px; border-radius: 5px;">
 															<option value="" disabled selected hidden>Choose Category...</option>
-															@for (int counter = 0; counter < DBObject.categoriesForUserID.Count; counter++)
-															{
-																counter++;
-																<option value="@DBObject.categoriesForUserID[counter]">
-																	@DBObject.categoriesForUserID[counter]
-																</option>
+															@{
+																List<Categories> categorylist = new List<Categories>();
+																categorylist = ViewData["categoryobjects"] as List<Categories>;
+																for (int counter = 0; counter < categorylist.Count; counter++)
+																{
+																	<option value="@categorylist[counter].GetCategoryName()">
+																		@categorylist[counter].GetCategoryName();
+																	</option>
+																}
 															}
 														</select>
+
 														<input id="category" asp-for="category" />
 													</div>
 													<div class="form-group" id="eventLocation">
@@ -358,12 +362,8 @@
 			events: [
 				{
 					name: 'Weekly Meeting',
-					start: '2021-03-11 09:00',
-					end: '2021-03-11 13:00',
-				},
-				{
-					name: `CS-204`,
-					start: '2021-03-10',
+					start: '2021-03-25 09:00',
+					end: '2021-03-25 14:00',
 				},
 				{
 					name: 'Work',
@@ -384,16 +384,6 @@
 					name: 'CS-204',
 					start: '2021-03-15 14:00',
 					end: '2021-03-15 15:15',
-				},
-				{
-					name: 'Meeting',
-                    start: '2021-03-18 12:30',
-                    end: '2021-03-18 15:30',
-				},
-					{
-                    name: 'Meetings',
-                    start: '2021-03-18 10:30',
-                    end: '2021-03-18 12:0',
                 }
 			],
 		}),
@@ -401,11 +391,12 @@
 			// this.$refs.calendar.scrollToTime('07:00')
 		},
 	})
-
 </script>
+
 <script type="text/javascript">
 	var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	function getTime(n) {
+	function getTime(n)
+	{
 		var now = new Date();
 		var year = now.getFullYear();
 		var month = now.getMonth() + 1;
@@ -416,10 +407,10 @@
 		var s = year + "-" + (month < 10 ? ('0' + month) : month) + "-" + (date < 10 ? ('0' + date) : date);
 		return s;
 	}
-	document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(getTime(-4)).getMonth() + 1];
-	document.getElementById("firstDate").innerHTML = new Date(getTime(0)).getDate();
-	document.getElementById("lastDate").innerHTML = new Date(getTime(-6)).getDate();
-	document.getElementById("currentYear").innerHTML = new Date(getTime(-4)).getFullYear();
+document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(getTime(-4)).getMonth() + 1];
+document.getElementById("firstDate").innerHTML = new Date(getTime(0)).getDate();
+document.getElementById("lastDate").innerHTML = new Date(getTime(-6)).getDate();
+document.getElementById("currentYear").innerHTML = new Date(getTime(-4)).getFullYear();
 
 </script>
 

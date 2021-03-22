@@ -14,6 +14,7 @@ namespace Productivity_X.Controllers
         public MainWindowController(DBManager manager)
         {
             _manager = manager;
+
         }
 
         public IActionResult Main()
@@ -22,9 +23,22 @@ namespace Productivity_X.Controllers
         }
         public IActionResult Weekly()
         {
-            // Will need to populate the calendar before opening it, query is in DBManager....
 
-            DBObject.categoriesForUserID = _manager.CategoryNamesForUserID(DBObject.nUserID);
+            List<Categories> categoriesSaved = new List<Categories>();
+            List<Events> eventsSaved = new List<Events>();
+            // Will need to populate the calendar before opening it, query is in DBManager....
+            int userid = (int)TempData["userid"];
+            //            int numCategories = _manager.TotalCategories(userid);
+
+
+            categoriesSaved = _manager.CategoryData(userid);
+                
+            ViewData["categoryobjects"] = categoriesSaved;
+            TempData["userid"] = userid;
+
+            // Display events...
+            eventsSaved = _manager.EventData(userid);
+
 
             return View();
         }
@@ -39,10 +53,12 @@ namespace Productivity_X.Controllers
                 bRet = false;
 			}
 
+            int userid = 0;
+
             // True, save event to the database
 			if (bRet)
 			{
-                bRet = _manager.SaveEvent(createEvent);
+                bRet = _manager.SaveEvent(createEvent,userid);
 				if (bRet)
 				{
                     ViewBag.message = "Event saved successfully!";
