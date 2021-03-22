@@ -37,7 +37,8 @@ namespace Productivity_X.Controllers
             TempData["userid"] = userid;
 
             // Display events...
-            eventsSaved  = _manager
+            eventsSaved = _manager.EventData(userid);
+
 
             return View();
         }

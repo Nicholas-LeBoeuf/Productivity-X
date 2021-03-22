@@ -15,7 +15,6 @@ namespace Productivity_X.Models
 		
 		public Categories()
 		{
-
 		}
 
 		public Categories(object[] savedCategoryData, int nCategoryID)

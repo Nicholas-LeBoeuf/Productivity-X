@@ -538,10 +538,12 @@ namespace Productivity_X.Models
 				}
 		*/
 
-		public List<Events> EventData(int eventid, int nUserID)
+		public List<Events> EventData(int nUserID)
 		{
-			object[] eventDataList = new object[12];
-			List<string> eventData = new List<string>();
+			int eventid;
+			int reminder;
+			object[] eventDataList = new object[11];
+			List<Events> eventData = new List<Events>();
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
@@ -555,17 +557,23 @@ namespace Productivity_X.Models
 				MySqlDataReader reader = FindEventData.ExecuteReader();
 				while (reader.Read())
 				{
-					//categoryDataList[0]=(Convert.ToInt32(reader[0]));
-					eventid = Convert.ToInt32(reader[0]);
-					eventData[0] = (Convert.ToString(reader[1]));
-					eventData[1] = (Convert.ToString(reader[2]));
-					eventData[2] = (Convert.ToString(reader[3]));
-					eventData.Add(new Events(categoryDataList, userid, categoryid));
-					counter++;
+					eventid = Convert.ToInt32(reader[1]);
+					eventDataList[0] = (Convert.ToString(reader[2]));
+					eventDataList[1] = (Convert.ToString(reader[3]));
+					eventDataList[2] = (Convert.ToString(reader[4]));
+					eventDataList[3] = (Convert.ToString(reader[5]));
+					eventDataList[4] = (Convert.ToBoolean(reader[6]));
+					reminder = Convert.ToInt32(reader[7]);
+					eventDataList[6] = (Convert.ToString(reader[8]));
+					eventDataList[7] = (Convert.ToString(reader[9]));
+					eventDataList[8] = (Convert.ToString(reader[10]));
+					eventDataList[9] = (Convert.ToBoolean(reader[11]));
+					eventDataList[10] = (Convert.ToBoolean(reader[12]));
+					eventData.Add(new Events(eventDataList, eventid, reminder));
 				}
 				reader.Close();
 			}
-			return categoryObj;
+			return eventData;
 		}
 
 		/*
@@ -659,7 +667,7 @@ namespace Productivity_X.Models
 					FindCategoryData.ExecuteNonQuery();
 					// Execute the SQL command against the DB:
 					MySqlDataReader reader = FindCategoryData.ExecuteReader();
-					int counter = 0;
+
 					int categoryid = 0;	
 					while (reader.Read())
 					{
@@ -669,7 +677,7 @@ namespace Productivity_X.Models
 						categoryDataList[1] = (Convert.ToString(reader[2]));
 						categoryDataList[2] = (Convert.ToString(reader[3]));
 						categoryObj.Add(new Categories(categoryDataList, categoryid));
-						counter++;
+
 					}
 					reader.Close();
 				}

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Productivity_X.Models
 {
-	public class UserCreateAccnt : DBObject
+	public class UserCreateAccnt
 	{
 /*		[Key]
 		public int userID { get; set; }
