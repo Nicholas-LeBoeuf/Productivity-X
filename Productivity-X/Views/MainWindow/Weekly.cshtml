@@ -195,7 +195,7 @@
 							<div class="modal fade" id="login">
 								<div class="modal-dialog modal-lg">
 									<div class="modal-content">
-										<div class="modal-header text-center" style=" background: #1C1C1C">
+										<div class="modal-header text-center" style=" background: #1C1C1C; border: none;">
 											<h3 class="modal-title w-100" style="color: #FFA700">Create Event</h3>
 
 										</div>
@@ -216,14 +216,14 @@
 													<br />
 													<div class="form-group" id="eventDesc">
 														<small>Event Descritpion (100 characters)</small>
-														<textarea name="description" cols="41" rows="5"
+														<textarea name="description" cols="41" rows="6"
 																  placeholder="Description" id="description" maxlength="100"
 																  style="background-color: white; border-radius: 5px;"></textarea>
 														<input id="description" asp-for="description" />
 
 													</div>
-													<br />
-													<div class="container" id="rem" style="height: 175px;">
+
+													<div class="container" id="rem" style="height: 165px; padding-bottom: 100px;">
 														<div class="form-group" id="eventNotifCheck" style="padding-top: 15px;">
 															<input class="form-controlCheck" type="checkbox"
 																   id="notification" name="notification" asp-for="notification" />
@@ -270,7 +270,7 @@
 															   placeholder="Location" id="location" asp-for="location" />
 													</div>
 													<br />
-													<div class="container" id="guest">
+													<div class="container" id="guest" style="height:170px;">
 														<div class="form-group" id="eventGuestCheck">
 															<input class="form-controlCheck" type="checkbox"
 																   id="guest" name="guest" asp-for="guest" />
@@ -288,12 +288,13 @@
 												</div>
 
 
-												<div class="modal-footer" style="background: #1C1C1C">
+												<div class="modal-footer" style="background: #1C1C1C; width: 100%; border: none; bottom: 0;">
 													<button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>
 													<button type="submit" id="createEventSubmit" class="btn btn-primary float-right">Create</button>
 												</div>
 											</form>
 										</div>
+
 									</div>
 								</div>
 							</div>
