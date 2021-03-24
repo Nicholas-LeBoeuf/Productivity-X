@@ -107,6 +107,12 @@ namespace Productivity_X.Controllers
 
             int userid = (int)TempData["userid"];
 
+            if ((createCategory.categoryname == null && createCategory.color == null) || (createCategory.categoryname == null && createCategory.color != null)
+                || (createCategory.categoryname != null || createCategory.color == null))
+            {
+                bRet = false;
+            }
+
             if (bRet)
             {
                 bRet = _manager.SaveCategory(createCategory, userid);
