@@ -654,7 +654,7 @@ namespace Productivity_X.Models
 					}
 		*/
 
-		public bool SaveCategory(Categories cat, int nUserID)
+		public bool SaveCategory(UserCreateCategory cat, int nUserID)
 		{
 			bool bRet = true;
 
@@ -688,6 +688,7 @@ namespace Productivity_X.Models
 					Query.ExecuteNonQuery();
                 }
 			}
+
 			return bRet;
 		}
 				// Get data from category table including categoryname, color, description based upon the categoryid

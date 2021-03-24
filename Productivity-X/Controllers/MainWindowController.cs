@@ -101,16 +101,11 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
-        public IActionResult CreateCategory(Categories createCategory)
+        public IActionResult CreateCategory(UserCreateCategory createCategory)
         {
             bool bRet = true;
 
-            if (createCategory.categoryname == null || createCategory.color == null || createCategory.description == null)
-            {
-                bRet = false;
-            }
-
-            int userid = 0;
+            int userid = (int)TempData["userid"];
 
             if (bRet)
             {
@@ -128,6 +123,8 @@ namespace Productivity_X.Controllers
             {
                 ViewBag.message = "Category was not saved, not all fields were filled in or were filled in incorrectly!";
             }
+
+            TempData["userid"] = userid;
             return View("Categories");
         }
         public IActionResult Categories()
