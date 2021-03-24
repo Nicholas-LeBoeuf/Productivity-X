@@ -7,9 +7,9 @@ namespace Productivity_X.Models
 {
     public class UserCreateCategory
     {
-        public int categoryname { get; set; }
-        public int color { get; set; }
-        public int description { get; set; }
+        public string categoryname { get; set; }
+        public string color { get; set; }
+        public string description { get; set; }
 
     }
 }

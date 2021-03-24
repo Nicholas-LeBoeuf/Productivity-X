@@ -667,7 +667,8 @@ namespace Productivity_X.Models
 				//Checks to see if there are duplicate category values for category name and/or color
 				CheckCategories.Parameters.AddWithValue("@category_name", cat.categoryname);
 				CheckCategories.Parameters.AddWithValue("@color", cat.color);
-				CheckCategories.CommandText = "select count(*) from Calendar_Schema.category_tbl where categoryname = @category_name and color = @color";
+				CheckCategories.Parameters.AddWithValue("@userid", nUserID);
+				CheckCategories.CommandText = "select count(*) from Calendar_Schema.category_tbl where categoryname = @category_name and color = @color and user_id = @userid";
 
 				nCatExists = Convert.ToInt32(CheckCategories.ExecuteScalar());
 
