@@ -8,9 +8,9 @@ namespace Productivity_X.Models
 	public class Categories
 	{
 		private int categoryid;
-		private string categoryname;
-		private string color;
-		private string description;
+		public string categoryname;
+		public string color;
+		public string description;
 		private object[] categoryData = new object[3];
 		
 		public Categories()

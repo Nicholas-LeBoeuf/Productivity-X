@@ -101,6 +101,35 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
+        public IActionResult CreateCategory(Categories createCategory)
+        {
+            bool bRet = true;
+
+            if (createCategory.categoryname == null || createCategory.color == null || createCategory.description == null)
+            {
+                bRet = false;
+            }
+
+            int userid = 0;
+
+            if (bRet)
+            {
+                bRet = _manager.SaveCategory(createCategory, userid);
+                if (bRet)
+                {
+                    ViewBag.message = "Category saved successfully!";
+                }
+                else
+                {
+                    ViewBag.message = "Category or color already exists!";
+                }
+            }
+            else
+            {
+                ViewBag.message = "Category was not saved, not all fields were filled in or were filled in incorrectly!";
+            }
+            return View("Categories");
+        }
         public IActionResult Categories()
         {
             return View();

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Productivity_X.Models.Categories;
+@{
     ViewData["Title"] = "Categories";
     Layout = "~/Views/Shared/_MainPageLayout.cshtml";
 }
@@ -202,12 +203,12 @@
 
                                         </div>
                                         <div class="modal-body">
-                                            <form>
+                                            <form asp-action="CreateCategory">
                                                 <div class="container" id="catName">
                                                     <div class="form-group" id="categoryNm">
                                                         <small>Category Name</small>
                                                         <input class="form-control" type="text"
-                                                               placeholder="Category Name" id="categoryName" />
+                                                               placeholder="Category Name" id="categoryName" asp-for="categoryname"/>
 
                                                     </div>
                                                 </div>
@@ -225,6 +226,7 @@
                                                             <option class="purple" value="purple">Purple</option>
 
                                                         </select>
+                                                        <input id="color" asp-for="color" />
 
                                                     </div>
                                                 </div>
@@ -234,7 +236,7 @@
                                                     <textarea name="categoryDescription" cols="25" rows="4"
                                                               placeholder="Category Description" id="description" maxlength="100"
                                                               style="background-color: white; border-radius: 5px;"></textarea>
-                                                    <input id="description" />
+                                                    <input id="description" asp-for="description"/>
                                                 </div>
                                                 <div class="modal-footer" style="background: #1C1C1C">
                                                     <button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>

@@ -627,34 +627,71 @@ namespace Productivity_X.Models
 				return nRet;
 			}
 */
-			//----------Category Button------------------
-			// Create category with fields
-			// Edit category with fields
-			// Delete a certain category
-			// Pass back Category names that match userid -> can be used for dropdown box in create event form
-/*			public int TotalCategories(int UserID)
-			{
-				int numCategories = -1;
-				using (MySqlConnection conn = GetConnection())
-				{
-					conn.Open();
-					MySqlCommand FindCategories = conn.CreateCommand();
-					FindCategories.CommandText = "select * count from Calendar_Schema.category_tbl where user_id = @userid";
-					FindCategories.Parameters.AddWithValue("@userid", UserID);
-					FindCategories.ExecuteNonQuery();
-					// Execute the SQL command against the DB:
-					MySqlDataReader reader = FindCategories.ExecuteReader();
-					while (reader.Read())
+		//----------Category Button------------------
+		// Create category with fields
+		// Edit category with fields
+		// Delete a certain category
+		// Pass back Category names that match userid -> can be used for dropdown box in create event form
+		/*			public int TotalCategories(int UserID)
 					{
-						numCategories = Convert.ToInt32(reader[0]);
+						int numCategories = -1;
+						using (MySqlConnection conn = GetConnection())
+						{
+							conn.Open();
+							MySqlCommand FindCategories = conn.CreateCommand();
+							FindCategories.CommandText = "select * count from Calendar_Schema.category_tbl where user_id = @userid";
+							FindCategories.Parameters.AddWithValue("@userid", UserID);
+							FindCategories.ExecuteNonQuery();
+							// Execute the SQL command against the DB:
+							MySqlDataReader reader = FindCategories.ExecuteReader();
+							while (reader.Read())
+							{
+								numCategories = Convert.ToInt32(reader[0]);
+							}
+							reader.Close();
+						}
+						return numCategories;
 					}
-					reader.Close();
+		*/
+
+		public bool SaveCategory(Categories cat, int nUserID)
+		{
+			bool bRet = true;
+
+			using (MySqlConnection conn = GetConnection())
+			{
+				int nCatExists = 0;
+				conn.Open();
+				MySqlCommand CheckCategories = conn.CreateCommand();
+
+				//Checks to see if there are duplicate category values for category name and/or color
+				CheckCategories.Parameters.AddWithValue("@category_name", cat.categoryname);
+				CheckCategories.Parameters.AddWithValue("@color", cat.color);
+				CheckCategories.CommandText = "select count(*) from Calendar_Schema.category_tbl where categoryname = @category_name and color = @color";
+
+				nCatExists = Convert.ToInt32(CheckCategories.ExecuteScalar());
+
+				if (nCatExists >= 1)
+				{
+					bRet = false;
 				}
-				return numCategories;
+				else
+                {
+					MySqlCommand Query = conn.CreateCommand();
+					Query.CommandText = "insert into Calendar_Schema.category_tbl (user_id, categoryname, color, description) VALUES (@user_id, @category_name, @color, @description)";
+
+					Query.Parameters.AddWithValue("@user_id", nUserID);
+					Query.Parameters.AddWithValue("@category_name", cat.categoryname);
+					Query.Parameters.AddWithValue("@color", cat.color);
+					Query.Parameters.AddWithValue("@description", cat.description);
+
+					Query.ExecuteNonQuery();
+                }
 			}
-*/
-			// Get data from category table including categoryname, color, description based upon the categoryid
-			public List<Categories> CategoryData(int userid)
+			return bRet;
+		}
+				// Get data from category table including categoryname, color, description based upon the categoryid
+				public List<Categories> CategoryData(int userid)
 			{
 				object[] categoryDataList = new object[3];
 				List<Categories> categoryObj = new List<Categories>();
