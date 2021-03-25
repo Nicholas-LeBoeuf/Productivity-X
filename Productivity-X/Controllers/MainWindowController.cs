@@ -155,5 +155,9 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
+        public IActionResult Events()
+        {
+            return View();
+        }
     }
 }
