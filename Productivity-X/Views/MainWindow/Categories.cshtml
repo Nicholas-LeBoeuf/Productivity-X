@@ -274,27 +274,46 @@
 
 
         </div>
-        <table id="categoriesTable" class="center" style="width:1000px;">
-            <thead>
-                <tr>
-                    <th>Color</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Grey</td>
-                    <td>Default</td>
-                    <td>This is a default category that cannot get deleted or edited</td>
-                </tr>
-                <tr style="background-color:pink">
-                    <td>Pink</td>
-                    <td>Friends</td>
-                    <td>This is a Friends category that cannot get deleted or edited</td>
-                </tr>
-            </tbody>
-        </table>
+		<table id="categoriesTable" class="center" style="width:1000px;">
+			<thead>
+				<tr>
+					<th>Color</th>
+					<th>Name</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Grey</td>
+					<td>Default</td>
+					<td>This is a default category that cannot get deleted or edited</td>
+				</tr>
+				<tr style="background-color:pink">
+					<td>Pink</td>
+					<td>Friends</td>
+					<td>This is a Friends category that cannot get deleted or edited</td>
+				</tr>
+
+				@{
+					List<Categories> categorylist = new List<Categories>();
+					categorylist = ViewData["categoryobjects"] as List<Categories>;
+					for (int counter = 0; counter < categorylist.Count; counter++)
+					{
+						<tr style="background-color:@categorylist[counter].GetColor()">
+							<td value="@categorylist[counter].GetColor()">
+								@categorylist[counter].GetColor().Trim(';');
+							</td>
+							<td value="@categorylist[counter].GetCategoryName()">
+								@categorylist[counter].GetCategoryName();
+							</td>
+							<td value="@categorylist[counter].GetDescription()">
+								@categorylist[counter].GetDescription();
+							</td>
+						</tr>
+				    }
+				}
+				</tbody>
+			</table>
     </div>
 
 </body>

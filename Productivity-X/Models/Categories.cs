@@ -31,5 +31,13 @@ namespace Productivity_X.Models
 		{
 			return categoryname;
 		}
+		public string GetColor()
+		{
+			return color;
+		}
+		public string GetDescription()
+		{
+			return description;
+		}
 	}
 }

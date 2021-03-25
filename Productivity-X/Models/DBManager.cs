@@ -664,11 +664,18 @@ namespace Productivity_X.Models
 				conn.Open();
 				MySqlCommand CheckCategories = conn.CreateCommand();
 
-				//Checks to see if there are duplicate category values for category name and/or color
+				//Checks to see if there are duplicate category values for category name
 				CheckCategories.Parameters.AddWithValue("@category_name", cat.categoryname);
 				CheckCategories.Parameters.AddWithValue("@userid", nUserID);
 				CheckCategories.CommandText = "select count(*) from Calendar_Schema.category_tbl where categoryname = @category_name and user_id = @userid";
 				nCatExists = Convert.ToInt32(CheckCategories.ExecuteScalar());
+
+				MySqlCommand CheckCategoryColors = conn.CreateCommand();
+				// Checks to see if there are duplicate category values for category color
+				CheckCategoryColors.Parameters.AddWithValue("@color", cat.color);
+				CheckCategoryColors.Parameters.AddWithValue("@userid", nUserID);
+				CheckCategoryColors.CommandText = "select count(*) from Calendar_Schema.category_tbl where color = @color and user_id = @userid";
+				nCatExists += Convert.ToInt32(CheckCategoryColors.ExecuteScalar());
 
 				if (nCatExists >= 1)
 				{
@@ -691,35 +698,34 @@ namespace Productivity_X.Models
 			return bRet;
 		}
 				// Get data from category table including categoryname, color, description based upon the categoryid
-				public List<Categories> CategoryData(int userid)
+		public List<Categories> CategoryData(int userid)
+		{
+			object[] categoryDataList = new object[3];
+			List<Categories> categoryObj = new List<Categories>();
+			using (MySqlConnection conn = GetConnection())
 			{
-				object[] categoryDataList = new object[3];
-				List<Categories> categoryObj = new List<Categories>();
-				using (MySqlConnection conn = GetConnection())
+				conn.Open();
+				MySqlCommand FindCategoryData = conn.CreateCommand();
+				FindCategoryData.CommandText = "select category_id, categoryname, color, description from Calendar_Schema.category_tbl where user_id = @user_id";
+				FindCategoryData.Parameters.AddWithValue("@user_id", userid);
+				FindCategoryData.ExecuteNonQuery();
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = FindCategoryData.ExecuteReader();
+
+				int categoryid = 0;	
+				while (reader.Read())
 				{
-					conn.Open();
-					MySqlCommand FindCategoryData = conn.CreateCommand();
-					FindCategoryData.CommandText = "select category_id, categoryname, color, description from Calendar_Schema.category_tbl where user_id = @user_id";
-					FindCategoryData.Parameters.AddWithValue("@user_id", userid);
-					FindCategoryData.ExecuteNonQuery();
-					// Execute the SQL command against the DB:
-					MySqlDataReader reader = FindCategoryData.ExecuteReader();
-
-					int categoryid = 0;	
-					while (reader.Read())
-					{
-					//categoryDataList[0]=(Convert.ToInt32(reader[0]));
-						categoryid = Convert.ToInt32(reader[0]);
-						categoryDataList[0] = (Convert.ToString(reader[1]));
-						categoryDataList[1] = (Convert.ToString(reader[2]));
-						categoryDataList[2] = (Convert.ToString(reader[3]));
-						categoryObj.Add(new Categories(categoryDataList, categoryid));
-
-					}
-					reader.Close();
+				//categoryDataList[0]=(Convert.ToInt32(reader[0]));
+					categoryid = Convert.ToInt32(reader[0]);
+					categoryDataList[0] = reader.GetString(1);//Convert.ToString(reader[1]);
+					categoryDataList[1] = Convert.ToString(reader[2]);
+					categoryDataList[2] = Convert.ToString(reader[3]);
+					categoryObj.Add(new Categories(categoryDataList, categoryid));
 				}
-				return categoryObj;
+				reader.Close();
 			}
+			return categoryObj;
+		}
 			//----------Friend Button---------------
 	}
 }
