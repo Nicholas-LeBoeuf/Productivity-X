@@ -164,6 +164,30 @@
             height: 150px;
             background: #372304;
         }
+        .box #today1 {
+            position: relative;
+            right: -55px;
+            top: 50px;
+            width: 300px;
+            height: 50px;
+            background: blue;
+        }
+        .box #today2 {
+            position: relative;
+            right: -55px;
+            top: 75px;
+            width: 300px;
+            height: 50px;
+            background: magenta;
+        }
+        .box #today3 {
+            position: relative;
+            right: -55px;
+            top: 175px;
+            width: 300px;
+            height: 100px;
+            background: #372304;
+        }
     </style>
 </head>
 <body style="color: #fff;">
@@ -171,7 +195,9 @@
         <div class="title">Productivity-X</div>
         <div class="up">
             <div class="box" id="weekly" style="width: 55%;">
-                <div class="boxtitle">Weekly</div>
+                <a href='@Url.Action("Weekly", "MainWindow")'>
+                    <div class="boxtitle" style="color: white;">Weekly</div>
+                </a>
                 <div class="allweeklybox">
 
                     <div class="weeklybox"> Sunday
@@ -220,32 +246,48 @@
 
             </div>
             <div class="box" id="today" style="width: 30%;">
-                <div class="boxtitle">Today</div>
+                
+                <a href='@Url.Action("Today", "MainWindow")'>
+                    <div class="boxtitle" style="color: white;">Today</div>
+                </a>
                 <div class="currentday">
                     <span id="currentWeek"></span>&emsp;
                     <span id="currentMonth"></span>&emsp;
                     <span id="currentdate"></span>
                 </div>
+
+                <div class="box" id="today1"></div>
+                <div class="box" id="today2"></div>
+                <div class="box" id="today3"></div>
+
             </div>
         </div>
         <div style="height: 5%;"></div>
         <div class="down">
             <div class="downLeft" style="width:55%">
                 <div class="box" id="todo" style="width: 45%;">
-                    <div class="boxtitle">To-do</div>
+                    <a href='@Url.Action("ToDo", "MainWindow")'>
+                        <div class="boxtitle" style="color: white;">To-do</div>
+                    </a>
                 </div>
                 <div class="box1" id="nullDiv" style="width: 10%;">
                 </div>
                 <div class="box" id="categories" style="width: 45%;">
-                    <div class="boxtitle">Categories</div>
+                    <a href='@Url.Action("Categories", "MainWindow")'>
+                        <div class="boxtitle" style="color: white;">Categories</div>
+                    </a>
                 </div>
             </div>
             <div class="box" id="friends" style="width: 30%;">
-                <div class="boxtitle">Friends</div>
+                <a href='@Url.Action("Friends", "MainWindow")'>
+                    <div class="boxtitle" style="color: white;">Friends</div>
+                </a>
             </div>
         </div>
     </div>
 </body>
+
+</html>
 
 <script type="text/javascript">
     var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
