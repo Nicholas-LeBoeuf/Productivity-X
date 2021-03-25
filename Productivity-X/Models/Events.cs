@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Productivity_X.Models
 {
-	public class Events
+	public class Events : Categories
 	{
 		private int eventid;
 		private string eventname;
@@ -19,13 +19,14 @@ namespace Productivity_X.Models
 		private string category;
 		private bool guest;
 		private bool friend;
+		private string eventColor;
 		private object[] eventData = new object[11];
 
 		public Events()
 		{
 		}
 
-		public Events(object[] savedEventData, int nEventID, int nReminder)
+		public Events(object[] savedEventData, int nEventID, int nReminder, string eventcolor)
 		{
 			eventData = savedEventData;
 			eventid = nEventID;
@@ -40,11 +41,51 @@ namespace Productivity_X.Models
 			category = Convert.ToString(eventData.ElementAt(8));
 			guest = Convert.ToBoolean(eventData.ElementAt(9));
 			friend = Convert.ToBoolean(eventData.ElementAt(10));
+
+			eventColor = eventcolor;
 		}
+
 
 		public string GetEventName()
 		{
 			return eventname;
+		}
+
+		public string GetDate()
+		{
+			return eventdate;
+		}
+		public string StartTime()
+		{
+			return startat;
+		}
+		public string EndTime()
+		{
+			return endat;
+		}
+		public string GetCategory()
+		{
+			return category;
+		}
+		public string GetLocation()
+		{
+			return location;
+		}
+		public string GetDescription()
+		{
+			return description;
+		}
+		public string GetNotification()
+		{
+			return eventdate;
+		}
+		public bool IsThereAGuest()
+		{
+			return guest;
+		}
+		public string GetEventColor()
+		{
+			return eventColor;
 		}
 	}
 }

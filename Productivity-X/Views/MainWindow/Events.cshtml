@@ -70,19 +70,55 @@
 
 
         <table id="categoriesTable" class="center" style="width:1000px;">
-            <thead>
-                <tr>
-                    <th>Event Name</th>
-                    <th>Date</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Category</th>
-                    <th>Location</th>
-                    <th>Description</th>
-                    <th>Notification</th>
-                    <th>Guest</th>
-                </tr>
-            </thead>
+			<thead>
+				<tr>
+					<th>Event Name</th>
+					<th>Date</th>
+					<th>Start Time</th>
+					<th>End Time</th>
+					<th>Category</th>
+					<th>Location</th>
+					<th>Description</th>
+					<th>Notification</th>
+					<th>Guest</th>
+				</tr>
+				@{
+					List<Events> eventlist = new List<Events>();
+					eventlist = ViewData["eventobjects"] as List<Events>;
+					for (int counter = 0; counter < eventlist.Count; counter++)
+					{                      				
+						<tr style="background-color:@eventlist[counter].GetEventColor()">
+							<td value="@eventlist[counter].GetEventName()">
+								@eventlist[counter].GetEventName().Trim(';')
+							</td>
+							<td value="@eventlist[counter].GetDate()">
+								@eventlist[counter].GetDate()
+							</td>
+							<td value="@eventlist[counter].StartTime()">
+								@eventlist[counter].EndTime()
+							</td>
+							<td value="@eventlist[counter].EndTime()">
+								@eventlist[counter].EndTime()
+							</td>
+							<td value="@eventlist[counter].GetCategory()">
+								@eventlist[counter].GetCategory()
+							</td>
+							<td value="@eventlist[counter].GetLocation()">
+								@eventlist[counter].GetLocation()
+							</td>
+							<td value="@eventlist[counter].GetDescription()">
+								@eventlist[counter].GetDescription()
+							</td>
+							<td value="@eventlist[counter].GetNotification()">
+								@eventlist[counter].GetNotification()
+							</td>
+							<td value="@eventlist[counter].IsThereAGuest()">
+								@eventlist[counter].IsThereAGuest()
+							</td>
+						</tr>
+					}
+				}
+			</thead>
             <tbody>
                 
 
