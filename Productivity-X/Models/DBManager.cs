@@ -571,39 +571,40 @@ namespace Productivity_X.Models
 					eventDataList[8] = (Convert.ToString(reader[10]));
 					eventDataList[9] = (Convert.ToBoolean(reader[11]));
 					eventDataList[10] = (Convert.ToBoolean(reader[12]));
-					//eventDataList[11] = Convert.ToString(reader[13]);
-					reader.Close();
-					if(eventDataList[8].ToString() != "")
+					eventData.Add(new Events(eventDataList, eventid, reminder));
+				}
+				reader.Close();
+
+				for (int counter = 0; counter < eventData.Count(); counter++)
+				{
+					if (eventData[counter].GetCategory() != "Default" && eventData[counter].GetCategory() != "friends")
 					{
 						MySqlCommand FindCategoryColor = conn.CreateCommand();
-						FindCategoryColor.CommandText = "select color from Calendar_Schema.category_tbl where user_id = @user_id, categoryname = @categoryname";
+						FindCategoryColor.CommandText = "select color from Calendar_Schema.category_tbl where user_id = @user_id and categoryname = @categoryname";
 						FindCategoryColor.Parameters.AddWithValue("@user_id", nUserID);
-						FindCategoryColor.Parameters.AddWithValue("@categoryname", eventDataList[8]);
+						FindCategoryColor.Parameters.AddWithValue("@categoryname", eventData[counter].GetCategory());
 						FindCategoryColor.ExecuteNonQuery();
 
 						// Execute the SQL command against the DB:
 						MySqlDataReader Reader = FindCategoryColor.ExecuteReader();
 						while (Reader.Read())
 						{
-							eventColor = Convert.ToString(Reader[0]);
+							eventData[counter].SetEventColor(Convert.ToString(Reader[0]));
 						}
 						Reader.Close();
 					}
-					else if(eventDataList[8].ToString() == "Default")
+					else if (eventData[counter].GetCategory() == "Default")
 					{
-						eventColor = "gray";
+						eventData[counter].SetEventColor("gray");
 					}
 					else
 					{
-						eventColor = "pink";
+						eventData[counter].SetEventColor("Pink");
 					}
-					eventData.Add(new Events(eventDataList, eventid, reminder, eventColor));
 				}
-				reader.Close();
-
 			}
-				return eventData;
-			}
+			return eventData;
+		}
 
 /*		public string GetEventColor(int userid, string categoryname)
 		{
