@@ -101,11 +101,61 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
+        public IActionResult CreateCategory(UserCreateCategory createCategory)
+        {
+            bool bRet = true;
+
+            int userid = (int)TempData["userid"];
+
+            if (createCategory.categoryname == null && createCategory.color == null)
+            {
+                bRet = false;
+            }
+
+            if (bRet)
+            {
+                bRet = _manager.SaveCategory(createCategory, userid);
+                if (bRet)
+                {
+                    ViewBag.message = "Category saved successfully!";
+                }
+                else
+                {
+                    ViewBag.message = "Category or color already exists!";
+                }
+            }
+            else
+            {
+                ViewBag.message = "Category was not saved, not all fields were filled in or were filled in incorrectly!";
+            }
+            GetCategoriesHelper();
+            TempData["userid"] = userid;
+            return View("Categories");
+        }
+        public void GetCategoriesHelper()
+		{
+            List<Categories> categoriesSaved = new List<Categories>();
+            // Will need to populate the calendar before opening it, query is in DBManager....
+            int userid = (int)TempData["userid"];
+            //            int numCategories = _manager.TotalCategories(userid);
+
+
+            categoriesSaved = _manager.CategoryData(userid);
+
+            ViewData["categoryobjects"] = categoriesSaved;
+            TempData["userid"] = userid;
+        }
         public IActionResult Categories()
         {
+            GetCategoriesHelper();
+
             return View();
         }
         public IActionResult Friends()
+        {
+            return View();
+        }
+        public IActionResult Events()
         {
             return View();
         }

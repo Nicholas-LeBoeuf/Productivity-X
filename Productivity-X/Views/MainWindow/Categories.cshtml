@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Productivity_X.Models.UserCreateCategory;
+@{
     ViewData["Title"] = "Categories";
     Layout = "~/Views/Shared/_MainPageLayout.cshtml";
 }
@@ -14,7 +15,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <style>
-       .title {
+        .title {
             justify-content: center;
             font-size: 25px;
             color: gold;
@@ -63,9 +64,9 @@
             transition: all 0.2s;
         }
 
-        #btnclick:hover {
-            background: #424242;
-        }
+            #btnclick:hover {
+                background: #424242;
+            }
 
         #HidebtnModal {
             display: inline-block;
@@ -83,9 +84,9 @@
             transition: all 0.2s;
         }
 
-        #HidebtnModal:hover {
-            background: #424242;
-        }
+            #HidebtnModal:hover {
+                background: #424242;
+            }
 
         #createCatSubmit {
             display: inline-block;
@@ -103,9 +104,9 @@
             transition: all 0.2s;
         }
 
-        #createCatSubmit:hover {
-            background: #424242;
-        }
+            #createCatSubmit:hover {
+                background: #424242;
+            }
 
         .container #eventModal1 {
             width: 50%;
@@ -122,59 +123,72 @@
             font-weight: bold;
             font-size: 25px;
         }
+
         option.blue {
             color: white;
             background-color: blue;
             font-weight: bold;
             font-size: 25px;
         }
+
         option.green {
             color: white;
             background-color: green;
             font-weight: bold;
             font-size: 25px;
         }
+
         option.cyan {
             color: white;
             background-color: cyan;
             font-weight: bold;
             font-size: 25px;
         }
+
         option.brown {
             color: white;
             background-color: brown;
             font-weight: bold;
             font-size: 25px;
         }
+
         option.purple {
             color: white;
             background-color: purple;
             font-weight: bold;
             font-size: 25px;
         }
+
         .container #catName {
             width: 250px;
         }
+
         .container #colorChoice {
             width: 250px;
         }
+
         table, th, td {
             border: 1px solid black;
         }
+
         table {
             background-color: #7a7a7a;
         }
-        table.center {
-            margin-left: auto;
-            margin-right: auto;
-        }
+
+            table.center {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
         td {
             padding: 10px;
             font-weight: bold;
         }
+
         th {
             text-align: center;
         }
+
         tr {
             text-align: center;
         }
@@ -202,12 +216,12 @@
 
                                         </div>
                                         <div class="modal-body">
-                                            <form>
+                                            <form asp-action="CreateCategory">
                                                 <div class="container" id="catName">
                                                     <div class="form-group" id="categoryNm">
                                                         <small>Category Name</small>
                                                         <input class="form-control" type="text"
-                                                               placeholder="Category Name" id="categoryName" />
+                                                               placeholder="Category Name" id="categoryName" asp-for="categoryname" />
 
                                                     </div>
                                                 </div>
@@ -215,7 +229,7 @@
                                                 <div class="container" id="colorChoice">
                                                     <div class="form-group" id="eventCategory">
                                                         <small>Category Color</small>
-                                                        <select name="category" style="background-color: white; width: 225px; height: 37px; border-radius: 5px;">
+                                                        <select asp-for="color" style="background-color: white; width: 225px; height: 37px; border-radius: 5px;">
                                                             <option value="" disabled selected hidden>Choose Color...</option>
                                                             <option class="red" value="red">Red</option>
                                                             <option class="blue" value="blue">Blue</option>
@@ -231,10 +245,9 @@
 
                                                 <div class="container" id="catDesc" style="padding-left: 120px;">
                                                     <small>Category Descritpion (100 characters)</small>
-                                                    <textarea name="categoryDescription" cols="25" rows="4"
+                                                    <textarea asp-for="description" cols="25" rows="4"
                                                               placeholder="Category Description" id="description" maxlength="100"
                                                               style="background-color: white; border-radius: 5px;"></textarea>
-                                                    <input id="description" />
                                                 </div>
                                                 <div class="modal-footer" style="background: #1C1C1C">
                                                     <button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>
@@ -261,30 +274,59 @@
 
 
         </div>
-        <table id="categoriesTable" class="center" style="width:1000px;">
-            <thead>
-                <tr>
-                    <th>Color</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Grey</td>
-                    <td>Default</td>
-                    <td>This is a default category that cannot get deleted or edited</td>
-                </tr>
-                <tr style="background-color:pink">
-                    <td>Pink</td>
-                    <td>Friends</td>
-                    <td>This is a Friends category that cannot get deleted or edited</td>
-                </tr>
-            </tbody>
-        </table>
+		<table id="categoriesTable" class="center" style="width:1000px;">
+			<thead>
+				<tr>
+					<th>Color</th>
+					<th>Name</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Grey</td>
+					<td>Default</td>
+					<td>This is a default category that cannot get deleted or edited</td>
+				</tr>
+				<tr style="background-color:pink">
+					<td>Pink</td>
+					<td>Friends</td>
+					<td>This is a Friends category that cannot get deleted or edited</td>
+				</tr>
+
+				@{
+					List<Categories> categorylist = new List<Categories>();
+					categorylist = ViewData["categoryobjects"] as List<Categories>;
+					for (int counter = 0; counter < categorylist.Count; counter++)
+					{
+						<tr style="background-color:@categorylist[counter].GetColor()">
+							<td value="@categorylist[counter].GetColor()">
+								@categorylist[counter].GetColor().Trim(';')
+							</td>
+							<td value="@categorylist[counter].GetCategoryName()">
+								@categorylist[counter].GetCategoryName()
+							</td>
+							<td value="@categorylist[counter].GetDescription()">
+								@categorylist[counter].GetDescription()
+							</td>
+						</tr>
+				    }
+				}
+				</tbody>
+			</table>
     </div>
 
 </body>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+    </script>
+}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -293,13 +335,13 @@
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <script type="text/javascript">
-	$(document).ready(function () {
-		$("#btnclick").click(function () {
-			$("#login").modal('show');
-		});
+    $(document).ready(function () {
+        $("#btnclick").click(function () {
+            $("#login").modal('show');
+        });
 
-		$("#HidebtnModal").click(function () {
-			$("#login").modal('hide');
-		});
-	});
+        $("#HidebtnModal").click(function () {
+            $("#login").modal('hide');
+        });
+    });
 </script>
