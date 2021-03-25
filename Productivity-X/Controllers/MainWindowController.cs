@@ -107,8 +107,7 @@ namespace Productivity_X.Controllers
 
             int userid = (int)TempData["userid"];
 
-            if ((createCategory.categoryname == null && createCategory.color == null) || (createCategory.categoryname == null && createCategory.color != null)
-                || (createCategory.categoryname != null || createCategory.color == null))
+            if (createCategory.categoryname == null && createCategory.color == null)
             {
                 bRet = false;
             }
@@ -129,12 +128,27 @@ namespace Productivity_X.Controllers
             {
                 ViewBag.message = "Category was not saved, not all fields were filled in or were filled in incorrectly!";
             }
-
+            GetCategoriesHelper();
             TempData["userid"] = userid;
             return View("Categories");
         }
+        public void GetCategoriesHelper()
+		{
+            List<Categories> categoriesSaved = new List<Categories>();
+            // Will need to populate the calendar before opening it, query is in DBManager....
+            int userid = (int)TempData["userid"];
+            //            int numCategories = _manager.TotalCategories(userid);
+
+
+            categoriesSaved = _manager.CategoryData(userid);
+
+            ViewData["categoryobjects"] = categoriesSaved;
+            TempData["userid"] = userid;
+        }
         public IActionResult Categories()
         {
+            GetCategoriesHelper();
+
             return View();
         }
         public IActionResult Friends()
