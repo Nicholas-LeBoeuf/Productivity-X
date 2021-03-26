@@ -53,10 +53,10 @@ namespace Productivity_X.Controllers
                 bRet = false;
 			}
 
-            int userid = 0;
+            int userid = 11;
 
             // True, save event to the database
-			if (bRet)
+            if (bRet)
 			{
                 bRet = _manager.SaveEvent(createEvent,userid);
 				if (bRet)
@@ -92,7 +92,11 @@ namespace Productivity_X.Controllers
 */
             return View("Weekly");
         }
-
+        public IActionResult GetWeeklyEvents()
+        {
+            int userid = (int)TempData["userid"];
+            return Json(_manager.GetWeeklyEvents(userid));
+        }
         public IActionResult Today()
         {
             return View();

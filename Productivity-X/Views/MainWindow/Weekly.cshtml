@@ -339,7 +339,7 @@
 </html>
 <script src="~/js/vue.js"></script>
 <script src="~/js/vuetify.js"></script>
-
+<script src="~/js/axios.js"></script>
 <script>
 	new Vue({
 		el: '#app',
@@ -357,61 +357,43 @@
 				}
 			}
 		}),
-		data: () => ({
-			today: new Date().toLocaleDateString().split('/').join('-'),//'2021-03-12',
-			events: [
-				{
-					name: 'Weekly Meeting',
-					start: '2021-03-25 09:00',
-					end: '2021-03-25 14:00',
-				},
-				{
-					name: 'Work',
-					start: '2021-03-09 12:30',
-					end: '2021-03-09 17:30',
-				},
-                {
-                    name: 'PHY-215',
-                    start: '2021-03-15 09:30',
-                    end: '2021-03-15 10:45',
-                },
-                {
-                    name: 'ENG-200',
-                    start: '2021-03-15 11:00',
-                    end: '2021-03-15 12:15',
-                },
-				{
-					name: 'CS-204',
-					start: '2021-03-15 14:00',
-					end: '2021-03-15 15:15',
-                }
-			],
-		}),
-		mounted() {
-			// this.$refs.calendar.scrollToTime('07:00')
-		},
-	})
+        data: () => ({
+            today: new Date().toLocaleDateString().split('/').join('-'),//'2021-03-12',
+            events: [],
+        }),
+        mounted() {
+            this.getData();
+        },
+        methods: {
+            getData() {
+                const that = this;
+                axios.get('/MainWindow/GetWeeklyEvents')
+                    .then(function (response) {
+                        that.events = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
+    })
 </script>
 
 <script type="text/javascript">
-	var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-	function getTime(n)
-	{
-		var now = new Date();
-		var year = now.getFullYear();
-		var month = now.getMonth() + 1;
-		var day = now.getDay();
-		n = day == 0 ? n + 6 : n + (day - 1)
-		now.setDate(now.getDate() - n);
-		date = now.getDate();
-		var s = year + "-" + (month < 10 ? ('0' + month) : month) + "-" + (date < 10 ? ('0' + date) : date);
-		return s;
-	}
-document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(getTime(-4)).getMonth() + 1];
-document.getElementById("firstDate").innerHTML = new Date(getTime(0)).getDate();
-document.getElementById("lastDate").innerHTML = new Date(getTime(-6)).getDate();
-document.getElementById("currentYear").innerHTML = new Date(getTime(-4)).getFullYear();
-
+    var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var now = new Date();
+    var nowTime = now.getTime();
+    var day = now.getDay();
+    var oneDay = 24 * 60 * 60 * 1000;
+    var MondayTime = nowTime - (day - 1) * oneDay;
+    var monday = new Date(MondayTime);
+    var year = monday.getFullYear();
+    var sunday = monday.getDate() - 1;
+    var saturday = monday.getDate() + 6;
+    document.getElementById("currentMonth").innerHTML = monthsInEng[nowTime.getMonth() + 1];
+    document.getElementById("firstDate").innerHTML = sunday;
+    document.getElementById("lastDate").innerHTML = saturday;
+    document.getElementById("currentYear").innerHTML = year;
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
