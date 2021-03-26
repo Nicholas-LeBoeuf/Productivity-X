@@ -82,7 +82,7 @@
 					<th>Notification</th>
 					<th>Guest</th>
 				</tr>
-				@{
+				@{ 
 					List<Events> eventlist = new List<Events>();
 					eventlist = ViewData["eventobjects"] as List<Events>;
 					for (int counter = 0; counter < eventlist.Count; counter++)
@@ -95,7 +95,7 @@
 								@eventlist[counter].GetDate()
 							</td>
 							<td value="@eventlist[counter].StartTime()">
-								@eventlist[counter].EndTime()
+								@eventlist[counter].StartTime()
 							</td>
 							<td value="@eventlist[counter].EndTime()">
 								@eventlist[counter].EndTime()
