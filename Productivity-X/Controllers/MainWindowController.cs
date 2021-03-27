@@ -92,7 +92,12 @@ namespace Productivity_X.Controllers
             */
             return View("Weekly");
         }
-
+        public IActionResult GetWeeklyEvents()
+        {
+            int userid = (int)TempData["userid"];
+            TempData["userid"] = userid;
+            return Json(_manager.GetWeeklyEvents(userid));
+        }
         public IActionResult Today()
         {
             return View();

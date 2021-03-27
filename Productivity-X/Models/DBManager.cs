@@ -572,7 +572,35 @@ namespace Productivity_X.Models
 					eventData.Add(new Events(eventDataList, eventid, reminder));
 				}
 				reader.Close();
+				for (int counter = 0; counter < eventData.Count(); counter++)
+				{
+					if (eventData[counter].GetCategory() != "Default" && eventData[counter].GetCategory() != "friends")
+					{
+						MySqlCommand FindCategoryColor = conn.CreateCommand();
+						FindCategoryColor.CommandText = "select color from Calendar_Schema.category_tbl where user_id = @user_id and categoryname = @categoryname";
+						FindCategoryColor.Parameters.AddWithValue("@user_id", nUserID);
+						FindCategoryColor.Parameters.AddWithValue("@categoryname", eventData[counter].GetCategory());
+						FindCategoryColor.ExecuteNonQuery();
+
+						// Execute the SQL command against the DB:
+						MySqlDataReader Reader = FindCategoryColor.ExecuteReader();
+						while (Reader.Read())
+						{
+							eventData[counter].SetEventColor(Convert.ToString(Reader[0]));
+						}
+						Reader.Close();
+					}
+					else if (eventData[counter].GetCategory() == "Default")
+					{
+						eventData[counter].SetEventColor("gray");
+					}
+					else
+					{
+						eventData[counter].SetEventColor("Pink");
+					}
+				}
 			}
+
 			return eventData;
 		}
 
@@ -750,8 +778,6 @@ namespace Productivity_X.Models
 						name = reader[2].ToString(),
 						start = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[4].ToString(),
 						end = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[5].ToString(),
-						GetColor = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[5].ToString(),
-						categoryid = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[5].ToString(),
 					});
 				}
 				reader.Close();
