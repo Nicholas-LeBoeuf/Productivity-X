@@ -69,7 +69,7 @@ namespace Productivity_X.Models
 		// Get userid from database without any arguments to meet
 		public int GetUserID(string sUsername)
 		{
-			
+
 			int userID = -1;
 			using (MySqlConnection conn = GetConnection())
 			{
@@ -337,12 +337,12 @@ namespace Productivity_X.Models
 			return bRet;
 		}
 
-	//Create Event Button:
+		//Create Event Button:
 		// Saves event info to database
 		public bool SaveEvent(UserCreateEvent ce, int nUserID)
 		{
 			bool bRet = true;
-			
+
 			using (MySqlConnection conn = GetConnection())
 			{
 				int nEventExists = 0;
@@ -374,7 +374,7 @@ namespace Productivity_X.Models
 					Query.Parameters.AddWithValue("@eventname", ce.eventName);
 					// Saved as date
 					Query.Parameters.AddWithValue("@event_date", ce.event_date);//Convert.ToDateTime(ce.event_date));
-					// Saved as time
+																				// Saved as time
 					Query.Parameters.AddWithValue("@start_at", ce.start_at);
 					// Saved as time
 					Query.Parameters.AddWithValue("@end_at", ce.end_at);
@@ -407,11 +407,11 @@ namespace Productivity_X.Models
 						InsertIntoGuestTable.Parameters.AddWithValue("@isfriend", ce.friend);
 						InsertIntoGuestTable.ExecuteNonQuery();
 					}
-/*					else
-					{
-						nEventID = GetEventID(ce.eventName, ce.event_date, ce.start_at, ce.end_at);
-					}
-*/
+					/*					else
+										{
+											nEventID = GetEventID(ce.eventName, ce.event_date, ce.start_at, ce.end_at);
+										}
+					*/
 				}
 			}
 			return bRet;
@@ -542,8 +542,10 @@ namespace Productivity_X.Models
 		{
 			int eventid;
 			int reminder;
+			string eventColor = "";
 			object[] eventDataList = new object[11];
 			List<Events> eventData = new List<Events>();
+
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
@@ -572,87 +574,140 @@ namespace Productivity_X.Models
 					eventData.Add(new Events(eventDataList, eventid, reminder));
 				}
 				reader.Close();
+
+				for (int counter = 0; counter < eventData.Count(); counter++)
+				{
+					if (eventData[counter].GetCategory() != "Default" && eventData[counter].GetCategory() != "friends")
+					{
+						MySqlCommand FindCategoryColor = conn.CreateCommand();
+						FindCategoryColor.CommandText = "select color from Calendar_Schema.category_tbl where user_id = @user_id and categoryname = @categoryname";
+						FindCategoryColor.Parameters.AddWithValue("@user_id", nUserID);
+						FindCategoryColor.Parameters.AddWithValue("@categoryname", eventData[counter].GetCategory());
+						FindCategoryColor.ExecuteNonQuery();
+
+						// Execute the SQL command against the DB:
+						MySqlDataReader Reader = FindCategoryColor.ExecuteReader();
+						while (Reader.Read())
+						{
+							eventData[counter].SetEventColor(Convert.ToString(Reader[0]));
+						}
+						Reader.Close();
+					}
+					else if (eventData[counter].GetCategory() == "Default")
+					{
+						eventData[counter].SetEventColor("gray");
+					}
+					else
+					{
+						eventData[counter].SetEventColor("Pink");
+					}
+				}
 			}
 			return eventData;
 		}
 
-		/*
-			//-----------TodayButton, find events with todays date, pass back event id----------------
-			public List<string> FindTodaysEvents(string todaysDate)
+/*		public string GetEventColor(int userid, string categoryname)
+		{
+			string eventColor = "";
+			using (MySqlConnection conn = GetConnection())
 			{
-				List<string> eventData = new List<string>();
-				using (MySqlConnection conn = GetConnection())
+				MySqlCommand FindCategoryColor = conn.CreateCommand();
+				FindCategoryColor.CommandText = "select color from Calendar_Schema.category_tbl where user_id = @user_id, categoryname = @categoryname";
+				FindCategoryColor.Parameters.AddWithValue("@user_id", userid);
+				FindCategoryColor.Parameters.AddWithValue("@categoryname", categoryname);
+				FindCategoryColor.ExecuteNonQuery();
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = FindCategoryColor.ExecuteReader();
+				while (reader.Read())
 				{
-					conn.Open();
-					MySqlCommand UpdateEvent = conn.CreateCommand();
-					UpdateEvent.CommandText = "select event_id, eventname from Calendar_Schema.events_tbl where user_id = @userid and event_date = @eventdate";
-					UpdateEvent.Parameters.AddWithValue("@userid", DBObject.id);
-					UpdateEvent.Parameters.AddWithValue("@eventdate", Convert.ToDateTime(todaysDate));
-					UpdateEvent.ExecuteNonQuery();
-					// Execute the SQL command against the DB:
-					MySqlDataReader reader = UpdateEvent.ExecuteReader();
-					while (reader.Read())
-					{
-						eventData.Add(Convert.ToString(reader[0]));
-					}
-					reader.Close();
+					eventColor = Convert.ToString(reader[0]);
+					events
 				}
-				return eventData;
 			}
-			// Find total account created
-			public int CountUsers()
-			{
-				int nRet = -1;
-				using (MySqlConnection conn = GetConnection())
-				{
-					conn.Open();
-					// Inserting data into fields of database
-					MySqlCommand FindTotalUsers = conn.CreateCommand();
-					FindTotalUsers.CommandText = "SELECT count(*) FROM Calendar_Schema.user_tbl";
-					FindTotalUsers.ExecuteNonQuery();
-					// Execute the SQL command against the DB:
-					MySqlDataReader reader = FindTotalUsers.ExecuteReader();
-					if (reader.Read()) // Read returns false if the verificationcode does not exist!
-					{
-						// Read the DB values:
-						Object[] values = new object[1];
-						int fieldCount = reader.GetValues(values);
-						if (1 == fieldCount)
-						{
-							nRet = Int32.Parse(values[0].ToString());
-						}
-					}
-					reader.Close();
-				}
-				return nRet;
-			}
+			return eventColor;
+		}
 */
-		//----------Category Button------------------
-		// Create category with fields
-		// Edit category with fields
-		// Delete a certain category
-		// Pass back Category names that match userid -> can be used for dropdown box in create event form
-		/*			public int TotalCategories(int UserID)
+
+
+
+		/*
+				//-----------TodayButton, find events with todays date, pass back event id----------------
+				public List<string> FindTodaysEvents(string todaysDate)
+				{
+					List<string> eventData = new List<string>();
+					using (MySqlConnection conn = GetConnection())
 					{
-						int numCategories = -1;
-						using (MySqlConnection conn = GetConnection())
+						conn.Open();
+						MySqlCommand UpdateEvent = conn.CreateCommand();
+						UpdateEvent.CommandText = "select event_id, eventname from Calendar_Schema.events_tbl where user_id = @userid and event_date = @eventdate";
+						UpdateEvent.Parameters.AddWithValue("@userid", DBObject.id);
+						UpdateEvent.Parameters.AddWithValue("@eventdate", Convert.ToDateTime(todaysDate));
+						UpdateEvent.ExecuteNonQuery();
+						// Execute the SQL command against the DB:
+						MySqlDataReader reader = UpdateEvent.ExecuteReader();
+						while (reader.Read())
 						{
-							conn.Open();
-							MySqlCommand FindCategories = conn.CreateCommand();
-							FindCategories.CommandText = "select * count from Calendar_Schema.category_tbl where user_id = @userid";
-							FindCategories.Parameters.AddWithValue("@userid", UserID);
-							FindCategories.ExecuteNonQuery();
-							// Execute the SQL command against the DB:
-							MySqlDataReader reader = FindCategories.ExecuteReader();
-							while (reader.Read())
-							{
-								numCategories = Convert.ToInt32(reader[0]);
-							}
-							reader.Close();
+							eventData.Add(Convert.ToString(reader[0]));
 						}
-						return numCategories;
+						reader.Close();
 					}
-		*/
+					return eventData;
+				}
+				// Find total account created
+				public int CountUsers()
+				{
+					int nRet = -1;
+					using (MySqlConnection conn = GetConnection())
+					{
+						conn.Open();
+						// Inserting data into fields of database
+						MySqlCommand FindTotalUsers = conn.CreateCommand();
+						FindTotalUsers.CommandText = "SELECT count(*) FROM Calendar_Schema.user_tbl";
+						FindTotalUsers.ExecuteNonQuery();
+						// Execute the SQL command against the DB:
+						MySqlDataReader reader = FindTotalUsers.ExecuteReader();
+						if (reader.Read()) // Read returns false if the verificationcode does not exist!
+						{
+							// Read the DB values:
+							Object[] values = new object[1];
+							int fieldCount = reader.GetValues(values);
+							if (1 == fieldCount)
+							{
+								nRet = Int32.Parse(values[0].ToString());
+							}
+						}
+						reader.Close();
+					}
+					return nRet;
+				}
+	*/
+			//----------Category Button------------------
+			// Create category with fields
+			// Edit category with fields
+			// Delete a certain category
+			// Pass back Category names that match userid -> can be used for dropdown box in create event form
+			/*			public int TotalCategories(int UserID)
+						{
+							int numCategories = -1;
+							using (MySqlConnection conn = GetConnection())
+							{
+								conn.Open();
+								MySqlCommand FindCategories = conn.CreateCommand();
+								FindCategories.CommandText = "select * count from Calendar_Schema.category_tbl where user_id = @userid";
+								FindCategories.Parameters.AddWithValue("@userid", UserID);
+								FindCategories.ExecuteNonQuery();
+								// Execute the SQL command against the DB:
+								MySqlDataReader reader = FindCategories.ExecuteReader();
+								while (reader.Read())
+								{
+									numCategories = Convert.ToInt32(reader[0]);
+								}
+								reader.Close();
+							}
+							return numCategories;
+						}
+			*/
 
 		public bool SaveCategory(UserCreateCategory cat, int nUserID)
 		{
@@ -682,7 +737,7 @@ namespace Productivity_X.Models
 					bRet = false;
 				}
 				else
-                {
+				{
 					MySqlCommand Query = conn.CreateCommand();
 					Query.CommandText = "insert into Calendar_Schema.category_tbl (user_id, categoryname, color, description) VALUES (@user_id, @category_name, @color, @description)";
 
@@ -692,29 +747,12 @@ namespace Productivity_X.Models
 					Query.Parameters.AddWithValue("@description", cat.description);
 
 					Query.ExecuteNonQuery();
-                }
+				}
 			}
 
 			return bRet;
 		}
 
-		public bool DeleteCategory(Categories cat, int nUserID)
-        {
-			bool bRet = true;
-
-			using (MySqlConnection conn = GetConnection())
-            {
-				MySqlCommand Query = conn.CreateCommand();
-				Query.CommandText = "delete from Calendar_Schema.category_tbl WHERE user_id = @user_id and categoryname = @categoryname";
-				Query.Parameters.AddWithValue("@user_id", nUserID);
-				Query.Parameters.AddWithValue("@categoryname", cat.GetCategoryName());
-
-				Query.ExecuteNonQuery();
-			}
-			return bRet;
-        }
-
-				// Get data from category table including categoryname, color, description based upon the categoryid
 		public List<Categories> CategoryData(int userid)
 		{
 			object[] categoryDataList = new object[3];
@@ -729,10 +767,10 @@ namespace Productivity_X.Models
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = FindCategoryData.ExecuteReader();
 
-				int categoryid = 0;	
+				int categoryid = 0;
 				while (reader.Read())
 				{
-				//categoryDataList[0]=(Convert.ToInt32(reader[0]));
+					//categoryDataList[0]=(Convert.ToInt32(reader[0]));
 					categoryid = Convert.ToInt32(reader[0]);
 					categoryDataList[0] = reader.GetString(1);//Convert.ToString(reader[1]);
 					categoryDataList[1] = Convert.ToString(reader[2]);
@@ -743,6 +781,7 @@ namespace Productivity_X.Models
 			}
 			return categoryObj;
 		}
-			//----------Friend Button---------------
+
+			//----------Friend Button---------------		
 	}
 }

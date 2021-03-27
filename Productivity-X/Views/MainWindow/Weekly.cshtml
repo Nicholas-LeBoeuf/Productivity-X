@@ -252,16 +252,26 @@
 													<br />
 													<div class="form-group" id="eventCategory">
 														<small>Event Category</small>
-														<select name="category" style="background-color: white; width: 360px; height: 37px; border-radius: 5px;">
+														<select asp-for="category" style="background-color: white; width: 360px; height: 37px; border-radius: 5px;">
 															<option value="" disabled selected hidden>Choose Category...</option>
+															<option value="Default">
+																Default
+															</option>
+															<option value="Friends">
+																Friends
+															</option>
+
 															@{
 																List<Categories> categorylist = new List<Categories>();
 																categorylist = ViewData["categoryobjects"] as List<Categories>;
-																for (int counter = 0; counter < categorylist.Count; counter++)
+																if (categorylist != null)
 																{
+																	for (int counter = 0; counter < categorylist.Count; counter++)
+																	{
 																	<option value="@categorylist[counter].GetCategoryName()">
-																		@categorylist[counter].GetCategoryName()
+																		@categorylist[counter].GetCategoryName().Trim(';')
 																	</option>
+																	}
 																}
 															}
 														</select>
