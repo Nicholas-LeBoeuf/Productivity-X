@@ -781,7 +781,34 @@ namespace Productivity_X.Models
 			}
 			return categoryObj;
 		}
+		public List<WeelyEventsView> GetWeeklyEvents(int userid)
+		{
+			var result = new List<WeelyEventsView>();
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand FindEvents = conn.CreateCommand();
 
-			//----------Friend Button---------------		
+				// Checks to see if there are duplicate usernames
+				FindEvents.Parameters.AddWithValue("@user_id", userid);
+				FindEvents.CommandText = "SELECT * FROM Calendar_Schema.events_tbl where user_id = @user_id";
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = FindEvents.ExecuteReader();
+				while (reader.Read()) // Read returns false if the user does not exist!
+				{
+					// Read the DB values:
+					result.Add(new WeelyEventsView()
+					{
+						name = reader[2].ToString(),
+						start = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[4].ToString(),
+						end = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[5].ToString(),
+					});
+				}
+				reader.Close();
+			}
+			return result;
+		}
+		//----------Friend Button---------------
 	}
 }

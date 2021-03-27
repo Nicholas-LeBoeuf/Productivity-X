@@ -21,7 +21,7 @@ create table events_tbl (
     reminder int,
     location varchar(20) not null,
 	description varchar (100) null,
-	color varchar(25),
+	categoryname varchar(25) null,
 	guest boolean not null,
 	friend boolean not null,
 	PRIMARY KEY (event_id),
@@ -41,9 +41,10 @@ create table guest_tbl(
 
 create table category_tbl (
 	user_id integer unsigned not null,
-    category varchar(25) unique not null,
+    category_id integer unsigned auto_increment unique not null,
+    categoryname varchar(25) unique not null,
     color varchar(25) not null,
-    description varchar (100) null,
+    description varchar(100) null,
 	FOREIGN KEY (user_id) REFERENCES user_tbl(user_id)
 );
 
