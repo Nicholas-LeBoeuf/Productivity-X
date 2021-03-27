@@ -280,18 +280,21 @@
 					<th>Color</th>
 					<th>Name</th>
 					<th>Description</th>
+                    <th>Delete</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td>Grey</td>
 					<td>Default</td>
-					<td>This is a default category that cannot get deleted or edited</td>
+					<td>This is a default category that cannot get deleted</td>
+                    <td>NULL</td>
 				</tr>
 				<tr style="background-color:pink">
 					<td>Pink</td>
 					<td>Friends</td>
-					<td>This is a Friends category that cannot get deleted or edited</td>
+					<td>This is a Friends category that cannot get deleted</td>
+                    <td>NULL</td>
 				</tr>
 
 				@{
@@ -309,6 +312,11 @@
 							<td value="@categorylist[counter].GetDescription()">
 								@categorylist[counter].GetDescription()
 							</td>
+                            <td>
+                                <button type ='button' onclick='productDelete(this);' class='btn btn-default'>
+                                Delete
+                                </button>
+                            </td>
 						</tr>
 				    }
 				}

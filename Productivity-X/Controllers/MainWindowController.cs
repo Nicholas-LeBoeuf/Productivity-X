@@ -151,6 +151,7 @@ namespace Productivity_X.Controllers
 
             return View();
         }
+       /* public IActionResult DeleteCategory()*/
         public IActionResult Friends()
         {
             return View();
@@ -159,5 +160,7 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
+
+
     }
 }

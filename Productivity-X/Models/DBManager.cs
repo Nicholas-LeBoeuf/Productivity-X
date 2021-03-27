@@ -697,6 +697,23 @@ namespace Productivity_X.Models
 
 			return bRet;
 		}
+
+		public bool DeleteCategory(Categories cat, int nUserID)
+        {
+			bool bRet = true;
+
+			using (MySqlConnection conn = GetConnection())
+            {
+				MySqlCommand Query = conn.CreateCommand();
+				Query.CommandText = "delete from Calendar_Schema.category_tbl WHERE user_id = @user_id and categoryname = @categoryname";
+				Query.Parameters.AddWithValue("@user_id", nUserID);
+				Query.Parameters.AddWithValue("@categoryname", cat.GetCategoryName());
+
+				Query.ExecuteNonQuery();
+			}
+			return bRet;
+        }
+
 				// Get data from category table including categoryname, color, description based upon the categoryid
 		public List<Categories> CategoryData(int userid)
 		{
