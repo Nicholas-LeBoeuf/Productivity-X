@@ -52,7 +52,6 @@ namespace Productivity_X.Controllers
 			{           
                 bRet = false;
 			}
-
             int userid = 11;
 
             // True, save event to the database
@@ -97,6 +96,7 @@ namespace Productivity_X.Controllers
             int userid = (int)TempData["userid"];
             return Json(_manager.GetWeeklyEvents(userid));
         }
+
         public IActionResult Today()
         {
             return View();

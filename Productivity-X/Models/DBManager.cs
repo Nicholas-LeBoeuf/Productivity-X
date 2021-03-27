@@ -750,6 +750,8 @@ namespace Productivity_X.Models
 						name = reader[2].ToString(),
 						start = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[4].ToString(),
 						end = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[5].ToString(),
+						GetColor = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[5].ToString(),
+						categoryid = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[5].ToString(),
 					});
 				}
 				reader.Close();
