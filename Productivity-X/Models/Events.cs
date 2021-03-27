@@ -74,9 +74,9 @@ namespace Productivity_X.Models
 		{
 			return description;
 		}
-		public string GetNotification()
+		public bool GetNotification()
 		{
-			return eventdate;
+			return notification;
 		}
 		public bool IsThereAGuest()
 		{

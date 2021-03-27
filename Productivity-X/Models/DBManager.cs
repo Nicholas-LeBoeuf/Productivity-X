@@ -549,7 +549,7 @@ namespace Productivity_X.Models
 				conn.Open();
 
 				MySqlCommand FindEventData = conn.CreateCommand();
-				FindEventData.CommandText = "select * from Calendar_Schema.events_tbl where user_id = @userid";
+				FindEventData.CommandText = "select * from Calendar_Schema.events_tbl where user_id = 1 ORDER BY DATE(event_date) DESC, start_at asc";
 				FindEventData.Parameters.AddWithValue("@userid", nUserID);
 				FindEventData.ExecuteNonQuery();
 
