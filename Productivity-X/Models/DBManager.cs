@@ -549,7 +549,7 @@ namespace Productivity_X.Models
 				conn.Open();
 
 				MySqlCommand FindEventData = conn.CreateCommand();
-				FindEventData.CommandText = "select * from Calendar_Schema.events_tbl where user_id = 1 ORDER BY DATE(event_date) DESC, start_at asc";
+				FindEventData.CommandText = "select * from Calendar_Schema.events_tbl where user_id = @userid ORDER BY DATE(event_date) DESC, start_at asc";
 				FindEventData.Parameters.AddWithValue("@userid", nUserID);
 				FindEventData.ExecuteNonQuery();
 
@@ -574,7 +574,7 @@ namespace Productivity_X.Models
 				reader.Close();
 				for (int counter = 0; counter < eventData.Count(); counter++)
 				{
-					if (eventData[counter].GetCategory() != "Default" && eventData[counter].GetCategory() != "friends")
+					if (eventData[counter].GetCategory() != "Default" && eventData[counter].GetCategory() != "Friends")
 					{
 						MySqlCommand FindCategoryColor = conn.CreateCommand();
 						FindCategoryColor.CommandText = "select color from Calendar_Schema.category_tbl where user_id = @user_id and categoryname = @categoryname";
