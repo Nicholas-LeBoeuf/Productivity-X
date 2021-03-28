@@ -406,6 +406,27 @@
     document.getElementById("currentYear").innerHTML = year;
 </script>
 
+<script type="text/javascript">
+    var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    function getTime(n) {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDay();
+        n = day == 0 ? n + 6 : n + (day - 1)
+        now.setDate(now.getDate() - n);
+        date = now.getDate();
+        var s = year + "-" + (month < 10 ? ('0' + month) : month) + "-" + (date < 10 ? ('0' + date) : date);
+        return s;
+    }
+    document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(getTime(-4)).getMonth() + 1];
+    document.getElementById("firstDate").innerHTML = new Date(getTime(0)).getDate();
+    document.getElementById("lastDate").innerHTML = new Date(getTime(-6)).getDate();
+    document.getElementById("currentYear").innerHTML = new Date(getTime(-4)).getFullYear();
+
+</script>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
