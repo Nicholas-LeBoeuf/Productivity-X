@@ -25,8 +25,8 @@ namespace Productivity_X.Controllers
         {
 
             List<Categories> categoriesSaved = new List<Categories>();
-            List<Events> eventsSaved = new List<Events>();
-            // Will need to populate the calendar before opening it, query is in DBManager....
+        //    List<Events> eventsSaved = new List<Events>();
+            
             int userid = (int)TempData["userid"];
             //            int numCategories = _manager.TotalCategories(userid);
 
@@ -36,8 +36,8 @@ namespace Productivity_X.Controllers
             ViewData["categoryobjects"] = categoriesSaved;
             TempData["userid"] = userid;
 
-            // Display events...
-            eventsSaved = _manager.EventData(userid);
+        //    // Display events...
+        //    eventsSaved = _manager.EventData(userid);
 
 
             return View();
@@ -48,15 +48,15 @@ namespace Productivity_X.Controllers
             bool bRet = true;
 
             if((createEvent.guest == true && createEvent.guestEmail == null && createEvent.guestUsername == null) || 
-                (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername != null) || (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername == null))
-			{           
+                (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername != null) || (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername == null || createEvent.category == null))
+			{
                 bRet = false;
-			}
+            }
 
-            int userid = 0;
+            int userid = (int)TempData["userid"];
 
             // True, save event to the database
-			if (bRet)
+            if (bRet)
 			{
                 bRet = _manager.SaveEvent(createEvent,userid);
 				if (bRet)
@@ -72,27 +72,32 @@ namespace Productivity_X.Controllers
 			{
                 ViewBag.message = "Event was not saved, not all fields were filled in or were filled in incorrectly!";
             }
+            TempData["userid"] = userid;
+            /*            bool bRet = false;
+                        // Checks if all required fields are met
+                        if (ModelState.IsValid)
+                        {
+                            bRet = _manager.SaveEvent(createEvent);
 
-/*            bool bRet = false;
-            // Checks if all required fields are met
-            if (ModelState.IsValid)
-            {
-                bRet = _manager.SaveEvent(createEvent);
-
-                if (!bRet)
-                {
-                    // Go to Weekly page
-                    return View("Weekly");
-                }
-                else
-                {
-                    ViewBag.message = "Event Created Successfully!";
-                }
-            }
-*/
+                            if (!bRet)
+                            {
+                                // Go to Weekly page
+                                return View("Weekly");
+                            }
+                            else
+                            {
+                                ViewBag.message = "Event Created Successfully!";
+                            }
+                        }
+            */
             return View("Weekly");
         }
-
+        public IActionResult GetWeeklyEvents()
+        {
+            int userid = (int)TempData["userid"];
+            TempData["userid"] = userid;
+            return Json(_manager.GetWeeklyEvents(userid));
+        }
         public IActionResult Today()
         {
             return View();
@@ -155,8 +160,19 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
+
         public IActionResult Events()
         {
+            List<Events> eventsSaved = new List<Events>();
+
+            int userid = (int)TempData["userid"];
+
+            TempData["userid"] = userid;
+
+            // Display events...
+            eventsSaved = _manager.EventData(userid);
+
+            ViewData["eventobjects"] = eventsSaved;
             return View();
         }
     }
