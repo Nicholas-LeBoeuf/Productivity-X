@@ -773,11 +773,11 @@ namespace Productivity_X.Models
 				while (reader.Read()) // Read returns false if the user does not exist!
 				{
 					// Read the DB values:
-					result.Add(new WeelyEventsView() 
+					result.Add(new WeelyEventsView()
 					{
 						name = reader[2].ToString(),
-						start = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[4].ToString(),
-						end = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[5].ToString(),
+						start = Convert.ToDateTime(reader[3].ToString()).ToString("yyyy-MM-dd") + "  " + reader[4].ToString(),
+						end = Convert.ToDateTime(reader[3].ToString()).ToString("yyyy-MM-dd") + "  " + reader[5].ToString(),
 					});
 				}
 				reader.Close();
