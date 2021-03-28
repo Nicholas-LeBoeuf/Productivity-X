@@ -192,9 +192,30 @@
         tr {
             text-align: center;
         }
+
+        #deletebutton {
+            display: inline-block;
+            padding: 0.35em 1.2em;
+            border: 0.1em solid #353535;
+            margin: 0 0.3em 0.3em 0;
+            border-radius: 0.40em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            background-color: #fff;
+            color: red;
+            font-weight: bolder;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        #deletebutton:hover {
+            background: #BBBBBB;
+        }
     </style>
 </head>
-<body style="        background-color: #1C1C1C;
+<body style="background-color: #1C1C1C;
         color: #fff;">
     <div id="app" style="width: 100%;padding-left: 12%;">
         <div id="weekHeader">
@@ -313,7 +334,7 @@
 								@categorylist[counter].GetDescription()
 							</td>
                             <td>
-                                <button type ='button' onclick='productDelete(this);' class='btn btn-default'>
+                                <button id ="deletebutton" type ="button">
                                 Delete
                                 </button>
                             </td>
