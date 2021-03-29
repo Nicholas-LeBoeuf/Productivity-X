@@ -733,17 +733,6 @@ namespace Productivity_X.Models
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
-				MySqlCommand CheckData = conn.CreateCommand();
-				// Checks to see if user invited any guests or friends
-				CheckData.Parameters.AddWithValue("@categoryname", categoryname);
-				CheckData.CommandText = "SELECT event_id FROM Calendar_Schema.events_tbl where categoryname = @categoryname";
-				CheckData.ExecuteNonQuery();
-				// Execute the SQL command against the DB:
-				MySqlDataReader reader = CheckData.ExecuteReader();
-				int eventid = 0;
-				if (reader.Read())  
-					eventid = Convert.ToInt32(reader[0]);
-				reader.Close();
 
 				MySqlCommand updateEventsTable = conn.CreateCommand();
 				updateEventsTable.Parameters.AddWithValue("@categoryname", categoryname);

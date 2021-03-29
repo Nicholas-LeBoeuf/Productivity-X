@@ -116,10 +116,13 @@ namespace Productivity_X.Controllers
         }
         public IActionResult DeleteCategory(int? categoryid)
 		{
+            // Set userid
             int userid = (int)TempData["userid"];
             // Find Categoryname
             string categoryname = _manager.GetCategoryName(Convert.ToInt32(categoryid), userid);
             _manager.DeleteCategory(Convert.ToInt32(categoryid), categoryname);
+
+            // Update Category list
             GetCategoriesHelper();
             TempData["userid"] = userid;
             return View("Categories");
@@ -159,10 +162,8 @@ namespace Productivity_X.Controllers
         public void GetCategoriesHelper()
 		{
             List<Categories> categoriesSaved = new List<Categories>();
-            // Will need to populate the calendar before opening it, query is in DBManager....
+            
             int userid = (int)TempData["userid"];
-            //            int numCategories = _manager.TotalCategories(userid);
-
 
             categoriesSaved = _manager.CategoryData(userid);
 
