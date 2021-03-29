@@ -728,7 +728,7 @@ namespace Productivity_X.Models
 			}
 			return categoryObj;
 		}
-		public void DeleteCategory(int categoryid, string categoryname)
+		public void DeleteCategory(int categoryid, string categoryname, int userid)
 		{
 			using (MySqlConnection conn = GetConnection())
 			{
@@ -736,7 +736,8 @@ namespace Productivity_X.Models
 
 				MySqlCommand updateEventsTable = conn.CreateCommand();
 				updateEventsTable.Parameters.AddWithValue("@categoryname", categoryname);
-				updateEventsTable.CommandText = "update Calendar_Schema.events_tbl set categoryname = \"Default\" where categoryname = categoryname";
+				updateEventsTable.Parameters.AddWithValue("@userid", userid);
+				updateEventsTable.CommandText = "update Calendar_Schema.events_tbl set categoryname = \"Default\" where categoryname = @categoryname and user_id = @userid";
 				updateEventsTable.ExecuteNonQuery();
 			
 				MySqlCommand deleteCategoryRow = conn.CreateCommand();
