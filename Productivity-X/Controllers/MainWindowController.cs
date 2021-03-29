@@ -45,6 +45,7 @@ namespace Productivity_X.Controllers
 
         public IActionResult CreateEvent(UserCreateEvent createEvent)
         {
+            GetCategoriesHelper();
             bool bRet = true;
 
             if((createEvent.guest == true && createEvent.guestEmail == null && createEvent.guestUsername == null) || 
