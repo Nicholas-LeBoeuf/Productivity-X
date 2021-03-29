@@ -1,15 +1,14 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Productivity_X.Models
 {
-    public class WeeklyEventsView
+    public class TodayEventView
     {
         public string name { get; set; }
         public string start { get; set; }
         public string end { get; set; }
-
     }
 }

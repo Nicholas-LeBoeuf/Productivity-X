@@ -746,9 +746,9 @@ namespace Productivity_X.Models
 			}
 		}
 
-		public List<WeelyEventsView> GetWeeklyEvents(int userid)
+		public List<WeeklyEventsView> GetWeeklyEvents(int userid)
 		{
-			var result = new List<WeelyEventsView>();
+			var result = new List<WeeklyEventsView>();
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
@@ -763,7 +763,36 @@ namespace Productivity_X.Models
 				while (reader.Read()) // Read returns false if the user does not exist!
 				{
 					// Read the DB values:
-					result.Add(new WeelyEventsView()
+					result.Add(new WeeklyEventsView()
+					{
+						name = reader[2].ToString(),
+						start = Convert.ToDateTime(reader[3].ToString()).ToString("yyyy-MM-dd") + "  " + reader[4].ToString(),
+						end = Convert.ToDateTime(reader[3].ToString()).ToString("yyyy-MM-dd") + "  " + reader[5].ToString(),
+					});
+				}
+				reader.Close();
+			}
+			return result;
+		}
+
+		public List<TodayEventView> GetTodayEvents(int userid)
+		{
+			var result = new List<TodayEventView>();
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand FindEvents = conn.CreateCommand();
+
+				// Checks to see if there are duplicate usernames
+				FindEvents.Parameters.AddWithValue("@user_id", userid);
+				FindEvents.CommandText = "SELECT * FROM Calendar_Schema.events_tbl where user_id = @user_id";
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = FindEvents.ExecuteReader();
+				while (reader.Read()) // Read returns false if the user does not exist!
+				{
+					// Read the DB values:
+					result.Add(new TodayEventView()
 					{
 						name = reader[2].ToString(),
 						start = Convert.ToDateTime(reader[3].ToString()).ToString("yyyy-MM-dd") + "  " + reader[4].ToString(),
