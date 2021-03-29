@@ -92,6 +92,14 @@ namespace Productivity_X.Controllers
             */
             return View("Weekly");
         }
+
+        public IActionResult DeleteEvent(int? eventid)
+		{
+            _manager.DeleteEvent(Convert.ToInt32(eventid));
+            GetEventsHelper();
+            return View("Events");
+		}
+
         public IActionResult GetWeeklyEvents()
         {
             int userid = (int)TempData["userid"];
@@ -162,8 +170,8 @@ namespace Productivity_X.Controllers
             return View();
         }
 
-        public IActionResult Events()
-        {
+        public void GetEventsHelper()
+		{
             List<Events> eventsSaved = new List<Events>();
 
             int userid = (int)TempData["userid"];
@@ -174,6 +182,10 @@ namespace Productivity_X.Controllers
             eventsSaved = _manager.EventData(userid);
 
             ViewData["eventobjects"] = eventsSaved;
+        }
+        public IActionResult Events()
+        {
+            GetEventsHelper();    
             return View();
         }
 

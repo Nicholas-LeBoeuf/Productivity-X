@@ -137,7 +137,7 @@
 								@eventlist[counter].IsThereAGuest()
 							</td>
                             <td>
-                                <button id ="deletebutton" type ="button">
+                                <button id ="deletebutton" type ="button" value="@eventlist[counter]" onclick="window.location.href = '@Url.Action("DeleteEvent", "MainWindow")?eventid=@eventlist[counter].GetEventID()'">
                                 Delete
                                 </button>
                             </td>

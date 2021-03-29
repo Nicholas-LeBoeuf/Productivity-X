@@ -452,6 +452,36 @@ namespace Productivity_X.Models
 			return nRet;
 		}
 
+		public void DeleteEvent(int eventid)
+		{
+			bool bRet = true;
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand CheckData = conn.CreateCommand();
+				// Checks to see if user invited any guests or friends
+				CheckData.Parameters.AddWithValue("@inviteguest", true);
+				CheckData.CommandText = "SELECT event_id FROM Calendar_Schema.events_tbl where guest = @inviteguest";
+				CheckData.ExecuteNonQuery();
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = CheckData.ExecuteReader();
+				if (reader.Read())
+				{
+					MySqlCommand deleteGuestRow = conn.CreateCommand();
+					CheckData.Parameters.AddWithValue("@eventid", Convert.ToString(reader[0]));
+					deleteGuestRow.CommandText = "delete FROM Calendar_Schema.guest_tbl where event_id = @eventid";
+					deleteGuestRow.ExecuteNonQuery();
+					reader.Close();
+				}
+				else
+					reader.Close();
+				MySqlCommand deleteEventRow = conn.CreateCommand();
+				deleteEventRow.Parameters.AddWithValue("@eventid", eventid);
+				deleteEventRow.CommandText = "delete FROM Calendar_Schema.events_tbl where event_id = @eventid";
+				deleteEventRow.ExecuteNonQuery();
+			} 
+		}
+
 		/*
 				public bool EditEvent(EditEvent ee)
 				{
@@ -508,34 +538,7 @@ namespace Productivity_X.Models
 					return bRet;
 				}
 
-				public bool DeleteEvent(int eventid)
-				{
-					bool bRet = true;
-					using (MySqlConnection conn = GetConnection())
-					{
-						conn.Open();
-						MySqlCommand CheckData = conn.CreateCommand();
-						// Checks to see if user invited any guests or friends
-						CheckData.Parameters.AddWithValue("@inviteguest", true);
-						CheckData.CommandText = "SELECT eventid FROM Calendar_schema.events_tbl where guest = @inviteguest";
-						CheckData.ExecuteNonQuery();
-						// Execute the SQL command against the DB:
-						MySqlDataReader reader = CheckData.ExecuteReader();
-						if (reader.Read())
-						{			
-							MySqlCommand deleteGuestRow = conn.CreateCommand();
-							CheckData.Parameters.AddWithValue("@eventid", Convert.ToString(reader[0]));
-							deleteGuestRow.CommandText = "delete FROM Calendar_Schema.guest_tbl where event_id = @eventid";
-							deleteGuestRow.ExecuteNonQuery();
-							reader.Close();
-						}
-						MySqlCommand deleteEventRow = conn.CreateCommand();
-						deleteEventRow.Parameters.AddWithValue("@eventid", DBObject.eventid);
-						deleteEventRow.CommandText = "delete FROM Calendar_Schema.events_tbl where event_id = @eventid";
-						deleteEventRow.ExecuteNonQuery();
-					}
-					return bRet;
-				}
+				
 		*/
 
 		public List<Events> EventData(int nUserID)
