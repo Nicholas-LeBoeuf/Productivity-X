@@ -127,7 +127,7 @@ namespace Productivity_X.Controllers
             int userid = (int)TempData["userid"];
             // Find Categoryname
             string categoryname = _manager.GetCategoryName(Convert.ToInt32(categoryid), userid);
-            _manager.DeleteCategory(Convert.ToInt32(categoryid), categoryname);
+            _manager.DeleteCategory(Convert.ToInt32(categoryid), categoryname, userid);
 
             // Update Category list
             GetCategoriesHelper();
