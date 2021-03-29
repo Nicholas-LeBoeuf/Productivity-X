@@ -55,6 +55,26 @@
     tr {
         text-align: center;
     }
+    #deletebutton {
+        display: inline-block;
+        padding: 0.35em 1.2em;
+        border: 0.1em solid #353535;
+        margin: 0 0.3em 0.3em 0;
+        border-radius: 0.40em;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: 'Roboto',sans-serif;
+        font-weight: 300;
+        background-color: #fff;
+        color: red;
+        font-weight: bolder;
+        text-align: center;
+        transition: all 0.2s;
+    }
+
+    #deletebutton:hover {
+        background: #BBBBBB;
+    }
 </style>
 
 <body style="        background-color: #1C1C1C;
@@ -81,6 +101,7 @@
 					<th>Description</th>
 					<th>Notification</th>
 					<th>Guest</th>
+                    <th>Delete</th>
 				</tr>
 				@{ 
 					List<Events> eventlist = new List<Events>();
@@ -115,6 +136,11 @@
 							<td value="@eventlist[counter].IsThereAGuest()">
 								@eventlist[counter].IsThereAGuest()
 							</td>
+                            <td>
+                                <button id ="deletebutton" type ="button" value="@eventlist[counter]" onclick="window.location.href = '@Url.Action("DeleteEvent", "MainWindow")?eventid=@eventlist[counter].GetEventID()'">
+                                Delete
+                                </button>
+                            </td>
 						</tr>
 					}
 				}
