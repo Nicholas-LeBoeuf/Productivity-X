@@ -333,11 +333,12 @@
 							<td value="@categorylist[counter].GetDescription()">
 								@categorylist[counter].GetDescription()
 							</td>
-                            <td>
-                                <button id ="deletebutton" type ="button">
-                                Delete
-                                </button>
-                            </td>
+							<td>
+								<button id="deletebutton" type="button" value="@categorylist[counter]" onclick="window.location.href = '@Url.Action("DeleteCategory", "MainWindow")?categoryid=@categorylist[counter].GetCategoryID()';">
+									Delete
+								</button>
+							</td>
+							
 						</tr>
 				    }
 				}

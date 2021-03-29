@@ -114,6 +114,17 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
+        public IActionResult DeleteCategory(int? categoryid)
+		{
+            int userid = (int)TempData["userid"];
+            // Find Categoryname
+            string categoryname = _manager.GetCategoryName(Convert.ToInt32(categoryid), userid);
+            _manager.DeleteCategory(Convert.ToInt32(categoryid), categoryname);
+            GetCategoriesHelper();
+            TempData["userid"] = userid;
+            return View("Categories");
+		}
+
         public IActionResult CreateCategory(UserCreateCategory createCategory)
         {
             bool bRet = true;
@@ -164,7 +175,7 @@ namespace Productivity_X.Controllers
 
             return View();
         }
-       /* public IActionResult DeleteCategory()*/
+
         public IActionResult Friends()
         {
             return View();

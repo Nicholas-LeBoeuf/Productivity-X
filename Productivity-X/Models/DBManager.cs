@@ -607,30 +607,54 @@ namespace Productivity_X.Models
 			return eventData;
 		}
 
-/*		
-		//-----------TodayButton, find events with todays date, pass back event id----------------
-		public List<string> FindTodaysEvents(string todaysDate)
+		/*		
+				//-----------TodayButton, find events with todays date, pass back event id----------------
+				public List<string> FindTodaysEvents(string todaysDate)
+				{
+					List<string> eventData = new List<string>();
+					using (MySqlConnection conn = GetConnection())
+					{
+						conn.Open();
+						MySqlCommand UpdateEvent = conn.CreateCommand();
+						UpdateEvent.CommandText = "select event_id, eventname from Calendar_Schema.events_tbl where user_id = @userid and event_date = @eventdate";
+						UpdateEvent.Parameters.AddWithValue("@userid", DBObject.id);
+						UpdateEvent.Parameters.AddWithValue("@eventdate", Convert.ToDateTime(todaysDate));
+						UpdateEvent.ExecuteNonQuery();
+						// Execute the SQL command against the DB:
+						MySqlDataReader reader = UpdateEvent.ExecuteReader();
+						while (reader.Read())
+						{
+							eventData.Add(Convert.ToString(reader[0]));
+						}
+						reader.Close();
+					}
+					return eventData;
+				}
+		*/
+
+		public string GetCategoryName(int categoryid, int nUserID)
 		{
-			List<string> eventData = new List<string>();
+			string categoryname = "";
 			using (MySqlConnection conn = GetConnection())
 			{
+				int nCatExists = 0;
 				conn.Open();
-				MySqlCommand UpdateEvent = conn.CreateCommand();
-				UpdateEvent.CommandText = "select event_id, eventname from Calendar_Schema.events_tbl where user_id = @userid and event_date = @eventdate";
-				UpdateEvent.Parameters.AddWithValue("@userid", DBObject.id);
-				UpdateEvent.Parameters.AddWithValue("@eventdate", Convert.ToDateTime(todaysDate));
-				UpdateEvent.ExecuteNonQuery();
-				// Execute the SQL command against the DB:
-				MySqlDataReader reader = UpdateEvent.ExecuteReader();
+				MySqlCommand FindCategoryName = conn.CreateCommand();
+
+				//Checks to see if there are duplicate category values for category name
+				FindCategoryName.Parameters.AddWithValue("@categoryid", categoryid);
+				FindCategoryName.Parameters.AddWithValue("@userid", nUserID);
+				FindCategoryName.CommandText = "select categoryname from Calendar_Schema.category_tbl where category_id = @categoryid and user_id = @userid";
+				MySqlDataReader reader = FindCategoryName.ExecuteReader();
+
 				while (reader.Read())
 				{
-					eventData.Add(Convert.ToString(reader[0]));
+					categoryname = reader.GetString(0);
 				}
 				reader.Close();
 			}
-			return eventData;
+			return categoryname;
 		}
-*/
 
 		public bool SaveCategory(UserCreateCategory cat, int nUserID)
 		{
@@ -703,6 +727,34 @@ namespace Productivity_X.Models
 				reader.Close();
 			}
 			return categoryObj;
+		}
+		public void DeleteCategory(int categoryid, string categoryname)
+		{
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand CheckData = conn.CreateCommand();
+				// Checks to see if user invited any guests or friends
+				CheckData.Parameters.AddWithValue("@categoryname", categoryname);
+				CheckData.CommandText = "SELECT event_id FROM Calendar_Schema.events_tbl where categoryname = @categoryname";
+				CheckData.ExecuteNonQuery();
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = CheckData.ExecuteReader();
+				int eventid = 0;
+				if (reader.Read())  
+					eventid = Convert.ToInt32(reader[0]);
+				reader.Close();
+
+				MySqlCommand updateEventsTable = conn.CreateCommand();
+				updateEventsTable.Parameters.AddWithValue("@categoryname", categoryname);
+				updateEventsTable.CommandText = "update Calendar_Schema.events_tbl set categoryname = \"Default\" where categoryname = categoryname";
+				updateEventsTable.ExecuteNonQuery();
+			
+				MySqlCommand deleteCategoryRow = conn.CreateCommand();
+				deleteCategoryRow.Parameters.AddWithValue("@categoryid", categoryid);
+				deleteCategoryRow.CommandText = "delete FROM Calendar_Schema.category_tbl where category_id = @categoryid";
+				deleteCategoryRow.ExecuteNonQuery();
+			}
 		}
 
 		public List<WeelyEventsView> GetWeeklyEvents(int userid)
