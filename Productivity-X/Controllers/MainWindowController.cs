@@ -204,6 +204,7 @@ namespace Productivity_X.Controllers
         }
         public IActionResult Events()
         {
+            GetCategoriesHelper();
             GetEventsHelper();    
             return View();
         }
