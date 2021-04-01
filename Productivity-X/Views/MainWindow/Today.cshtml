@@ -170,6 +170,7 @@
 
 <script src="~/js/vue.js"></script>
 <script src="~/js/vuetify.js"></script>
+<script src="~/js/axios.js"></script>
 
 <script>
     new Vue({
@@ -180,7 +181,7 @@
             events: [],
             colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
             names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-            categories: ['John Smith'],
+            categories: ['J'],
         }),
         mounted() {
             this.$refs.calendar.checkChange()
@@ -198,17 +199,18 @@
             next() {
                 this.$refs.calendar.next()
             },
-            fetchEvents({ start, end }) {
-                const events = []
-                events.push({
-                    name: 'Meeting',
-                    start: '2021-03-18 12:30',
-                    end: '2021-03-18 15:30',
-                    color: 'blue',
-                    timed: !288,
-                    category: 'John Smith',
-                })
-                this.events = events
+             fetchEvents({ start, end }) {
+                const that = this;
+                axios.get('/MainWindow/GetTodayEvents')
+                    .then(function (response) {
+                        //that.events = response.data;
+                        that.events.push(...response.data);
+                        console.log(that.events);
+                        debugger
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             },
         },
     })

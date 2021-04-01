@@ -1,348 +1,350 @@
 ﻿@model Productivity_X.Models.UserCreateEvent;
 @*
-	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-	ViewData["Title"] = "Weekly";
-	Layout = "~/Views/Shared/_MainPageLayout.cshtml";
+    ViewData["Title"] = "Weekly";
+    Layout = "~/Views/Shared/_MainPageLayout.cshtml";
 }
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>test</title>
-	<link href="~/css/family.css" rel="stylesheet">
-	<link href="~/css/materialdesignicons.min.css" rel="stylesheet">
-	<link href="~/css/vuetify.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>test</title>
+    <link href="~/css/family.css" rel="stylesheet">
+    <link href="~/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="~/css/vuetify.min.css" rel="stylesheet">
 
-	<style>
-		.my-event {
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			border-radius: 2px;
-			background-color: #1867c0;
-			color: #ffffff;
-			border: 1px solid #1867c0;
-			font-size: 12px;
-			padding: 3px;
-			cursor: pointer;
-			margin-bottom: 1px;
-			left: 4px;
-			margin-right: 8px;
-			position: relative;
-		}
+    <style>
+        .my-event {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            border-radius: 2px;
+            background-color: #1867c0;
+            color: #ffffff;
+            border: 1px solid #1867c0;
+            font-size: 12px;
+            padding: 3px;
+            cursor: pointer;
+            margin-bottom: 1px;
+            left: 4px;
+            margin-right: 8px;
+            position: relative;
+        }
 
-			.my-event.with-time {
-				position: absolute;
-				right: 4px;
-				margin-right: 0px;
-			}
+            .my-event.with-time {
+                position: absolute;
+                right: 4px;
+                margin-right: 0px;
+            }
 
-		.theme--light.v-calendar-daily {
-			background-color: #303030;
-			border-left: 1px solid #e0e0e0;
-			border-top: 1px solid #e0e0e0;
-		}
+        .theme--light.v-calendar-daily {
+            background-color: #303030;
+            border-left: 1px solid #e0e0e0;
+            border-top: 1px solid #e0e0e0;
+        }
 
-			.theme--light.v-calendar-daily .v-calendar-daily_head-day {
-				color: #fff;
-			}
+            .theme--light.v-calendar-daily .v-calendar-daily_head-day {
+                color: #fff;
+            }
 
-		.my-app.v-application .primary--text {
-			color: #fff !important;
-		}
+        .my-app.v-application .primary--text {
+            color: #fff !important;
+        }
 
-		.title {
-			justify-content: center;
-			font-size: 25px;
-			color: gold;
-		}
+        .title {
+            justify-content: center;
+            font-size: 25px;
+            color: gold;
+        }
 
-		.round_icon {
-			width: 50px;
-			height: 50px;
-			display: flex;
-			border-radius: 50%;
-			align-items: center;
-			justify-content: center;
-			overflow: hidden;
-		}
+        .round_icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-		#weekHeader {
-			display: flex;
-			justify-content: space-between;
-			flex-wrap: nowrap;
-			align-content: space-evenly;
-			margin: 3%;
-		}
+        #weekHeader {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            align-content: space-evenly;
+            margin: 3%;
+        }
 
-		#createBtn {
-			background-image: url(../test/img/c3.jpg);
-		}
+        #createBtn {
+            background-image: url(../test/img/c3.jpg);
+        }
 
-		#create {
-			flex-wrap: nowrap;
-			justify-content: center;
-		}
+        #create {
+            flex-wrap: nowrap;
+            justify-content: center;
+        }
 
-		#btnclick {
-			display: inline-block;
-			padding: 0.35em 1.2em;
-			border: 0.1em solid #353535;
-			margin: 0 0.3em 0.3em 0;
-			border-radius: 0.40em;
-			box-sizing: border-box;
-			text-decoration: none;
-			font-family: 'Roboto',sans-serif;
-			font-weight: 300;
-			background-color: #353535;
-			color: #FFA700;
-			text-align: center;
-			transition: all 0.2s;
-		}
+        #btnclick {
+            display: inline-block;
+            padding: 0.35em 1.2em;
+            border: 0.1em solid #353535;
+            margin: 0 0.3em 0.3em 0;
+            border-radius: 0.40em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            background-color: #353535;
+            color: #FFA700;
+            text-align: center;
+            transition: all 0.2s;
+        }
 
-			#btnclick:hover {
-				background: #424242;
-			}
+            #btnclick:hover {
+                background: #424242;
+            }
 
-		#HidebtnModal {
-			display: inline-block;
-			padding: 0.35em 1.2em;
-			border: 0.1em solid #353535;
-			margin: 0 0.3em 0.3em 0;
-			border-radius: 0.40em;
-			box-sizing: border-box;
-			text-decoration: none;
-			font-family: 'Roboto',sans-serif;
-			font-weight: 300;
-			background-color: #353535;
-			color: #FFA700;
-			text-align: center;
-			transition: all 0.2s;
-		}
+        #HidebtnModal {
+            display: inline-block;
+            padding: 0.35em 1.2em;
+            border: 0.1em solid #353535;
+            margin: 0 0.3em 0.3em 0;
+            border-radius: 0.40em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            background-color: #353535;
+            color: #FFA700;
+            text-align: center;
+            transition: all 0.2s;
+        }
 
-			#HidebtnModal:hover {
-				background: #424242;
-			}
+            #HidebtnModal:hover {
+                background: #424242;
+            }
 
-		#createEventSubmit {
-			display: inline-block;
-			padding: 0.35em 1.2em;
-			border: 0.1em solid #353535;
-			margin: 0 0.3em 0.3em 0;
-			border-radius: 0.40em;
-			box-sizing: border-box;
-			text-decoration: none;
-			font-family: 'Roboto',sans-serif;
-			font-weight: 300;
-			background-color: #353535;
-			color: #FFA700;
-			text-align: center;
-			transition: all 0.2s;
-		}
+        #createEventSubmit {
+            display: inline-block;
+            padding: 0.35em 1.2em;
+            border: 0.1em solid #353535;
+            margin: 0 0.3em 0.3em 0;
+            border-radius: 0.40em;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            background-color: #353535;
+            color: #FFA700;
+            text-align: center;
+            transition: all 0.2s;
+        }
 
-			#createEventSubmit:hover {
-				background: #424242;
-			}
+            #createEventSubmit:hover {
+                background: #424242;
+            }
 
-		.container #eventModal1 {
-			width: 50%;
-			float: left;
-		}
+        .container #eventModal1 {
+            width: 50%;
+            float: left;
+        }
 
-		.container #eventModal2 {
-			width: 50%;
-			float: right;
-		}
+        .container #eventModal2 {
+            width: 50%;
+            float: right;
+        }
 
-		.form-group #eventDesc {
-			height: 100px;
-		}
+        .form-group #eventDesc {
+            height: 100px;
+        }
 
-		.modal-body {
-			background-color: #777474;
-		}
+        .modal-body {
+            background-color: #777474;
+        }
 
-		.container #rem {
-			background-color: white;
-		}
+        .container #rem {
+            background-color: white;
+        }
 
-		.container #guest {
-			background-color: white;
-		}
+        .container #guest {
+            background-color: white;
+        }
 
-		small {
-			color: blue;
-		}
-	</style>
+        small {
+            color: blue;
+        }
+    </style>
 </head>
 <body>
 
 
-	<div id="app" style=" width: 100%; padding-left: 13%;">
-		<div id="weekHeader">
-			<div id="create">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-10">
-							<button id="btnclick" type="button">
-								Create Event
-							</button>
+
+    <div id="app" style=" width: 100%; padding-left: 13%;">
+        <div id="weekHeader">
+            <div id="create">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <button id="btnclick" type="button">
+                                Create Event
+                            </button>
 
 
-							<div class="modal fade" id="login">
-								<div class="modal-dialog modal-lg">
-									<div class="modal-content">
-										<div class="modal-header text-center" style=" background: #1C1C1C; border: none;">
-											<h3 class="modal-title w-100" style="color: #FFA700">Create Event</h3>
+                            <div class="modal fade" id="login">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header text-center" style=" background: #1C1C1C; border: none;">
+                                            <h3 class="modal-title w-100" style="color: #FFA700">Create Event</h3>
 
-										</div>
-										<div class="modal-body">
-											<form asp-action="CreateEvent">
-												<div class="container" id="eventModal1">
-													<div class="form-group" id="eventNm">
-														<small>Event Name</small>
-														<input class="form-control" type="text"
-															   placeholder="Event Name" id="eventName" asp-for="eventName" />
+                                        </div>
+                                        <div class="modal-body">
+                                            <form asp-action="CreateEvent">
+                                                <div class="container" id="eventModal1">
+                                                    <div class="form-group" id="eventNm">
+                                                        <small>Event Name</small>
+                                                        <input class="form-control" type="text"
+                                                               placeholder="Event Name" id="eventName" asp-for="eventName" />
 
-													</div>
-													<div class="form-group" id="eventStart">
-														<small>Event start time</small>
-														<input class="form-control" type="time" name="start_at"
-															   min="07:00" max="23:00" required asp-for="start_at" />
-													</div>
-													<br />
-													<div class="form-group" id="eventDesc">
-														<small>Event Descritpion (100 characters)</small>
-														<textarea name="description" cols="41" rows="6"
-																  placeholder="Description" id="description" maxlength="100"
-																  style="background-color: white; border-radius: 5px;"></textarea>
-														<input id="description" asp-for="description" />
+                                                    </div>
+                                                    <div class="form-group" id="eventStart">
+                                                        <small>Event start time</small>
+                                                        <input class="form-control" type="time" name="start_at"
+                                                               min="07:00" max="23:00" required asp-for="start_at" />
+                                                    </div>
+                                                    <br />
+                                                    <div class="form-group" id="eventDesc">
+                                                        <small>Event Descritpion (100 characters)</small>
+                                                        <textarea name="description" cols="41" rows="6"
+                                                                  placeholder="Description" id="description" maxlength="100"
+                                                                  style="background-color: white; border-radius: 5px;"></textarea>
+                                                        <input id="description" asp-for="description" />
 
-													</div>
+                                                    </div>
 
-													<div class="container" id="rem" style="height: 165px; padding-bottom: 100px;">
-														<div class="form-group" id="eventNotifCheck" style="padding-top: 15px;">
-															<input class="form-controlCheck" type="checkbox"
-																   id="notification" name="notification" asp-for="notification" />
-															<label for="notification">Reminder?</label>
-														</div>
-														<div class="form-group" id="eventReminderNum">
-															<label for="reminders">Minutes:</label>
-															<input class="form-controlSpinner" type="number"
-																   min="5" max="60" step="5" value="15" size="1"
-																   placeholder="Minutes" id="reminders"
-																   style="background-color: white; border-width: 2px; border-style: solid; border-color: #777474" asp-for="reminder" />
-														</div>
-													</div>
-												</div>
+                                                    <div class="container" id="rem" style="height: 165px; padding-bottom: 100px;">
+                                                        <div class="form-group" id="eventNotifCheck" style="padding-top: 15px;">
+                                                            <input class="form-controlCheck" type="checkbox"
+                                                                   id="notification" name="notification" asp-for="notification" />
+                                                            <label for="notification">Reminder?</label>
+                                                        </div>
+                                                        <div class="form-group" id="eventReminderNum">
+                                                            <label for="reminders">Minutes:</label>
+                                                            <input class="form-controlSpinner" type="number"
+                                                                   min="5" max="60" step="5" value="15" size="1"
+                                                                   placeholder="Minutes" id="reminders"
+                                                                   style="background-color: white; border-width: 2px; border-style: solid; border-color: #777474" asp-for="reminder" />
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-												<div class="container" id="eventModal2">
-													<div class="form-group" id="eventDate">
-														<small>Event Date</small>
-														<input class="form-control" type="date" name="event_date" asp-for="event_date" />
-													</div>
-													<div class="form-group" id="eventStart">
-														<small>Event end time</small>
-														<input class="form-control" type="time" name="end_at"
-															   min="07:00" max="00:00" required asp-for="end_at" />
-													</div>
-													<br />
-													<div class="form-group" id="eventCategory">
-														<small>Event Category</small>
-														<select asp-for="category" style="background-color: white; width: 360px; height: 37px; border-radius: 5px;">
-															<option value="" disabled selected hidden>Choose Category...</option>
-															<option value="Default">
-																Default
-															</option>
-															<option value="Friends">
-																Friends
-															</option>
+                                                <div class="container" id="eventModal2">
+                                                    <div class="form-group" id="eventDate">
+                                                        <small>Event Date</small>
+                                                        <input class="form-control" type="date" name="event_date" asp-for="event_date" />
+                                                    </div>
+                                                    <div class="form-group" id="eventStart">
+                                                        <small>Event end time</small>
+                                                        <input class="form-control" type="time" name="end_at"
+                                                               min="07:00" max="00:00" required asp-for="end_at" />
+                                                    </div>
+                                                    <br />
+                                                    <div class="form-group" id="eventCategory">
+                                                        <small>Event Category</small>
+                                                        <select asp-for="category" style="background-color: white; width: 360px; height: 37px; border-radius: 5px;">
+                                                            <option value="" disabled selected hidden>Choose Category...</option>
+                                                            <option value="Default">
+                                                                Default
+                                                            </option>
+                                                            <option value="Friends">
+                                                                Friends
+                                                            </option>
 
-															@{
-																List<Categories> categorylist = new List<Categories>();
-																categorylist = ViewData["categoryobjects"] as List<Categories>;
-																if (categorylist != null)
-																{
-																	for (int counter = 0; counter < categorylist.Count; counter++)
-																	{
-																	<option value="@categorylist[counter].GetCategoryName()">
-																		@categorylist[counter].GetCategoryName().Trim(';')
-																	</option>
-																	}
-																}
-															}
-														</select>
+                                                            @{
+                                                                List<Categories> categorylist = new List<Categories>();
+                                                                categorylist = ViewData["categoryobjects"] as List<Categories>;
+                                                                if (categorylist != null)
+                                                                {
+                                                                    for (int counter = 0; counter < categorylist.Count; counter++)
+                                                                    {
+                                                                        <option value="@categorylist[counter].GetCategoryName()">
+                                                                            @categorylist[counter].GetCategoryName().Trim(';')
+                                                                        </option>
+                                                                    }
+                                                                }
+                                                            }
+                                                        </select>
 
-													</div>
-													<div class="form-group" id="eventLocation">
-														<small>Event Location</small>
-														<input class="form-control" type="text"
-															   placeholder="Location" id="location" asp-for="location" />
-													</div>
-													<br />
-													<div class="container" id="guest" style="height:170px;">
-														<div class="form-group" id="eventGuestCheck">
-															<input class="form-controlCheck" type="checkbox"
-																   id="guest" name="guest" asp-for="guest" />
-															<label for="guest">Guest?</label>
-														</div>
-														<div class="form-group" id="eventGuestUsername">
-															<input class="form-control" type="text"
-																   placeholder="Guest Username" id="guestUsername" asp-for="guestUsername" />
-														</div>
-														<div class="form-group" id="eventGuestEmail">
-															<input class="form-control" type="text"
-																   placeholder="Guest Email" id="guestEmail" asp-for="guestEmail" />
-														</div>
-													</div>
-												</div>
+                                                        <input id="category" asp-for="category" />
+                                                    </div>
+                                                    <div class="form-group" id="eventLocation">
+                                                        <small>Event Location</small>
+                                                        <input class="form-control" type="text"
+                                                               placeholder="Location" id="location" asp-for="location" />
+                                                    </div>
+                                                    <br />
+                                                    <div class="container" id="guest" style="height:170px;">
+                                                        <div class="form-group" id="eventGuestCheck">
+                                                            <input class="form-controlCheck" type="checkbox"
+                                                                   id="guest" name="guest" asp-for="guest" />
+                                                            <label for="guest">Guest?</label>
+                                                        </div>
+                                                        <div class="form-group" id="eventGuestUsername">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Guest Username" id="guestUsername" asp-for="guestUsername" />
+                                                        </div>
+                                                        <div class="form-group" id="eventGuestEmail">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Guest Email" id="guestEmail" asp-for="guestEmail" />
+                                                        </div>
+                                                    </div>
+                                                </div>
 
 
-												<div class="modal-footer" style="background: #1C1C1C; width: 100%; border: none; bottom: 0;">
-													<button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>
-													<button type="submit" id="createEventSubmit" class="btn btn-primary float-right">Create</button>
-												</div>
-											</form>
-										</div>
+                                                <div class="modal-footer" style="background: #1C1C1C; width: 100%; border: none; bottom: 0;">
+                                                    <button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>
+                                                    <button type="submit" id="createEventSubmit" class="btn btn-primary float-right">Create</button>
+                                                </div>
+                                            </form>
+                                        </div>
 
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="title">
-				<span id="currentMonth"></span>
-				<span id="firstDate"></span> -
-				<span id="lastDate"></span>,
-				<span id="currentYear"></span>
-			</div>
-			<div>
-				<img src="~/Images/ProductivityXLogin.png" class="round_icon" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="title">
+                <span id="currentMonth"></span>
+                <span id="firstDate"></span> -
+                <span id="lastDate"></span>,
+                <span id="currentYear"></span>
+            </div>
+            <div>
+                <img src="~/Images/ProductivityXLogin.png" class="round_icon" alt="">
 
-			</div>
-		</div>
+            </div>
+        </div>
 
-		<v-app id="inspire" class="my-app">
-			<v-row>
-				<v-col>
-					<v-sheet height="100%">
-						<v-sheet height="100%">
-							<v-calendar ref="calendar"
-										:now="today"
-										:value="today"
-										:events="events"
-										color="primary"
-										type="week"></v-calendar>
-						</v-sheet>
-				</v-col>
-			</v-row>
-		</v-app>
-	</div>
+        <v-app id="inspire" class="my-app">
+            <v-row>
+                <v-col>
+                    <v-sheet height="100%">
+                        <v-sheet height="100%">
+                            <v-calendar ref="calendar"
+                                        :now="today"
+                                        :value="today"
+                                        :events="events"
+                                        color="primary"
+                                        type="week"></v-calendar>
+                        </v-sheet>
+                </v-col>
+            </v-row>
+        </v-app>
+    </div>
 
 </body>
 </html>
@@ -350,23 +352,25 @@
 <script src="~/js/vuetify.js"></script>
 <script src="~/js/axios.js"></script>
 <script>
-	new Vue({
-		el: '#app',
-		vuetify: new Vuetify({
-			theme: {
-				dark: true,
-				themes: {
-					dark: {
-						// Color is applied to selected drop down item
-						primary: '#0064A2',
 
-						// Uncomment this to make things worse
-						// 'primary--text': '#FF00FF'
-					}
-				}
-			}
-		}),
-		 data: () => ({
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify({
+            theme: {
+                dark: true,
+                themes: {
+                    dark: {
+                        // Color is applied to selected drop down item
+                        primary: '#0064A2',
+
+                        // Uncomment this to make things worse
+                        // 'primary--text': '#FF00FF'
+                    }
+                }
+            }
+        }),
+        data: () => ({
+
             today: new Date().toLocaleDateString().split('/').join('-'),//'2021-03-12',
             events: [],
         }),
@@ -390,40 +394,26 @@
 
 <script type="text/javascript">
     var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    var now = new Date();
-    var nowTime = now.getTime();
-    var day = now.getDay();
-    var oneDay = 24 * 60 * 60 * 1000;
-    var MondayTime = nowTime - (day - 1) * oneDay;
-    var monday = new Date(MondayTime);
-    var year = monday.getFullYear();
-    var sunday = monday.getDate() - 1;
-    var saturday = monday.getDate() + 6;
-    document.getElementById("currentMonth").innerHTML = monthsInEng[nowTime.getMonth() + 1];
-    document.getElementById("firstDate").innerHTML = sunday;
-    document.getElementById("lastDate").innerHTML = saturday;
-    document.getElementById("currentYear").innerHTML = year;
-</script>
-
-<script type="text/javascript">
-    var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     function getTime(n) {
         var now = new Date();
         var year = now.getFullYear();
         var month = now.getMonth() + 1;
-        var day = now.getDay();
+        var day = now.getDay(); 
         n = day == 0 ? n + 6 : n + (day - 1)
         now.setDate(now.getDate() - n);
         date = now.getDate();
         var s = year + "-" + (month < 10 ? ('0' + month) : month) + "-" + (date < 10 ? ('0' + date) : date);
         return s;
     }
-    document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(getTime(-4)).getMonth() + 1];
+    document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(getTime(0)).getMonth()];
     document.getElementById("firstDate").innerHTML = new Date(getTime(0)).getDate();
     document.getElementById("lastDate").innerHTML = new Date(getTime(-6)).getDate();
-    document.getElementById("currentYear").innerHTML = new Date(getTime(-4)).getFullYear();
+    document.getElementById("currentYear").innerHTML = new Date(getTime(0)).getFullYear();
 
 </script>
+
+
+
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -433,23 +423,23 @@
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <script type="text/javascript">
-	$(document).ready(function () {
-		$("#btnclick").click(function () {
-			$("#login").modal('show');
-		});
+    $(document).ready(function () {
+        $("#btnclick").click(function () {
+            $("#login").modal('show');
+        });
 
-		$("#HidebtnModal").click(function () {
-			$("#login").modal('hide');
-		});
-	});
+        $("#HidebtnModal").click(function () {
+            $("#login").modal('hide');
+        });
+    });
 </script>
 
 @if (ViewBag.Message != null)
 {
-	<script type="text/javascript">
+    <script type="text/javascript">
 
             window.onload = function () {
                 alert("@ViewBag.Message");
             };
-	</script>
+    </script>
 }

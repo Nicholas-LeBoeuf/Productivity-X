@@ -69,7 +69,7 @@ namespace Productivity_X.Models
 		// Get userid from database without any arguments to meet
 		public int GetUserID(string sUsername)
 		{
-			
+
 			int userID = -1;
 			using (MySqlConnection conn = GetConnection())
 			{
@@ -337,12 +337,12 @@ namespace Productivity_X.Models
 			return bRet;
 		}
 
-	//Create Event Button:
+		//Create Event Button:
 		// Saves event info to database
 		public bool SaveEvent(UserCreateEvent ce, int nUserID)
 		{
 			bool bRet = true;
-			
+
 			using (MySqlConnection conn = GetConnection())
 			{
 				int nEventExists = 0;
@@ -374,7 +374,7 @@ namespace Productivity_X.Models
 					Query.Parameters.AddWithValue("@eventname", ce.eventName);
 					// Saved as date
 					Query.Parameters.AddWithValue("@event_date", ce.event_date);//Convert.ToDateTime(ce.event_date));
-					// Saved as time
+																				// Saved as time
 					Query.Parameters.AddWithValue("@start_at", ce.start_at);
 					// Saved as time
 					Query.Parameters.AddWithValue("@end_at", ce.end_at);
@@ -407,11 +407,11 @@ namespace Productivity_X.Models
 						InsertIntoGuestTable.Parameters.AddWithValue("@isfriend", ce.friend);
 						InsertIntoGuestTable.ExecuteNonQuery();
 					}
-/*					else
-					{
-						nEventID = GetEventID(ce.eventName, ce.event_date, ce.start_at, ce.end_at);
-					}
-*/
+					/*					else
+										{
+											nEventID = GetEventID(ce.eventName, ce.event_date, ce.start_at, ce.end_at);
+										}
+					*/
 				}
 			}
 			return bRet;
@@ -610,6 +610,7 @@ namespace Productivity_X.Models
 		/*		
 				//-----------TodayButton, find events with todays date, pass back event id----------------
 				public List<string> FindTodaysEvents(string todaysDate)
+
 				{
 					List<string> eventData = new List<string>();
 					using (MySqlConnection conn = GetConnection())
@@ -684,7 +685,7 @@ namespace Productivity_X.Models
 					bRet = false;
 				}
 				else
-                {
+				{
 					MySqlCommand Query = conn.CreateCommand();
 					Query.CommandText = "insert into Calendar_Schema.category_tbl (user_id, categoryname, color, description) VALUES (@user_id, @category_name, @color, @description)";
 
@@ -694,11 +695,13 @@ namespace Productivity_X.Models
 					Query.Parameters.AddWithValue("@description", cat.description);
 
 					Query.ExecuteNonQuery();
-                }
+				}
 			}
 
 			return bRet;
 		}
+
+		// Get data from category table including categoryname, color, description based upon the categoryid
 
 		public List<Categories> CategoryData(int userid)
 		{
@@ -714,10 +717,10 @@ namespace Productivity_X.Models
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = FindCategoryData.ExecuteReader();
 
-				int categoryid = 0;	
+				int categoryid = 0;
 				while (reader.Read())
 				{
-				//categoryDataList[0]=(Convert.ToInt32(reader[0]));
+					//categoryDataList[0]=(Convert.ToInt32(reader[0]));
 					categoryid = Convert.ToInt32(reader[0]);
 					categoryDataList[0] = reader.GetString(1);//Convert.ToString(reader[1]);
 					categoryDataList[1] = Convert.ToString(reader[2]);
@@ -757,18 +760,73 @@ namespace Productivity_X.Models
 
 				// Checks to see if there are duplicate usernames
 				FindEvents.Parameters.AddWithValue("@user_id", userid);
-				FindEvents.CommandText = "SELECT * FROM Calendar_Schema.events_tbl where user_id = @user_id";
+				FindEvents.CommandText = "SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname,c.color FROM Calendar_Schema.events_tbl e  left join  Calendar_Schema.category_tbl c on e.categoryname = c.categoryname where e.user_id = @user_id and c.user_id = @user_id";
 
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = FindEvents.ExecuteReader();
 				while (reader.Read()) // Read returns false if the user does not exist!
 				{
+					var category = reader[4].ToString();
+					var color = reader[5].ToString();
+                    if (category == "Default")
+                    {
+						color = "grey";
+
+					}
+                    else if (category == "Friends")
+                    {
+						color = "pink";
+					}
 					// Read the DB values:
 					result.Add(new WeelyEventsView()
 					{
-						name = reader[2].ToString(),
-						start = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[4].ToString(),
-						end = reader[3].ToString().Substring(0, 10).Replace("/", "-") + reader[5].ToString(),
+						name = reader[0].ToString(),
+						start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),
+						end = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[3].ToString(),
+						color = color
+					});
+				}
+				reader.Close();
+			}
+			return result;
+		}
+		public List<TodayEventView> GetTodayEvents(int userid)
+		{
+			var result = new List<TodayEventView>();
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand FindEvents = conn.CreateCommand();
+				var date = DateTime.Now.ToString("yyyy-MM-dd");
+				// Checks to see if there are duplicate usernames
+				FindEvents.Parameters.AddWithValue("@user_id", userid);
+				FindEvents.CommandText = "SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname,c.color FROM Calendar_Schema.events_tbl e  left join  Calendar_Schema.category_tbl c on e.categoryname = c.categoryname where e.user_id = @user_id  and e.event_date= " + "'" + date + "' and c.user_id = @user_id";
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = FindEvents.ExecuteReader();
+				while (reader.Read()) // Read returns false if the user does not exist!
+				{
+					var category = reader[4].ToString();
+					var color = reader[5].ToString();
+					if (category == "Default")
+					{
+						color = "grey";
+
+					}
+					else if (category == "Friends")
+					{
+						color = "pink";
+					}
+					// Read the DB values:
+
+					result.Add(new TodayEventView()
+
+					{
+						name = reader[0].ToString(),
+						start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),
+						end = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[3].ToString(),
+						color = color,
+						category ="J"
 					});
 				}
 				reader.Close();
