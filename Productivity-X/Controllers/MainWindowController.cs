@@ -105,6 +105,7 @@ namespace Productivity_X.Controllers
             return Json(_manager.GetTodayEvents(userid));
         }
 
+
         public IActionResult Today()
         {
             return View();
@@ -180,6 +181,14 @@ namespace Productivity_X.Controllers
             eventsSaved = _manager.EventData(userid);
 
             ViewData["eventobjects"] = eventsSaved;
+<<<<<<< HEAD
+=======
+        }
+        public IActionResult Events()
+        {
+            GetCategoriesHelper();
+            GetEventsHelper();    
+>>>>>>> 17f19b3e6974da8f52fb46bdfaa470b5dd77dfd0
             return View();
         }
     }

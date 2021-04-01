@@ -167,7 +167,7 @@
     </div>
 
 </body>
-
+</html>
 <script src="~/js/vue.js"></script>
 <script src="~/js/vuetify.js"></script>
 <script src="~/js/axios.js"></script>
@@ -177,7 +177,7 @@
         el: '#app',
         vuetify: new Vuetify(),
         data: () => ({
-            focus: '',
+            today: new Date().toLocaleDateString().split('/').join('-'),//'2021-03-12',
             events: [],
             colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
             names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],

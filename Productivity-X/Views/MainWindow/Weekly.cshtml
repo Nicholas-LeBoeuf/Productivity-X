@@ -277,30 +277,31 @@
                                                             }
                                                         </select>
 
-                                                        <input id="category" asp-for="category" />
-                                                    </div>
-                                                    <div class="form-group" id="eventLocation">
-                                                        <small>Event Location</small>
-                                                        <input class="form-control" type="text"
-                                                               placeholder="Location" id="location" asp-for="location" />
-                                                    </div>
-                                                    <br />
-                                                    <div class="container" id="guest" style="height:170px;">
-                                                        <div class="form-group" id="eventGuestCheck">
-                                                            <input class="form-controlCheck" type="checkbox"
-                                                                   id="guest" name="guest" asp-for="guest" />
-                                                            <label for="guest">Guest?</label>
-                                                        </div>
-                                                        <div class="form-group" id="eventGuestUsername">
-                                                            <input class="form-control" type="text"
-                                                                   placeholder="Guest Username" id="guestUsername" asp-for="guestUsername" />
-                                                        </div>
-                                                        <div class="form-group" id="eventGuestEmail">
-                                                            <input class="form-control" type="text"
-                                                                   placeholder="Guest Email" id="guestEmail" asp-for="guestEmail" />
-                                                        </div>
-                                                    </div>
-                                                </div>
+													</div>
+													<div class="form-group" id="eventLocation">
+														<small>Event Location</small>
+														<input class="form-control" type="text"
+															   placeholder="Location" id="location" asp-for="location" />
+													</div>
+													<br />
+													<div class="container" id="guest" style="height:170px;">
+														<div class="form-group" id="eventGuestCheck">
+															<input class="form-controlCheck" type="checkbox"
+																   id="guest" name="guest" asp-for="guest" />
+															<label for="guest">Guest?</label>
+														</div>
+														<div class="form-group" id="eventGuestUsername">
+															<input class="form-control" type="text"
+																   placeholder="Guest Username" id="guestUsername" asp-for="guestUsername" />
+														</div>
+														<div class="form-group" id="eventGuestEmail">
+															<input class="form-control" type="text"
+																   placeholder="Guest Email" id="guestEmail" asp-for="guestEmail" />
+														</div>
+													</div>
+												</div>
+
+
 
 
                                                 <div class="modal-footer" style="background: #1C1C1C; width: 100%; border: none; bottom: 0;">
@@ -323,8 +324,7 @@
                 <span id="lastDate"></span>,
                 <span id="currentYear"></span>
             </div>
-            <div>
-                <img src="~/Images/ProductivityXLogin.png" class="round_icon" alt="">
+            <div>                
 
             </div>
         </div>
@@ -352,7 +352,14 @@
 <script src="~/js/vuetify.js"></script>
 <script src="~/js/axios.js"></script>
 <script>
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 17f19b3e6974da8f52fb46bdfaa470b5dd77dfd0
+>>>>>>> Stashed changes
     new Vue({
         el: '#app',
         vuetify: new Vuetify({
@@ -370,7 +377,14 @@
             }
         }),
         data: () => ({
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 17f19b3e6974da8f52fb46bdfaa470b5dd77dfd0
+>>>>>>> Stashed changes
             today: new Date().toLocaleDateString().split('/').join('-'),//'2021-03-12',
             events: [],
         }),
@@ -410,7 +424,7 @@
     document.getElementById("lastDate").innerHTML = new Date(getTime(-6)).getDate();
     document.getElementById("currentYear").innerHTML = new Date(getTime(0)).getFullYear();
 
-</script>
+
 
 
 

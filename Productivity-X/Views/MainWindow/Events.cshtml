@@ -1,10 +1,13 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Productivity_X.Models.UserCreateEvent;
 @{
     ViewData["Title"] = "Events";
     Layout = "~/Views/Shared/_MainPageLayout.cshtml";
 }
+
+<link href="~/css/family.css" rel="stylesheet">
+<link href="~/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="~/css/vuetify.min.css" rel="stylesheet">
+<script src="https://kit.fontawesome.com/1e6384ea85.js" crossorigin="anonymous"></script>
 
 <style>
     .title {
@@ -23,6 +26,106 @@
         overflow: hidden;
     }
 
+
+    #createBtn {
+        background-image: url(../test/img/c3.jpg);
+    }
+
+    #create {
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+
+    #btnclick {
+        display: inline-block;
+        padding: 0.35em 1.2em;
+        border: 0.1em solid #353535;
+        margin: 0 0.3em 0.3em 0;
+        border-radius: 0.40em;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: 'Roboto',sans-serif;
+        font-weight: 300;
+        background-color: #353535;
+        color: #FFA700;
+        text-align: center;
+        transition: all 0.2s;
+    }
+
+        #btnclick:hover {
+            background: #424242;
+        }
+
+    #HidebtnModal {
+        display: inline-block;
+        padding: 0.35em 1.2em;
+        border: 0.1em solid #353535;
+        margin: 0 0.3em 0.3em 0;
+        border-radius: 0.40em;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: 'Roboto',sans-serif;
+        font-weight: 300;
+        background-color: #353535;
+        color: #FFA700;
+        text-align: center;
+        transition: all 0.2s;
+    }
+
+        #HidebtnModal:hover {
+            background: #424242;
+        }
+
+    #createEventSubmit {
+        display: inline-block;
+        padding: 0.35em 1.2em;
+        border: 0.1em solid #353535;
+        margin: 0 0.3em 0.3em 0;
+        border-radius: 0.40em;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: 'Roboto',sans-serif;
+        font-weight: 300;
+        background-color: #353535;
+        color: #FFA700;
+        text-align: center;
+        transition: all 0.2s;
+    }
+
+        #createEventSubmit:hover {
+            background: #424242;
+        }
+
+    .container #eventModal1 {
+        width: 50%;
+        float: left;
+    }
+
+    .container #eventModal2 {
+        width: 50%;
+        float: right;
+    }
+
+    .form-group #eventDesc {
+        height: 100px;
+    }
+
+    .modal-body {
+        background-color: #777474;
+    }
+
+    .container #rem {
+        background-color: white;
+    }
+
+    .container #guest {
+        background-color: white;
+    }
+
+    small {
+        color: blue;
+    }
+
     #weekHeader {
         display: flex;
         justify-content: space-between;
@@ -30,6 +133,7 @@
         align-content: space-evenly;
         margin: 3%;
     }
+
     table, th, td {
         border: 1px solid black;
     }
@@ -39,6 +143,7 @@
     }
 
         table.center {
+            
             margin-left: auto;
             margin-right: auto;
         }
@@ -54,21 +159,180 @@
 
     tr {
         text-align: center;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
+<<<<<<< HEAD
+=======
+
+    #deletebutton {
+        display: inline-block;
+        margin: 0 0.3em 0.3em 0;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: 'Roboto',sans-serif;
+        font-weight: 300;
+        background-color: #000;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        color: red;
+        font-weight: bolder;
+        text-align: center;
+        margin: auto;
+        transition: all 0.2s;
+    }
+
+        #deletebutton:hover {
+            background: #343434;
+        }
+>>>>>>> 17f19b3e6974da8f52fb46bdfaa470b5dd77dfd0
 </style>
 
 <body style="        background-color: #1C1C1C;
         color: #fff;">
     <div id="app" style="width: 100%;padding-left: 12%;">
         <div id="weekHeader">
-            <div class="title" style="margin-left:44%;">List of Events</div>
+            <div id="create">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <button id="btnclick" type="button">
+                                Create Event
+                            </button>
+
+
+                            <div class="modal fade" id="login">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header text-center" style=" background: #1C1C1C; border: none;">
+                                            <h3 class="modal-title w-100" style="color: #FFA700">Create Event</h3>
+
+                                        </div>
+                                        <div class="modal-body">
+                                            <form asp-action="CreateEvent">
+                                                <div class="container" id="eventModal1">
+                                                    <div class="form-group" id="eventNm">
+                                                        <small>Event Name</small>
+                                                        <input class="form-control" type="text"
+                                                               placeholder="Event Name" id="eventName" asp-for="eventName" />
+
+                                                    </div>
+                                                    <div class="form-group" id="eventStart">
+                                                        <small>Event start time</small>
+                                                        <input class="form-control" type="time" name="start_at"
+                                                               min="07:00" max="23:00" required asp-for="start_at" />
+                                                    </div>
+                                                    <br />
+                                                    <div class="form-group" id="eventDesc">
+                                                        <small>Event Descritpion (100 characters)</small>
+                                                        <textarea name="description" cols="41" rows="6"
+                                                                  placeholder="Description" id="description" maxlength="100"
+                                                                  style="background-color: white; border-radius: 5px;"></textarea>
+                                                        <input id="description" asp-for="description" />
+
+                                                    </div>
+
+                                                    <div class="container" id="rem" style="height: 165px; padding-bottom: 100px;">
+                                                        <div class="form-group" id="eventNotifCheck" style="padding-top: 15px;">
+                                                            <input class="form-controlCheck" type="checkbox"
+                                                                   id="notification" name="notification" asp-for="notification" />
+                                                            <label for="notification" style="color:black;">Reminder?</label>
+                                                        </div>
+                                                        <div class="form-group" id="eventReminderNum">
+                                                            <label for="reminders" style="color:black;">Minutes:</label>
+                                                            <input class="form-controlSpinner" type="number"
+                                                                   min="5" max="60" step="5" value="15" size="1"
+                                                                   placeholder="Minutes" id="reminders"
+                                                                   style="background-color: white; border-width: 2px; border-style: solid; border-color: #777474" asp-for="reminder" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="container" id="eventModal2">
+                                                    <div class="form-group" id="eventDate">
+                                                        <small>Event Date</small>
+                                                        <input class="form-control" type="date" name="event_date" asp-for="event_date" />
+                                                    </div>
+                                                    <div class="form-group" id="eventStart">
+                                                        <small>Event end time</small>
+                                                        <input class="form-control" type="time" name="end_at"
+                                                               min="07:00" max="00:00" required asp-for="end_at" />
+                                                    </div>
+                                                    <br />
+                                                    <div class="form-group" id="eventCategory">
+                                                        <small>Event Category</small>
+                                                        <select asp-for="category" style="background-color: white; width: 360px; height: 37px; border-radius: 5px;">
+                                                            <option value="" disabled selected hidden>Choose Category...</option>
+                                                            <option value="Default">
+                                                                Default
+                                                            </option>
+                                                            <option value="Friends">
+                                                                Friends
+                                                            </option>
+
+                                                            @{
+                                                                List<Categories> categorylist = new List<Categories>();
+                                                                categorylist = ViewData["categoryobjects"] as List<Categories>;
+                                                                if (categorylist != null)
+                                                                {
+                                                                    for (int counter = 0; counter < categorylist.Count; counter++)
+                                                                    {
+                                                                        <option value="@categorylist[counter].GetCategoryName()">
+                                                                            @categorylist[counter].GetCategoryName().Trim(';')
+                                                                        </option>
+                                                                    }
+                                                                }
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group" id="eventLocation">
+                                                        <small>Event Location</small>
+                                                        <input class="form-control" type="text"
+                                                               placeholder="Location" id="location" asp-for="location" />
+                                                    </div>
+                                                    <br />
+                                                    <div class="container" id="guest" style="height:170px;">
+                                                        <div class="form-group" id="eventGuestCheck">
+                                                            <input class="form-controlCheck" type="checkbox"
+                                                                   id="guest" name="guest" asp-for="guest" />
+                                                            <label for="guest" style="color:black;">Guest?</label>
+
+                                                        </div>
+                                                        <div class="form-group" id="eventGuestUsername">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Guest Username" id="guestUsername" asp-for="guestUsername" />
+                                                        </div>
+                                                        <div class="form-group" id="eventGuestEmail">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Guest Email" id="guestEmail" asp-for="guestEmail" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="modal-footer" style="background: #1C1C1C; width: 100%; border: none; bottom: 0;">
+                                                    <button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>
+                                                    <button type="submit" id="createEventSubmit" class="btn btn-primary float-right">Create</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="title">List of Events</div>
             <div>
-                <img src="~/Images/ProductivityXLogin.png" class="round_icon" alt="">
+                 
 
             </div>
         </div>
 
 
+<<<<<<< HEAD
         <table id="categoriesTable" class="center" style="width:1000px;">
 			<thead>
 				<tr>
@@ -119,12 +383,96 @@
 					}
 				}
 			</thead>
+=======
+        <table id="categoriesTable" class="center" style="width:1000px; z-index: 5;">
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Category</th>
+                    <th>Location</th>
+                    <th>Description</th>
+                    <th>Notification</th>
+                    <th>Guest</th>
+                    <th>Delete</th>
+                </tr>
+                @{
+                    List<Events> eventlist = new List<Events>();
+                    eventlist = ViewData["eventobjects"] as List<Events>;
+                    for (int counter = 0; counter < eventlist.Count; counter++)
+                    {
+                        <tr style="background-color:@eventlist[counter].GetEventColor()">
+                            <td value="@eventlist[counter].GetEventName()">
+                                @eventlist[counter].GetEventName().Trim(';')
+                            </td>
+                            <td value="@eventlist[counter].GetDate()">
+                                @eventlist[counter].GetDate()
+                            </td>
+                            <td value="@eventlist[counter].StartTime()">
+                                @eventlist[counter].StartTime()
+                            </td>
+                            <td value="@eventlist[counter].EndTime()">
+                                @eventlist[counter].EndTime()
+                            </td>
+                            <td value="@eventlist[counter].GetCategory()">
+                                @eventlist[counter].GetCategory()
+                            </td>
+                            <td value="@eventlist[counter].GetLocation()">
+                                @eventlist[counter].GetLocation()
+                            </td>
+                            <td value="@eventlist[counter].GetDescription()">
+                                @eventlist[counter].GetDescription()
+                            </td>
+                            <td value="@eventlist[counter].GetNotification()">
+                                @eventlist[counter].GetNotification()
+                            </td>
+                            <td value="@eventlist[counter].IsThereAGuest()">
+                                @eventlist[counter].IsThereAGuest()
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" value="@eventlist[counter]" onclick="window.location.href = '@Url.Action("DeleteEvent", "MainWindow")?eventid=@eventlist[counter].GetEventID()'">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </thead>
+>>>>>>> 17f19b3e6974da8f52fb46bdfaa470b5dd77dfd0
             <tbody>
-                
-
-               
             </tbody>
         </table>
     </div>
 
 </body>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnclick").click(function () {
+            $("#login").modal('show');
+        });
+
+        $("#HidebtnModal").click(function () {
+            $("#login").modal('hide');
+        });
+    });
+</script>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+    </script>
+}

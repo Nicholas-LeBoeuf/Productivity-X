@@ -599,7 +599,7 @@ namespace Productivity_X.Models
 					}
 					else
 					{
-						eventData[counter].SetEventColor("Pink");
+						eventData[counter].SetEventColor("#FF69B4");
 					}
 				}
 			}
@@ -610,7 +610,14 @@ namespace Productivity_X.Models
 		/*		
 				//-----------TodayButton, find events with todays date, pass back event id----------------
 				public List<string> FindTodaysEvents(string todaysDate)
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 17f19b3e6974da8f52fb46bdfaa470b5dd77dfd0
+>>>>>>> Stashed changes
 				{
 					List<string> eventData = new List<string>();
 					using (MySqlConnection conn = GetConnection())
@@ -632,6 +639,33 @@ namespace Productivity_X.Models
 					return eventData;
 				}
 		*/
+<<<<<<< HEAD
+=======
+
+		public string GetCategoryName(int categoryid, int nUserID)
+		{
+			string categoryname = "";
+			using (MySqlConnection conn = GetConnection())
+			{
+				int nCatExists = 0;
+				conn.Open();
+				MySqlCommand FindCategoryName = conn.CreateCommand();
+
+				//Checks to see if there are duplicate category values for category name
+				FindCategoryName.Parameters.AddWithValue("@categoryid", categoryid);
+				FindCategoryName.Parameters.AddWithValue("@userid", nUserID);
+				FindCategoryName.CommandText = "select categoryname from Calendar_Schema.category_tbl where category_id = @categoryid and user_id = @userid";
+				MySqlDataReader reader = FindCategoryName.ExecuteReader();
+
+				while (reader.Read())
+				{
+					categoryname = reader.GetString(0);
+				}
+				reader.Close();
+			}
+			return categoryname;
+		}
+>>>>>>> 17f19b3e6974da8f52fb46bdfaa470b5dd77dfd0
 
 		public string GetCategoryName(int categoryid, int nUserID)
 		{
@@ -700,9 +734,19 @@ namespace Productivity_X.Models
 
 			return bRet;
 		}
+<<<<<<< Updated upstream
 
 		// Get data from category table including categoryname, color, description based upon the categoryid
 
+=======
+<<<<<<< HEAD
+		// Get data from category table including categoryname, color, description based upon the categoryid
+=======
+
+		// Get data from category table including categoryname, color, description based upon the categoryid
+
+>>>>>>> 17f19b3e6974da8f52fb46bdfaa470b5dd77dfd0
+>>>>>>> Stashed changes
 		public List<Categories> CategoryData(int userid)
 		{
 			object[] categoryDataList = new object[3];
@@ -750,9 +794,9 @@ namespace Productivity_X.Models
 			}
 		}
 
-		public List<WeelyEventsView> GetWeeklyEvents(int userid)
+		public List<WeeklyEventsView> GetWeeklyEvents(int userid)
 		{
-			var result = new List<WeelyEventsView>();
+			var result = new List<WeeklyEventsView>();
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
@@ -778,7 +822,7 @@ namespace Productivity_X.Models
 						color = "pink";
 					}
 					// Read the DB values:
-					result.Add(new WeelyEventsView()
+					result.Add(new WeeklyEventsView()
 					{
 						name = reader[0].ToString(),
 						start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),
@@ -790,6 +834,7 @@ namespace Productivity_X.Models
 			}
 			return result;
 		}
+
 		public List<TodayEventView> GetTodayEvents(int userid)
 		{
 			var result = new List<TodayEventView>();
@@ -797,6 +842,7 @@ namespace Productivity_X.Models
 			{
 				conn.Open();
 				MySqlCommand FindEvents = conn.CreateCommand();
+
 				var date = DateTime.Now.ToString("yyyy-MM-dd");
 				// Checks to see if there are duplicate usernames
 				FindEvents.Parameters.AddWithValue("@user_id", userid);
@@ -818,9 +864,19 @@ namespace Productivity_X.Models
 						color = "pink";
 					}
 					// Read the DB values:
+<<<<<<< Updated upstream
 
 					result.Add(new TodayEventView()
 
+=======
+<<<<<<< HEAD
+					result.Add(new TodayEventView()
+=======
+
+					result.Add(new TodayEventView()
+
+>>>>>>> 17f19b3e6974da8f52fb46bdfaa470b5dd77dfd0
+>>>>>>> Stashed changes
 					{
 						name = reader[0].ToString(),
 						start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Productivity_X.Models
 {
-    public class WeelyEventsView
+    public class WeeklyEventsView
     {
         public string name { get; set; }
         public string start { get; set; }
