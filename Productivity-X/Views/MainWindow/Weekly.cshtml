@@ -397,7 +397,7 @@
         var now = new Date();
         var year = now.getFullYear();
         var month = now.getMonth() + 1;
-        var day = now.getDay(); 
+        var day = now.getDay();
         n = day == 0 ? n + 6 : n + (day - 1)
         now.setDate(now.getDate() - n);
         date = now.getDate();
@@ -409,10 +409,7 @@
     document.getElementById("lastDate").innerHTML = new Date(getTime(-6)).getDate();
     document.getElementById("currentYear").innerHTML = new Date(getTime(0)).getFullYear();
 
-
-
-
-
+</script>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
