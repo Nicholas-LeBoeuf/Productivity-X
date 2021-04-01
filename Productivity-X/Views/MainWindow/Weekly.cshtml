@@ -181,6 +181,7 @@
 <body>
 
 
+<<<<<<< HEAD
     <div id="app" style=" width: 100%; padding-left: 13%;">
         <div id="weekHeader">
             <div id="create">
@@ -344,6 +345,170 @@
             </v-row>
         </v-app>
     </div>
+=======
+	<div id="app" style=" width: 100%; padding-left: 13%;">
+		<div id="weekHeader">
+			<div id="create">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-10">
+							<button id="btnclick" type="button">
+								Create Event
+							</button>
+
+
+							<div class="modal fade" id="login">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+										<div class="modal-header text-center" style=" background: #1C1C1C; border: none;">
+											<h3 class="modal-title w-100" style="color: #FFA700">Create Event</h3>
+
+										</div>
+										<div class="modal-body">
+											<form asp-action="CreateEvent">
+												<div class="container" id="eventModal1">
+													<div class="form-group" id="eventNm">
+														<small>Event Name</small>
+														<input class="form-control" type="text"
+															   placeholder="Event Name" id="eventName" asp-for="eventName" />
+
+													</div>
+													<div class="form-group" id="eventStart">
+														<small>Event start time</small>
+														<input class="form-control" type="time" name="start_at"
+															   min="07:00" max="23:00" required asp-for="start_at" />
+													</div>
+													<br />
+													<div class="form-group" id="eventDesc">
+														<small>Event Descritpion (100 characters)</small>
+														<textarea name="description" cols="41" rows="6"
+																  placeholder="Description" id="description" maxlength="100"
+																  style="background-color: white; border-radius: 5px;"></textarea>
+														<input id="description" asp-for="description" />
+
+													</div>
+
+													<div class="container" id="rem" style="height: 165px; padding-bottom: 100px;">
+														<div class="form-group" id="eventNotifCheck" style="padding-top: 15px;">
+															<input class="form-controlCheck" type="checkbox"
+																   id="notification" name="notification" asp-for="notification" />
+															<label for="notification">Reminder?</label>
+														</div>
+														<div class="form-group" id="eventReminderNum">
+															<label for="reminders">Minutes:</label>
+															<input class="form-controlSpinner" type="number"
+																   min="5" max="60" step="5" value="15" size="1"
+																   placeholder="Minutes" id="reminders"
+																   style="background-color: white; border-width: 2px; border-style: solid; border-color: #777474" asp-for="reminder" />
+														</div>
+													</div>
+												</div>
+
+												<div class="container" id="eventModal2">
+													<div class="form-group" id="eventDate">
+														<small>Event Date</small>
+														<input class="form-control" type="date" name="event_date" asp-for="event_date" />
+													</div>
+													<div class="form-group" id="eventStart">
+														<small>Event end time</small>
+														<input class="form-control" type="time" name="end_at"
+															   min="07:00" max="00:00" required asp-for="end_at" />
+													</div>
+													<br />
+													<div class="form-group" id="eventCategory">
+														<small>Event Category</small>
+														<select asp-for="category" style="background-color: white; width: 360px; height: 37px; border-radius: 5px;">
+															<option value="" disabled selected hidden>Choose Category...</option>
+															<option value="Default">
+																Default
+															</option>
+															<option value="Friends">
+																Friends
+															</option>
+
+															@{
+																List<Categories> categorylist = new List<Categories>();
+																categorylist = ViewData["categoryobjects"] as List<Categories>;
+																if (categorylist != null)
+																{
+																	for (int counter = 0; counter < categorylist.Count; counter++)
+																	{
+																	<option value="@categorylist[counter].GetCategoryName()">
+																		@categorylist[counter].GetCategoryName().Trim(';')
+																	</option>
+																	}
+																}
+															}
+														</select>
+
+													</div>
+													<div class="form-group" id="eventLocation">
+														<small>Event Location</small>
+														<input class="form-control" type="text"
+															   placeholder="Location" id="location" asp-for="location" />
+													</div>
+													<br />
+													<div class="container" id="guest" style="height:170px;">
+														<div class="form-group" id="eventGuestCheck">
+															<input class="form-controlCheck" type="checkbox"
+																   id="guest" name="guest" asp-for="guest" />
+															<label for="guest">Guest?</label>
+														</div>
+														<div class="form-group" id="eventGuestUsername">
+															<input class="form-control" type="text"
+																   placeholder="Guest Username" id="guestUsername" asp-for="guestUsername" />
+														</div>
+														<div class="form-group" id="eventGuestEmail">
+															<input class="form-control" type="text"
+																   placeholder="Guest Email" id="guestEmail" asp-for="guestEmail" />
+														</div>
+													</div>
+												</div>
+
+
+												<div class="modal-footer" style="background: #1C1C1C; width: 100%; border: none; bottom: 0;">
+													<button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>
+													<button type="submit" id="createEventSubmit" class="btn btn-primary float-right">Create</button>
+												</div>
+											</form>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="title">
+				<span id="currentMonth"></span>
+				<span id="firstDate"></span> -
+				<span id="lastDate"></span>,
+				<span id="currentYear"></span>
+			</div>
+			<div>
+				<img src="~/Images/ProductivityXLogin.png" class="round_icon" alt="">
+
+			</div>
+		</div>
+
+		<v-app id="inspire" class="my-app">
+			<v-row>
+				<v-col>
+					<v-sheet height="100%">
+						<v-sheet height="100%">
+							<v-calendar ref="calendar"
+										:now="today"
+										:value="today"
+										:events="events"
+										color="primary"
+										type="week"></v-calendar>
+						</v-sheet>
+				</v-col>
+			</v-row>
+		</v-app>
+	</div>
+>>>>>>> b45e640e735ba172adb8d3c08015a69d1bcd198e
 
 </body>
 </html>
@@ -351,6 +516,7 @@
 <script src="~/js/vuetify.js"></script>
 <script src="~/js/axios.js"></script>
 <script>
+<<<<<<< HEAD
     new Vue({
         el: '#app',
         vuetify: new Vuetify({
@@ -368,6 +534,25 @@
             }
         }),
         data: () => ({
+=======
+	new Vue({
+		el: '#app',
+		vuetify: new Vuetify({
+			theme: {
+				dark: true,
+				themes: {
+					dark: {
+						// Color is applied to selected drop down item
+						primary: '#0064A2',
+
+						// Uncomment this to make things worse
+						// 'primary--text': '#FF00FF'
+					}
+				}
+			}
+		}),
+		 data: () => ({
+>>>>>>> b45e640e735ba172adb8d3c08015a69d1bcd198e
             today: new Date().toLocaleDateString().split('/').join('-'),//'2021-03-12',
             events: [],
         }),

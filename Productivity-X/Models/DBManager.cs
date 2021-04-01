@@ -452,6 +452,36 @@ namespace Productivity_X.Models
 			return nRet;
 		}
 
+		public void DeleteEvent(int eventid)
+		{
+			bool bRet = true;
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand CheckData = conn.CreateCommand();
+				// Checks to see if user invited any guests or friends
+				CheckData.Parameters.AddWithValue("@inviteguest", true);
+				CheckData.CommandText = "SELECT event_id FROM Calendar_Schema.events_tbl where guest = @inviteguest";
+				CheckData.ExecuteNonQuery();
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = CheckData.ExecuteReader();
+				if (reader.Read())
+				{
+					MySqlCommand deleteGuestRow = conn.CreateCommand();
+					CheckData.Parameters.AddWithValue("@eventid", Convert.ToString(reader[0]));
+					deleteGuestRow.CommandText = "delete FROM Calendar_Schema.guest_tbl where event_id = @eventid";
+					deleteGuestRow.ExecuteNonQuery();
+					reader.Close();
+				}
+				else
+					reader.Close();
+				MySqlCommand deleteEventRow = conn.CreateCommand();
+				deleteEventRow.Parameters.AddWithValue("@eventid", eventid);
+				deleteEventRow.CommandText = "delete FROM Calendar_Schema.events_tbl where event_id = @eventid";
+				deleteEventRow.ExecuteNonQuery();
+			} 
+		}
+
 		/*
 				public bool EditEvent(EditEvent ee)
 				{
@@ -508,34 +538,7 @@ namespace Productivity_X.Models
 					return bRet;
 				}
 
-				public bool DeleteEvent(int eventid)
-				{
-					bool bRet = true;
-					using (MySqlConnection conn = GetConnection())
-					{
-						conn.Open();
-						MySqlCommand CheckData = conn.CreateCommand();
-						// Checks to see if user invited any guests or friends
-						CheckData.Parameters.AddWithValue("@inviteguest", true);
-						CheckData.CommandText = "SELECT eventid FROM Calendar_schema.events_tbl where guest = @inviteguest";
-						CheckData.ExecuteNonQuery();
-						// Execute the SQL command against the DB:
-						MySqlDataReader reader = CheckData.ExecuteReader();
-						if (reader.Read())
-						{			
-							MySqlCommand deleteGuestRow = conn.CreateCommand();
-							CheckData.Parameters.AddWithValue("@eventid", Convert.ToString(reader[0]));
-							deleteGuestRow.CommandText = "delete FROM Calendar_Schema.guest_tbl where event_id = @eventid";
-							deleteGuestRow.ExecuteNonQuery();
-							reader.Close();
-						}
-						MySqlCommand deleteEventRow = conn.CreateCommand();
-						deleteEventRow.Parameters.AddWithValue("@eventid", DBObject.eventid);
-						deleteEventRow.CommandText = "delete FROM Calendar_Schema.events_tbl where event_id = @eventid";
-						deleteEventRow.ExecuteNonQuery();
-					}
-					return bRet;
-				}
+				
 		*/
 
 		public List<Events> EventData(int nUserID)
@@ -607,6 +610,7 @@ namespace Productivity_X.Models
 		/*		
 				//-----------TodayButton, find events with todays date, pass back event id----------------
 				public List<string> FindTodaysEvents(string todaysDate)
+<<<<<<< HEAD
 				{
 					List<string> eventData = new List<string>();
 					using (MySqlConnection conn = GetConnection())
@@ -628,6 +632,53 @@ namespace Productivity_X.Models
 					return eventData;
 				}
 		*/
+=======
+				{
+					List<string> eventData = new List<string>();
+					using (MySqlConnection conn = GetConnection())
+					{
+						conn.Open();
+						MySqlCommand UpdateEvent = conn.CreateCommand();
+						UpdateEvent.CommandText = "select event_id, eventname from Calendar_Schema.events_tbl where user_id = @userid and event_date = @eventdate";
+						UpdateEvent.Parameters.AddWithValue("@userid", DBObject.id);
+						UpdateEvent.Parameters.AddWithValue("@eventdate", Convert.ToDateTime(todaysDate));
+						UpdateEvent.ExecuteNonQuery();
+						// Execute the SQL command against the DB:
+						MySqlDataReader reader = UpdateEvent.ExecuteReader();
+						while (reader.Read())
+						{
+							eventData.Add(Convert.ToString(reader[0]));
+						}
+						reader.Close();
+					}
+					return eventData;
+				}
+		*/
+
+		public string GetCategoryName(int categoryid, int nUserID)
+		{
+			string categoryname = "";
+			using (MySqlConnection conn = GetConnection())
+			{
+				int nCatExists = 0;
+				conn.Open();
+				MySqlCommand FindCategoryName = conn.CreateCommand();
+
+				//Checks to see if there are duplicate category values for category name
+				FindCategoryName.Parameters.AddWithValue("@categoryid", categoryid);
+				FindCategoryName.Parameters.AddWithValue("@userid", nUserID);
+				FindCategoryName.CommandText = "select categoryname from Calendar_Schema.category_tbl where category_id = @categoryid and user_id = @userid";
+				MySqlDataReader reader = FindCategoryName.ExecuteReader();
+
+				while (reader.Read())
+				{
+					categoryname = reader.GetString(0);
+				}
+				reader.Close();
+			}
+			return categoryname;
+		}
+>>>>>>> b45e640e735ba172adb8d3c08015a69d1bcd198e
 
 		public bool SaveCategory(UserCreateCategory cat, int nUserID)
 		{
@@ -672,7 +723,11 @@ namespace Productivity_X.Models
 
 			return bRet;
 		}
+<<<<<<< HEAD
 		// Get data from category table including categoryname, color, description based upon the categoryid
+=======
+
+>>>>>>> b45e640e735ba172adb8d3c08015a69d1bcd198e
 		public List<Categories> CategoryData(int userid)
 		{
 			object[] categoryDataList = new object[3];
@@ -701,7 +756,24 @@ namespace Productivity_X.Models
 			}
 			return categoryObj;
 		}
-		//----------Friend Button---------------
+		public void DeleteCategory(int categoryid, string categoryname, int userid)
+		{
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+
+				MySqlCommand updateEventsTable = conn.CreateCommand();
+				updateEventsTable.Parameters.AddWithValue("@categoryname", categoryname);
+				updateEventsTable.Parameters.AddWithValue("@userid", userid);
+				updateEventsTable.CommandText = "update Calendar_Schema.events_tbl set categoryname = \"Default\" where categoryname = @categoryname and user_id = @userid";
+				updateEventsTable.ExecuteNonQuery();
+			
+				MySqlCommand deleteCategoryRow = conn.CreateCommand();
+				deleteCategoryRow.Parameters.AddWithValue("@categoryid", categoryid);
+				deleteCategoryRow.CommandText = "delete FROM Calendar_Schema.category_tbl where category_id = @categoryid";
+				deleteCategoryRow.ExecuteNonQuery();
+			}
+		}
 
 		public List<WeelyEventsView> GetWeeklyEvents(int userid)
 		{
@@ -771,7 +843,11 @@ namespace Productivity_X.Models
 						color = "pink";
 					}
 					// Read the DB values:
+<<<<<<< HEAD
 					result.Add(new TodayEventView()
+=======
+					result.Add(new WeelyEventsView()
+>>>>>>> b45e640e735ba172adb8d3c08015a69d1bcd198e
 					{
 						name = reader[0].ToString(),
 						start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),
@@ -784,5 +860,6 @@ namespace Productivity_X.Models
 			}
 			return result;
 		}
+
 	}
 }
