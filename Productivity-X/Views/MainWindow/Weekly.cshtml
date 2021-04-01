@@ -275,6 +275,7 @@
                                                                 }
                                                             }
                                                         </select>
+
 													</div>
 													<div class="form-group" id="eventLocation">
 														<small>Event Location</small>
@@ -300,6 +301,8 @@
 												</div>
 
 
+
+
                                                 <div class="modal-footer" style="background: #1C1C1C; width: 100%; border: none; bottom: 0;">
                                                     <button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>
                                                     <button type="submit" id="createEventSubmit" class="btn btn-primary float-right">Create</button>
@@ -320,8 +323,7 @@
                 <span id="lastDate"></span>,
                 <span id="currentYear"></span>
             </div>
-            <div>
-                
+            <div>                
 
             </div>
         </div>
@@ -349,6 +351,7 @@
 <script src="~/js/vuetify.js"></script>
 <script src="~/js/axios.js"></script>
 <script>
+
     new Vue({
         el: '#app',
         vuetify: new Vuetify({
@@ -359,13 +362,14 @@
                         // Color is applied to selected drop down item
                         primary: '#0064A2',
 
-						// Uncomment this to make things worse
-						// 'primary--text': '#FF00FF'
-					}
-				}
-			}
-		}),
+                        // Uncomment this to make things worse
+                        // 'primary--text': '#FF00FF'
+                    }
+                }
+            }
+        }),
         data: () => ({
+
             today: new Date().toLocaleDateString().split('/').join('-'),//'2021-03-12',
             events: [],
         }),
@@ -389,20 +393,23 @@
 
 <script type="text/javascript">
     var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    var now = new Date();
-    var nowTime = now.getTime();
-    var day = now.getDay();
-    var oneDay = 24 * 60 * 60 * 1000;
-    var MondayTime = nowTime - (day - 1) * oneDay;
-    var monday = new Date(MondayTime);
-    var year = monday.getFullYear();
-    var sunday = monday.getDate() - 1;
-    var saturday = monday.getDate() + 6;
-    document.getElementById("currentMonth").innerHTML = monthsInEng[monday.getMonth() + 1];
-    document.getElementById("firstDate").innerHTML = sunday;
-    document.getElementById("lastDate").innerHTML = saturday;
-    document.getElementById("currentYear").innerHTML = year;
-</script>
+    function getTime(n) {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDay(); 
+        n = day == 0 ? n + 6 : n + (day - 1)
+        now.setDate(now.getDate() - n);
+        date = now.getDate();
+        var s = year + "-" + (month < 10 ? ('0' + month) : month) + "-" + (date < 10 ? ('0' + date) : date);
+        return s;
+    }
+    document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(getTime(0)).getMonth()];
+    document.getElementById("firstDate").innerHTML = new Date(getTime(0)).getDate();
+    document.getElementById("lastDate").innerHTML = new Date(getTime(-6)).getDate();
+    document.getElementById("currentYear").innerHTML = new Date(getTime(0)).getFullYear();
+
+
 
 
 
