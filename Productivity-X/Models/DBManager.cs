@@ -599,7 +599,7 @@ namespace Productivity_X.Models
 					}
 					else
 					{
-						eventData[counter].SetEventColor("Pink");
+						eventData[counter].SetEventColor("#FF69B4");
 					}
 				}
 			}
@@ -750,9 +750,9 @@ namespace Productivity_X.Models
 			}
 		}
 
-		public List<WeelyEventsView> GetWeeklyEvents(int userid)
+		public List<WeeklyEventsView> GetWeeklyEvents(int userid)
 		{
-			var result = new List<WeelyEventsView>();
+			var result = new List<WeeklyEventsView>();
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
@@ -778,7 +778,7 @@ namespace Productivity_X.Models
 						color = "pink";
 					}
 					// Read the DB values:
-					result.Add(new WeelyEventsView()
+					result.Add(new WeeklyEventsView()
 					{
 						name = reader[0].ToString(),
 						start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),
@@ -790,6 +790,7 @@ namespace Productivity_X.Models
 			}
 			return result;
 		}
+
 		public List<TodayEventView> GetTodayEvents(int userid)
 		{
 			var result = new List<TodayEventView>();
@@ -797,6 +798,7 @@ namespace Productivity_X.Models
 			{
 				conn.Open();
 				MySqlCommand FindEvents = conn.CreateCommand();
+
 				var date = DateTime.Now.ToString("yyyy-MM-dd");
 				// Checks to see if there are duplicate usernames
 				FindEvents.Parameters.AddWithValue("@user_id", userid);

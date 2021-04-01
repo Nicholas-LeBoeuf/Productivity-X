@@ -8,6 +8,51 @@
     <link rel="stylesheet" href="~/css/mainLayout.css" />
     <script src="https://kit.fontawesome.com/1e6384ea85.js" crossorigin="anonymous"></script>
 </head>
+
+<style>
+.dropbtn {
+    background: url("../Images/ProductivityXLogin.png");
+    width: 50px;
+    height: 50px;
+    display: flex;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: none;
+    background-size: contain;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 4px;
+  left: auto;
+  background-color: #f1f1f1;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+</style>
+
 <body>
 
     <div class="wrapper">
@@ -26,7 +71,15 @@
                 <li><a href='@Url.Action("Friends", "MainWindow")'><i class="fas fa-user-friends"></i>Friends</a></li>
             </ul>
         </div>
+        
     </div>
-
+    <div style="position: absolute; top: 0; right: 0; padding-top: 32px; padding-right: 32px;">
+        <div class="dropdown">
+            <button class="dropbtn"></button>
+            <div class="dropdown-content">
+                <a href="@Url.Action("Index")">Logout</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

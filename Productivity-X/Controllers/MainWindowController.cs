@@ -114,6 +114,7 @@ namespace Productivity_X.Controllers
             return Json(_manager.GetTodayEvents(userid));
         }
 
+
         public IActionResult Today()
         {
             return View();
@@ -205,6 +206,7 @@ namespace Productivity_X.Controllers
         }
         public IActionResult Events()
         {
+            GetCategoriesHelper();
             GetEventsHelper();    
             return View();
         }
