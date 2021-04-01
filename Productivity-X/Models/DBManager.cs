@@ -599,7 +599,7 @@ namespace Productivity_X.Models
 					}
 					else
 					{
-						eventData[counter].SetEventColor("Pink");
+						eventData[counter].SetEventColor("#FF69B4");
 					}
 				}
 			}
