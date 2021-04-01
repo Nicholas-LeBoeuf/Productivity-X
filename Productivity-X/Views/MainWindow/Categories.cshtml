@@ -145,9 +145,9 @@
             font-size: 25px;
         }
 
-        option.saddlebrown {
+        option.brown {
             color: white;
-            background-color: saddlebrown;
+            background-color: brown;
             font-weight: bold;
             font-size: 25px;
         }
@@ -155,20 +155,6 @@
         option.purple {
             color: white;
             background-color: purple;
-            font-weight: bold;
-            font-size: 25px;
-        }
-
-        option.tomato {
-            color: white;
-            background-color: tomato;
-            font-weight: bold;
-            font-size: 25px;
-        }
-
-        option.lightseagreen {
-            color: white;
-            background-color: lightseagreen;
             font-weight: bold;
             font-size: 25px;
         }
@@ -206,30 +192,9 @@
         tr {
             text-align: center;
         }
-
-        #deletebutton {
-            display: inline-block;
-            padding: 0.35em 1.2em;
-            border: 0.1em solid #353535;
-            margin: 0 0.3em 0.3em 0;
-            border-radius: 0.40em;
-            box-sizing: border-box;
-            text-decoration: none;
-            font-family: 'Roboto',sans-serif;
-            font-weight: 300;
-            background-color: #fff;
-            color: red;
-            font-weight: bolder;
-            text-align: center;
-            transition: all 0.2s;
-        }
-
-        #deletebutton:hover {
-            background: #BBBBBB;
-        }
     </style>
 </head>
-<body style="background-color: #1C1C1C;
+<body style="        background-color: #1C1C1C;
         color: #fff;">
     <div id="app" style="width: 100%;padding-left: 12%;">
         <div id="weekHeader">
@@ -270,10 +235,8 @@
                                                             <option class="blue" value="blue">Blue</option>
                                                             <option class="green" value="green">Green</option>
                                                             <option class="cyan" value="cyan">Cyan</option>
-                                                            <option class="saddlebrown" value="saddlebrown">Saddle Brown</option>
+                                                            <option class="brown" value="brown">Brown</option>
                                                             <option class="purple" value="purple">Purple</option>
-                                                            <option class="tomato" value="tomato">Tomato</option>
-                                                            <option class="lightseagreen" value="lightseagreen">Light Sea Green</option>
 
                                                         </select>
 
@@ -317,21 +280,18 @@
 					<th>Color</th>
 					<th>Name</th>
 					<th>Description</th>
-                    <th>Delete</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td>Grey</td>
 					<td>Default</td>
-					<td>This is a default category that cannot get deleted</td>
-                    <td>NULL</td>
+					<td>This is a default category that cannot get deleted or edited</td>
 				</tr>
 				<tr style="background-color:pink">
 					<td>Pink</td>
 					<td>Friends</td>
-					<td>This is a Friends category that cannot get deleted</td>
-                    <td>NULL</td>
+					<td>This is a Friends category that cannot get deleted or edited</td>
 				</tr>
 
 				@{
@@ -349,12 +309,6 @@
 							<td value="@categorylist[counter].GetDescription()">
 								@categorylist[counter].GetDescription()
 							</td>
-							<td>
-								<button id="deletebutton" type="button" value="@categorylist[counter]" onclick="window.location.href = '@Url.Action("DeleteCategory", "MainWindow")?categoryid=@categorylist[counter].GetCategoryID()';">
-									Delete
-								</button>
-							</td>
-							
 						</tr>
 				    }
 				}

@@ -91,10 +91,5 @@ namespace Productivity_X.Models
 		{
 			return eventColor;
 		}
-
-		public int GetEventID()
-		{
-			return eventid;
-		}
 	}
 }
