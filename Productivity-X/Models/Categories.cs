@@ -39,5 +39,9 @@ namespace Productivity_X.Models
 		{
 			return description;
 		}
+		public int GetCategoryID()
+		{
+			return categoryid;
+		}
 	}
 }

@@ -45,6 +45,7 @@ namespace Productivity_X.Controllers
 
         public IActionResult CreateEvent(UserCreateEvent createEvent)
         {
+            GetCategoriesHelper();
             bool bRet = true;
 
             if((createEvent.guest == true && createEvent.guestEmail == null && createEvent.guestUsername == null) || 
@@ -92,6 +93,14 @@ namespace Productivity_X.Controllers
             */
             return View("Weekly");
         }
+
+        public IActionResult DeleteEvent(int? eventid)
+		{
+            _manager.DeleteEvent(Convert.ToInt32(eventid));
+            GetEventsHelper();
+            return View("Events");
+		}
+
         public IActionResult GetWeeklyEvents()
         {
             int userid = (int)TempData["userid"];
@@ -113,6 +122,20 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
+        public IActionResult DeleteCategory(int? categoryid)
+		{
+            // Set userid
+            int userid = (int)TempData["userid"];
+            // Find Categoryname
+            string categoryname = _manager.GetCategoryName(Convert.ToInt32(categoryid), userid);
+            _manager.DeleteCategory(Convert.ToInt32(categoryid), categoryname, userid);
+
+            // Update Category list
+            GetCategoriesHelper();
+            TempData["userid"] = userid;
+            return View("Categories");
+		}
+
         public IActionResult CreateCategory(UserCreateCategory createCategory)
         {
             bool bRet = true;
@@ -147,10 +170,8 @@ namespace Productivity_X.Controllers
         public void GetCategoriesHelper()
 		{
             List<Categories> categoriesSaved = new List<Categories>();
-            // Will need to populate the calendar before opening it, query is in DBManager....
+            
             int userid = (int)TempData["userid"];
-            //            int numCategories = _manager.TotalCategories(userid);
-
 
             categoriesSaved = _manager.CategoryData(userid);
 
@@ -163,13 +184,14 @@ namespace Productivity_X.Controllers
 
             return View();
         }
+
         public IActionResult Friends()
         {
             return View();
         }
 
-        public IActionResult Events()
-        {
+        public void GetEventsHelper()
+		{
             List<Events> eventsSaved = new List<Events>();
 
             int userid = (int)TempData["userid"];
@@ -180,7 +202,13 @@ namespace Productivity_X.Controllers
             eventsSaved = _manager.EventData(userid);
 
             ViewData["eventobjects"] = eventsSaved;
+        }
+        public IActionResult Events()
+        {
+            GetEventsHelper();    
             return View();
         }
+
+
     }
 }
