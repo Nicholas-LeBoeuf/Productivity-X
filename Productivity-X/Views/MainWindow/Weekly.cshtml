@@ -181,6 +181,7 @@
 <body>
 
 
+
     <div id="app" style=" width: 100%; padding-left: 13%;">
         <div id="weekHeader">
             <div id="create">
@@ -351,6 +352,7 @@
 <script src="~/js/vuetify.js"></script>
 <script src="~/js/axios.js"></script>
 <script>
+
     new Vue({
         el: '#app',
         vuetify: new Vuetify({
@@ -368,6 +370,7 @@
             }
         }),
         data: () => ({
+
             today: new Date().toLocaleDateString().split('/').join('-'),//'2021-03-12',
             events: [],
         }),
