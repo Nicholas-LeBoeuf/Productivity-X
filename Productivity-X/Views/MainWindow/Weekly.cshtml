@@ -276,29 +276,29 @@
                                                             }
                                                         </select>
 
-													</div>
-													<div class="form-group" id="eventLocation">
-														<small>Event Location</small>
-														<input class="form-control" type="text"
-															   placeholder="Location" id="location" asp-for="location" />
-													</div>
-													<br />
-													<div class="container" id="guest" style="height:170px;">
-														<div class="form-group" id="eventGuestCheck">
-															<input class="form-controlCheck" type="checkbox"
-																   id="guest" name="guest" asp-for="guest" />
-															<label for="guest">Guest?</label>
-														</div>
-														<div class="form-group" id="eventGuestUsername">
-															<input class="form-control" type="text"
-																   placeholder="Guest Username" id="guestUsername" asp-for="guestUsername" />
-														</div>
-														<div class="form-group" id="eventGuestEmail">
-															<input class="form-control" type="text"
-																   placeholder="Guest Email" id="guestEmail" asp-for="guestEmail" />
-														</div>
-													</div>
-												</div>
+                                                    </div>
+                                                    <div class="form-group" id="eventLocation">
+                                                        <small>Event Location</small>
+                                                        <input class="form-control" type="text"
+                                                               placeholder="Location" id="location" asp-for="location" />
+                                                    </div>
+                                                    <br />
+                                                    <div class="container" id="guest" style="height:170px;">
+                                                        <div class="form-group" id="eventGuestCheck">
+                                                            <input class="form-controlCheck" type="checkbox"
+                                                                   id="guest" name="guest" asp-for="guest" />
+                                                            <label for="guest">Guest?</label>
+                                                        </div>
+                                                        <div class="form-group" id="eventGuestUsername">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Guest Username" id="guestUsername" asp-for="guestUsername" />
+                                                        </div>
+                                                        <div class="form-group" id="eventGuestEmail">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Guest Email" id="guestEmail" asp-for="guestEmail" />
+                                                        </div>
+                                                    </div>
+                                                </div>
 
 
 
@@ -320,10 +320,11 @@
             <div class="title">
                 <span id="currentMonth"></span>
                 <span id="firstDate"></span> -
+                <span id="nextMonth"></span>
                 <span id="lastDate"></span>,
                 <span id="currentYear"></span>
             </div>
-            <div>                
+            <div>
 
             </div>
         </div>
@@ -393,24 +394,26 @@
 
 <script type="text/javascript">
     var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    function getTime(n) {
-        var now = new Date();
-        var year = now.getFullYear();
-        var month = now.getMonth() + 1;
-        var day = now.getDay();
-        n = day == 0 ? n + 6 : n + (day - 1)
-        now.setDate(now.getDate() - n);
-        date = now.getDate();
-        var s = year + "-" + (month < 10 ? ('0' + month) : month) + "-" + (date < 10 ? ('0' + date) : date);
-        return s;
+    function getSunday(date) {
+        var day = date.getDay();
+        var deltaDay;
+        if (day == 0) {
+            deltaDay = 7;
+        } else {
+            deltaDay = day;
+        }
+        var sunday = new Date(date.getTime() - deltaDay * 24 * 60 * 60 * 1000);
+        return sunday; 
     }
-    document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(getTime(0)).getMonth()];
-    document.getElementById("firstDate").innerHTML = new Date(getTime(0)).getDate();
-    document.getElementById("lastDate").innerHTML = new Date(getTime(-6)).getDate();
-    document.getElementById("currentYear").innerHTML = new Date(getTime(0)).getFullYear();
+    var sunday = getSunday(new Date());
+    document.getElementById("currentMonth").innerHTML = monthsInEng[sunday.getMonth() + 1];
+    var saturday = new Date(sunday.getTime() + 6 * 24 * 60 * 60 * 1000);
+    document.getElementById("nextMonth").innerHTML = monthsInEng[saturday.getMonth() + 1];
+    document.getElementById("firstDate").innerHTML = sunday.getDate();
+    document.getElementById("lastDate").innerHTML = saturday.getDate();
+    document.getElementById("currentYear").innerHTML = sunday.getFullYear();
 
 </script>
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
