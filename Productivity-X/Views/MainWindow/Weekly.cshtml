@@ -157,12 +157,14 @@
             float: right;
         }
 
-        .form-group #eventDesc {
-            height: 100px;
+        .container #guest {
+            width: 50%;
+            margin:auto;
+            clear: both;
         }
 
         .modal-body {
-            background-color: #777474;
+            background-image: url('../Images/background2.jpeg');
         }
 
         .container #rem {
@@ -174,7 +176,14 @@
         }
 
         small {
-            color: blue;
+            background: rgba(91, 86, 85, .48);
+            border-radius: 15px;
+            color: #FFA700;
+            font-size: 15px;
+        }
+        .inputs {
+            height: 45px;
+            opacity: 90%;
         }
     </style>
 </head>
@@ -195,64 +204,56 @@
                             <div class="modal fade" id="login">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
-                                        <div class="modal-header text-center" style=" background: #1C1C1C; border: none;">
-                                            <h3 class="modal-title w-100" style="color: #FFA700">Create Event</h3>
+                                        <div class="modal-header text-center" style=" background-image: url('../Images/background2.jpeg'); border: none; border-bottom: 0 none; border-top:  rgba(43,42,40,255) solid 8px; border-right: rgba(53, 53, 53, 0.7) solid 8px; border-left: rgba(43,42,40,255) solid 8px;">
+                                            <h3 class="modal-title w-100" style="color: #FFA700; font-weight: bold; background: rgba(0, 132, 255, 0.7); border-radius: 25px;">Create Event</h3>
 
                                         </div>
-                                        <div class="modal-body">
-                                            <form asp-action="CreateEvent">
+                                        <div class="modal-body" style=" border-right: rgba(53, 53, 53, 0.7) solid 8px; border-left: rgba(43,42,40,255) solid 8px;">
+                                            <form asp-action="CreateEvent" id="createform">
                                                 <div class="container" id="eventModal1">
                                                     <div class="form-group" id="eventNm">
-                                                        <small>Event Name</small>
-                                                        <input class="form-control" type="text"
+                                                        <small>&nbsp;<span style="color: red; font-weight: bold;">*</span> Event Name&nbsp;</small>
+                                                        <input class="form-control inputs" type="text"
                                                                placeholder="Event Name" id="eventName" asp-for="eventName" />
 
                                                     </div>
                                                     <div class="form-group" id="eventStart">
-                                                        <small>Event start time</small>
-                                                        <input class="form-control" type="time" name="start_at"
+                                                        <small>&nbsp;<span style="color: red; font-weight: bold;">*</span> Event start time&nbsp;</small>
+                                                        <input class="form-control inputs" type="time" name="start_at"
                                                                min="07:00" max="23:00" required asp-for="start_at" />
                                                     </div>
-                                                    <br />
+
+                                                    <div class="form-group" id="eventLocation">
+                                                        <small>&nbsp;Event Location&nbsp;</small>
+                                                        <input class="form-control inputs" type="text"
+                                                               placeholder="Location" id="location" asp-for="location" />
+                                                    </div>
+
                                                     <div class="form-group" id="eventDesc">
-                                                        <small>Event Descritpion (100 characters)</small>
-                                                        <textarea name="description" cols="41" rows="6"
+                                                        <small>&nbsp;Event Description (100 characters)&nbsp;</small>
+                                                        <textarea name="description" cols="41" rows="2"
                                                                   placeholder="Description" id="description" maxlength="100"
-                                                                  style="background-color: white; border-radius: 5px;"></textarea>
+                                                                  style="background-color: white; border-radius: 5px; opacity: 90%;"></textarea>
                                                         <input id="description" asp-for="description" />
 
                                                     </div>
 
-                                                    <div class="container" id="rem" style="height: 165px; padding-bottom: 100px;">
-                                                        <div class="form-group" id="eventNotifCheck" style="padding-top: 15px;">
-                                                            <input class="form-controlCheck" type="checkbox"
-                                                                   id="notification" name="notification" asp-for="notification" />
-                                                            <label for="notification">Reminder?</label>
-                                                        </div>
-                                                        <div class="form-group" id="eventReminderNum">
-                                                            <label for="reminders">Minutes:</label>
-                                                            <input class="form-controlSpinner" type="number"
-                                                                   min="5" max="60" step="5" value="15" size="1"
-                                                                   placeholder="Minutes" id="reminders"
-                                                                   style="background-color: white; border-width: 2px; border-style: solid; border-color: #777474" asp-for="reminder" />
-                                                        </div>
-                                                    </div>
                                                 </div>
 
                                                 <div class="container" id="eventModal2">
                                                     <div class="form-group" id="eventDate">
-                                                        <small>Event Date</small>
-                                                        <input class="form-control" type="date" name="event_date" asp-for="event_date" />
+                                                        <small>&nbsp;<span style="color: red; font-weight: bold;">*</span> Event Date&nbsp;</small>
+                                                        <input class="form-control inputs" type="date" name="event_date" asp-for="event_date" />
                                                     </div>
                                                     <div class="form-group" id="eventStart">
-                                                        <small>Event end time</small>
-                                                        <input class="form-control" type="time" name="end_at"
+                                                        <small>&nbsp;<span style="color: red; font-weight: bold;">*</span> Event end time&nbsp;</small>
+                                                        <input class="form-control inputs" type="time" name="end_at"
                                                                min="07:00" max="00:00" required asp-for="end_at" />
                                                     </div>
-                                                    <br />
+
                                                     <div class="form-group" id="eventCategory">
-                                                        <small>Event Category</small>
-                                                        <select asp-for="category" style="background-color: white; width: 360px; height: 37px; border-radius: 5px;">
+                                                        <small>&nbsp;<span style="color: red; font-weight: bold;">*</span> Event Category&nbsp;</small>
+                                                        <select asp-for="category" style="background-color: white; opacity: 90%; width: 360px; height: 45px; border-radius: 5px;">
                                                             <option value="" disabled selected hidden>Choose Category...</option>
                                                             <option value="Default">
                                                                 Default
@@ -276,38 +277,51 @@
                                                             }
                                                         </select>
 
-													</div>
-													<div class="form-group" id="eventLocation">
-														<small>Event Location</small>
-														<input class="form-control" type="text"
-															   placeholder="Location" id="location" asp-for="location" />
-													</div>
-													<br />
-													<div class="container" id="guest" style="height:170px;">
-														<div class="form-group" id="eventGuestCheck">
-															<input class="form-controlCheck" type="checkbox"
-																   id="guest" name="guest" asp-for="guest" />
-															<label for="guest">Guest?</label>
-														</div>
-														<div class="form-group" id="eventGuestUsername">
-															<input class="form-control" type="text"
-																   placeholder="Guest Username" id="guestUsername" asp-for="guestUsername" />
-														</div>
-														<div class="form-group" id="eventGuestEmail">
-															<input class="form-control" type="text"
-																   placeholder="Guest Email" id="guestEmail" asp-for="guestEmail" />
-														</div>
-													</div>
-												</div>
+                                                    </div>
+                                                    <div class="container" id="rem" style="height: 46px; margin-top: 40px; border-radius: 5px; opacity: 90%;">
+                                                        <div class="form-group" id="eventNotifCheck">
+                                                            <input class="form-controlCheck" type="checkbox"
+                                                                   id="notification" name="notification" asp-for="notification" />
+                                                            <label for="notification">Reminder?</label>
+
+                                                            <label for="reminders">&emsp;&emsp; Minutes:</label>
+                                                            <input class="form-controlSpinner" type="number"
+                                                                   min="5" max="60" step="5" value="15" size="1"
+                                                                   placeholder="Minutes" id="reminders"
+                                                                   style="background-color: white; border-width: 2px; border-style: solid; border-color: #777474" asp-for="reminder" />
+
+                                                        </div>
+                                                    </div>
 
 
 
-
-                                                <div class="modal-footer" style="background: #1C1C1C; width: 100%; border: none; bottom: 0;">
-                                                    <button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>
-                                                    <button type="submit" id="createEventSubmit" class="btn btn-primary float-right">Create</button>
                                                 </div>
+
+                                                <div class="container" id="guest" style="height:170px; border-radius: 5px; opacity: 90%;">
+                                                    <div class="form-group" id="eventGuestCheck">
+                                                        <input class="form-controlCheck" type="checkbox"
+                                                               id="guestt" name="guest" asp-for="guest" />
+                                                        <label for="guestt">Guest?</label>
+                                                    </div>
+                                                    <div class="form-group" id="eventGuestUsername">
+                                                        <input class="form-control" type="text"
+                                                               placeholder="Guest Username" id="guestUsername" asp-for="guestUsername" />
+                                                    </div>
+                                                    <div class="form-group" id="eventGuestEmail">
+                                                        <input class="form-control" type="text"
+                                                               placeholder="Guest Email" id="guestEmail" asp-for="guestEmail" />
+                                                    </div>
+                                                </div>
+
                                             </form>
+                                            
+                                        </div>
+
+                                        <div class="modal-footer" style="background-image: url('../Images/background2.jpeg'); border-top: 0 none;  border-right: rgba(53, 53, 53, 0.7) solid 8px; border-left: rgba(43,42,40,255) solid 8px; border-bottom: rgba(53, 53, 53, 0.7) solid 8px;">
+                                            <div class="container" style="color: #FFA700; font-weight: bold; background: rgba(0, 132, 255, 0.7); border-radius: 25px;">
+                                                <button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>
+                                                <button type="submit" form="createform" id="createEventSubmit" class="btn btn-primary float-right">Create</button>
+                                            </div>
                                         </div>
 
                                     </div>
