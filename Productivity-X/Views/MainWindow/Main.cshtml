@@ -1,6 +1,6 @@
 ﻿@{
-    ViewData["Title"] = "Home";
-    Layout = "~/Views/Shared/_MainPageLayout.cshtml";
+	ViewData["Title"] = "Home";
+	Layout = "~/Views/Shared/_MainPageLayout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -188,6 +188,19 @@
             height: 100px;
             background: #372304;
         }
+
+		ul.categorynames li span {
+			font-size: 26px;
+		}
+
+		ul.categorynames li {
+			margin-left: 20%;
+			border-radius: 50%;
+			margin-top: 0.02%;
+			font-size: 34px;
+			list-style-type: disc;
+		}
+
     </style>
 </head>
 <body style="color: #fff;">
@@ -201,43 +214,43 @@
                 <div class="allweeklybox">
 
                     <div class="weeklybox"> Sunday
-                        <div class="box" id="sunday1"></div>
+                        <div class="box" id="sunday1">Work</div>
                     </div>
 
 
                     <div class="weeklybox">Monday
-                        <div class="box" id="monday1"></div>
-                        <div class="box" id="monday2"></div>
-                        <div class="box" id="monday3"></div>
+						<div class="box" id="monday1">Physics</div>
+                        <div class="box" id="monday2">Software Class</div>
+						<div class="box" id="monday3">Work</div>
                     </div>
 
 
                     <div class="weeklybox">Tuesday
-                        <div class="box" id="tuesday1"></div>
-                        <div class="box" id="tuesday2"></div>
+                        <div class="box" id="tuesday1"><span style="color:black">Math</span></div>
+                        <div class="box" id="tuesday2"><span style="color:black">Data Structure class</span></div>
                     </div>
 
 
                     <div class="weeklybox">Wednesday
-                        <div class="box" id="wednesday1"></div>
-                        <div class="box" id="wednesday2"></div>
-                        <div class="box" id="wednesday3"></div>
+                        <div class="box" id="wednesday1">Physics</div>
+                        <div class="box" id="wednesday2"><span style="color:black">Data Structure class</span></div>
+                        <div class="box" id="wednesday3">Work</div>
                     </div>
 
 
                     <div class="weeklybox">Thursday
-                        <div class="box" id="thursday1"></div>
-                        <div class="box" id="thursday2"></div>
+                        <div class="box" id="thursday1">Software Class</div>
+                        <div class="box" id="thursday2">Work</div>
                     </div>
 
 
                     <div class="weeklybox">Friday
-                        <div class="box" id="friday1"></div>
+                        <div class="box" id="friday1"><span style="color:black">Math</span></div>
                     </div>
 
 
                     <div class="weeklybox">Saturday
-                        <div class="box" id="saturday1"></div>
+                        <div class="box" id="saturday1">Work</div>
                     </div>
 
 
@@ -256,9 +269,9 @@
                     <span id="currentdate"></span>
                 </div>
 
-                <div class="box" id="today1"></div>
-                <div class="box" id="today2"></div>
-                <div class="box" id="today3"></div>
+                <div class="box" id="today1">Physics</div>
+                <div class="box" id="today2">Software Class</div>
+                <div class="box" id="today3">Work</div>
 
             </div>
         </div>
@@ -272,10 +285,24 @@
                 </div>
                 <div class="box1" id="nullDiv" style="width: 10%;">
                 </div>
-                <div class="box" id="categories" style="width: 45%;">
+                <div class="box" id="categories" style="width: 45%; overflow-y:auto">
                     <a href='@Url.Action("Categories", "MainWindow")'>
                         <div class="boxtitle" style="color: white;">Categories</div>
                     </a>
+
+					<ul class="categorynames">
+						<li style="color: grey"><span style="color: white">Default</span></li>
+						<li style="color: pink"><span style="color: white">Friends</span></li>
+						@{
+							List<Categories> categoryList = new List<Categories>();
+							categoryList = ViewData["categoryobjects"] as List<Categories>;
+							for (int counter = 0; counter < categoryList.Count; counter++)
+							{
+								<li style="color: @categoryList[counter].GetColor()"><span value="categoryList[counter].GetCategoryName()"style="color: white" >@categoryList[counter].GetCategoryName()</span></li>
+							}
+						}
+					</ul>
+
                 </div>
             </div>
             <div class="box" id="friends" style="width: 30%;">
