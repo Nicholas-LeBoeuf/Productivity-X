@@ -54,7 +54,7 @@ namespace Productivity_X.Controllers
 //                TempData["userid"] = nUserID;
                 if (bUserExists)
                 {
-                    
+                    GetCategoriesHelper();
                     // Go to main screen
                     return View("~/Views/MainWindow/Main.cshtml");
                 }
@@ -66,6 +66,18 @@ namespace Productivity_X.Controllers
             }
             // Go to Login screen
             return View("Index");
+        }
+
+        public void GetCategoriesHelper()
+        {
+            List<Categories> categoriesSaved = new List<Categories>();
+
+            int userid = (int)TempData["userid"];
+
+            categoriesSaved = _manager.CategoryData(userid);
+
+            ViewData["categoryobjects"] = categoriesSaved;
+            TempData["userid"] = userid;
         }
 
         // Create accounts screens

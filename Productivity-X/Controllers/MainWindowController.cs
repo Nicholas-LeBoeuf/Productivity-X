@@ -19,6 +19,7 @@ namespace Productivity_X.Controllers
 
         public IActionResult Main()
         {
+            GetCategoriesHelper();
             return View();
         }
         public IActionResult Weekly()

@@ -1,6 +1,6 @@
 ﻿@{
-    ViewData["Title"] = "Home";
-    Layout = "~/Views/Shared/_MainPageLayout.cshtml";
+	ViewData["Title"] = "Home";
+	Layout = "~/Views/Shared/_MainPageLayout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -188,6 +188,19 @@
             height: 100px;
             background: #372304;
         }
+
+		ul.categorynames li span {
+			font-size: 26px;
+		}
+
+		ul.categorynames li {
+			margin-left: 20%;
+			border-radius: 50%;
+			margin-top: 0.02%;
+			font-size: 34px;
+			list-style-type: disc;
+		}
+
     </style>
 </head>
 <body style="color: #fff;">
@@ -272,10 +285,24 @@
                 </div>
                 <div class="box1" id="nullDiv" style="width: 10%;">
                 </div>
-                <div class="box" id="categories" style="width: 45%;">
+                <div class="box" id="categories" style="width: 45%; overflow-y:auto">
                     <a href='@Url.Action("Categories", "MainWindow")'>
                         <div class="boxtitle" style="color: white;">Categories</div>
                     </a>
+
+					<ul class="categorynames">
+						<li style="color: grey"><span style="color: white">Default</span></li>
+						<li style="color: pink"><span style="color: white">Friends</span></li>
+						@{
+							List<Categories> categoryList = new List<Categories>();
+							categoryList = ViewData["categoryobjects"] as List<Categories>;
+							for (int counter = 0; counter < categoryList.Count; counter++)
+							{
+								<li style="color: @categoryList[counter].GetColor()"><span value="categoryList[counter].GetCategoryName()"style="color: white" >@categoryList[counter].GetCategoryName()</span></li>
+							}
+						}
+					</ul>
+
                 </div>
             </div>
             <div class="box" id="friends" style="width: 30%;">
