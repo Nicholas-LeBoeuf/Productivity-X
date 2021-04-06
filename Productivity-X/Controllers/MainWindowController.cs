@@ -19,6 +19,7 @@ namespace Productivity_X.Controllers
 
         public IActionResult Main()
         {
+            GetCategoriesHelper();
             return View();
         }
         public IActionResult Weekly()
@@ -211,6 +212,10 @@ namespace Productivity_X.Controllers
             return View();
         }
 
+        public ActionResult Logout()
+        {
+            return RedirectToAction("Index", "Home");
+        }
 
     }
 }
