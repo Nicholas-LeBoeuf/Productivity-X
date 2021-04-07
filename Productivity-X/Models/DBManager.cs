@@ -356,7 +356,7 @@ namespace Productivity_X.Models
 				CheckEvent.Parameters.AddWithValue("@start_at", ce.start_at);
 				CheckEvent.Parameters.AddWithValue("@end_at", ce.end_at);
 				CheckEvent.Parameters.AddWithValue("@userid", nUserID);
-				CheckEvent.CommandText = "select count(*) from Calendar_Schema.events_tbl where eventname = @event_name and event_date = @event_date and start_at = @start_at and end_at = @end_at and userid = @userid";
+				CheckEvent.CommandText = "select count(*) from Calendar_Schema.events_tbl where eventname = @event_name and event_date = @event_date and start_at = @start_at and end_at = @end_at and user_id = @userid";
 
 				nEventExists = Convert.ToInt32(CheckEvent.ExecuteScalar());
 
@@ -448,32 +448,37 @@ namespace Productivity_X.Models
 			return nRet;
 		}
 
-		public void DeleteEvent(int eventid)
+		public void DeleteEvent(int eventid, int userid)
 		{
-			bool bRet = true;
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
 				MySqlCommand CheckData = conn.CreateCommand();
 				// Checks to see if user invited any guests or friends
 				CheckData.Parameters.AddWithValue("@inviteguest", true);
-				CheckData.CommandText = "SELECT event_id FROM Calendar_Schema.events_tbl where guest = @inviteguest";
+				CheckData.Parameters.AddWithValue("@userid", userid);
+				CheckData.CommandText = "SELECT event_id FROM Calendar_Schema.events_tbl where guest = @inviteguest and user_id=@userid";
 				CheckData.ExecuteNonQuery();
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = CheckData.ExecuteReader();
+				// If can find and read eventid, will delete event connection to guest table...
 				if (reader.Read())
 				{
-					MySqlCommand deleteGuestRow = conn.CreateCommand();
-					CheckData.Parameters.AddWithValue("@eventid", Convert.ToString(reader[0]));
-					deleteGuestRow.CommandText = "delete FROM Calendar_Schema.guest_tbl where event_id = @eventid";
-					deleteGuestRow.ExecuteNonQuery();
+					int id = Convert.ToInt32(reader[0]);
 					reader.Close();
+					MySqlCommand deleteGuestRow = conn.CreateCommand();
+					CheckData.Parameters.AddWithValue("@eventid", id);
+					CheckData.Parameters.AddWithValue("@userid", userid);
+					deleteGuestRow.CommandText = "delete FROM Calendar_Schema.guest_tbl where event_id = @eventid and user_id=@userid";
+					
+					deleteGuestRow.ExecuteNonQuery();
 				}
 				else
 					reader.Close();
 				MySqlCommand deleteEventRow = conn.CreateCommand();
 				deleteEventRow.Parameters.AddWithValue("@eventid", eventid);
-				deleteEventRow.CommandText = "delete FROM Calendar_Schema.events_tbl where event_id = @eventid";
+				deleteEventRow.Parameters.AddWithValue("@userid", userid);
+				deleteEventRow.CommandText = "delete FROM Calendar_Schema.events_tbl where event_id = @eventid and user_id=@userid";
 				deleteEventRow.ExecuteNonQuery();
 			} 
 		}
@@ -843,33 +848,30 @@ namespace Productivity_X.Models
 		public bool SaveTask(UserCreateTask ct, int nUserID)
 		{
 			bool bRet = true;
-		//	int nTasksExist = 0;
+			int nTaskCounter = 0;
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
-/*				MySqlCommand CheckEvent = conn.CreateCommand();
+				MySqlCommand AmountTasksCreated = conn.CreateCommand();
 
-				// Checks to see if there are duplicate values and if task already created
-				CheckEvent.Parameters.AddWithValue("@taskname", ct.taskName);
-				CheckEvent.Parameters.AddWithValue("@taskname", ct.taskName);
-				CheckEvent.CommandText = "select count(*) from Calendar_Schema.todo_tbl where taskname = @taskname and use_id = @userid";
+				// Checks to see if there are more than 10 tasks created
+				AmountTasksCreated.CommandText = "select count(*) from Calendar_Schema.todo_tbl where user_id = @userid";
+				AmountTasksCreated.Parameters.AddWithValue("@userid", nUserID);
+				nTaskCounter = Convert.ToInt32(AmountTasksCreated.ExecuteScalar());
 
-				nTasksExist = Convert.ToInt32(CheckEvent.ExecuteScalar());
-
-				if (nTasksExist >= 1)
+				if (nTaskCounter >= 10)
 				{
 					bRet = false;
 				}
 				else
 				{
-*/				MySqlCommand Query = conn.CreateCommand();
-				Query.CommandText = "insert into Calendar_Schema.todo_tbl (user_id, taskname, complete) VALUES (@user_id, @taskname, @bFinished)";
-
-				Query.Parameters.AddWithValue("@user_id", nUserID);
-				Query.Parameters.AddWithValue("@taskname", ct.taskName);
-				Query.Parameters.AddWithValue("@bFinished", false);
-				Query.ExecuteNonQuery();
-//				}
+					MySqlCommand Query = conn.CreateCommand();
+					Query.CommandText = "insert into Calendar_Schema.todo_tbl (user_id, taskname, complete) VALUES (@user_id, @taskname, @bFinished)";
+					Query.Parameters.AddWithValue("@user_id", nUserID);
+					Query.Parameters.AddWithValue("@taskname", ct.taskName);
+					Query.Parameters.AddWithValue("@bFinished", false);
+					Query.ExecuteNonQuery();
+				}
 			}
 			return bRet;
 		}

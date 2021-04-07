@@ -70,8 +70,10 @@ namespace Productivity_X.Controllers
 
         public IActionResult DeleteEvent(int? eventid)
 		{
-            _manager.DeleteEvent(Convert.ToInt32(eventid));
+            int userid = (int)TempData["userid"];
+            _manager.DeleteEvent(Convert.ToInt32(eventid), userid);
             GetEventsHelper();
+            TempData["userid"] = userid;
             return View("Events");
 		}
 
@@ -158,7 +160,7 @@ namespace Productivity_X.Controllers
                 }
                 else
                 {
-                    ViewBag.message = "Task already exists!";
+                    ViewBag.message = "Too many tasks created, can only have 10 at a time!";
                 }
             }
             else

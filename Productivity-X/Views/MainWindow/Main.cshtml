@@ -266,8 +266,6 @@
                         <div class="box" id="saturday1">Work</div>
                     </div>
 
-
-
                 </div>
 
             </div>
@@ -291,8 +289,6 @@
         <div style="height: 5%;"></div>
         <div class="down">
             <div class="downLeft" style="width:55%">
-				
-                
 				<div class="box" id="todo" style="width: 45%; overflow-y:auto">
 					<a href='@Url.Action("ToDo", "MainWindow")'>
 						<div class="boxtitle" style="color: white;">To-do</div>
@@ -304,6 +300,7 @@
 							taskList = ViewData["taskobjects"] as List<ToDoTasks>;
 							for (int counter = 0; counter < taskList.Count; counter++)
 							{
+                                // Put line through text if task is complete
 								if (taskList[counter].IsComplete())
 								{
 									<li style="color:dodgerblue"><span value="taskList[counter].GetCategoryName()" style="color: white"><s>@taskList[counter].GetTaskName()</s></span></li>
@@ -317,7 +314,6 @@
 				        }
 					</ul>
 				</div>
-
 
                 <div class="box1" id="nullDiv" style="width: 10%;">
                 </div>
