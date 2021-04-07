@@ -19,6 +19,7 @@ namespace Productivity_X.Controllers
 
         public IActionResult Main()
         {
+            GetTasksHelper();
             GetCategoriesHelper();
             return View();
         }

@@ -71,12 +71,15 @@ namespace Productivity_X.Controllers
         public void GetCategoriesHelper()
         {
             List<Categories> categoriesSaved = new List<Categories>();
+            List<ToDoTasks> tasksSaved = new List<ToDoTasks>();
 
             int userid = (int)TempData["userid"];
 
             categoriesSaved = _manager.GetCategoriesFromDB(userid);
+            tasksSaved = _manager.GetTasksFromDB(userid);
 
             ViewData["categoryobjects"] = categoriesSaved;
+            ViewData["taskobjects"] = tasksSaved;
             TempData["userid"] = userid;
         }
 
