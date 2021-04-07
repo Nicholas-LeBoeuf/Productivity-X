@@ -262,12 +262,12 @@
 
                                         </div>
                                         <div class="modal-body" style=" border-right: rgba(53, 53, 53, 0.7) solid 8px; border-left: rgba(43,42,40,255) solid 8px;">
-                                            <form asp-action="CreateCategory" id="createCatForm">
+                                            <form asp-action="CreateTask" id="createCatForm">
                                                 <div class="container" id="catName">
                                                     <div class="form-group" id="categoryNm">
                                                         <small>Task</small>
                                                         <input class="form-control inputs" type="text"
-                                                               placeholder="Task" id="categoryName" asp-for="task" />
+                                                               placeholder="Task" id="categoryName" asp-for="taskName" />
                                                     </div>
                                                 </div>
                                             </form>
@@ -308,19 +308,45 @@
 				</tr>
 			</thead>
 			<tbody>
-                <tr>
-                    <td> <input type="checkbox" id="check"></td>
-                    <td>@*Place code here*@</td>
-                    <td>
-                        <button id="deletebutton" type="button">
-                            <i class="fas fa-trash fa-lg"></i>
-                        </button>
-                    </td>
-                </tr>
-				
+				<tr>
 
+					<td>
+						@{
+							List<ToDoTasks> tasklist = new List<ToDoTasks>();
+							tasklist = ViewData["taskobjects"] as List<ToDoTasks>;
+							for (int counter = 0; counter < tasklist.Count; counter++)
+							{
+				            <tr style="background-color:dodgerblue">
+					            <td>
+						            @if (tasklist[counter].IsComplete())
+						            {
+						            <input type="checkbox" id="check" checked="checked">
+					                }
+					                else
+					                {
+						                <input type="checkbox" id="check">
+					                }
+
+						            <input type="checkbox" id="check" checked="checked">
+						            </td>
+						            <td value="@tasklist[counter].GetTaskName()">
+							            @tasklist[counter].GetTaskName().Trim(';')
+						            </td>
+						            <td>
+							            <button id="deletebutton" type="button" value="@tasklist[counter]" onclick="window.location.href = '@Url.Action("DeleteTask", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
+								            <i class="fas fa-trash fa-lg"></i>
+							            </button>
+						            </td>
+					            </tr>
+							}
+						}
 				
-				</tbody>
+                      </td>
+						
+
+
+
+					</tbody>
 			</table>
 
     </div>

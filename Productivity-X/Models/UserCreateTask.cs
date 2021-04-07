@@ -7,6 +7,6 @@ namespace Productivity_X.Models
 {
     public class UserCreateTask
     {
-        public string task { get; set; }
+        public string taskName { get; set; }
     }
 }

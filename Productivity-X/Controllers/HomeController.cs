@@ -74,7 +74,7 @@ namespace Productivity_X.Controllers
 
             int userid = (int)TempData["userid"];
 
-            categoriesSaved = _manager.CategoryData(userid);
+            categoriesSaved = _manager.GetCategoriesFromDB(userid);
 
             ViewData["categoryobjects"] = categoriesSaved;
             TempData["userid"] = userid;
