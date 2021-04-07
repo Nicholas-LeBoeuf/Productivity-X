@@ -307,48 +307,30 @@
 					<th>Delete</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-
-					<td>
+			        <tbody>
+		
 						@{
 							List<ToDoTasks> tasklist = new List<ToDoTasks>();
 							tasklist = ViewData["taskobjects"] as List<ToDoTasks>;
 							for (int counter = 0; counter < tasklist.Count; counter++)
 							{
-				            <tr style="background-color:dodgerblue">
-					            <td>
-						            @if (tasklist[counter].IsComplete())
-						            {
-						            <input type="checkbox" id="check" checked="checked">
-					                }
-					                else
-					                {
-						                <input type="checkbox" id="check">
-					                }
+						        <tr style="background-color:dodgerblue">
+								    <td><input type="checkbox" id="check"></td>
 
-						            <input type="checkbox" id="check" checked="checked">
-						            </td>
-						            <td value="@tasklist[counter].GetTaskName()">
-							            @tasklist[counter].GetTaskName().Trim(';')
-						            </td>
-						            <td>
-							            <button id="deletebutton" type="button" value="@tasklist[counter]" onclick="window.location.href = '@Url.Action("DeleteTask", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
-								            <i class="fas fa-trash fa-lg"></i>
-							            </button>
-						            </td>
-					            </tr>
-							}
+							        <td value="@tasklist[counter].GetTaskName()">
+								        @tasklist[counter].GetTaskName().Trim(';')
+							        </td>
+							        <td>
+								        <button id="deletebutton" type="button" value="@tasklist[counter]" onclick="window.location.href = '@Url.Action("DeleteTask", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
+									        <i class="fas fa-trash fa-lg"></i>
+								        </button>
+							        </td>
+						        </tr>
+					        }
 						}
-				
-                      </td>
-						
-
-
 
 					</tbody>
-			</table>
-
+		</table>
     </div>
 
 </body>

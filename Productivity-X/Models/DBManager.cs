@@ -909,7 +909,7 @@ namespace Productivity_X.Models
 				MySqlCommand deleteCategoryRow = conn.CreateCommand();
 				deleteCategoryRow.Parameters.AddWithValue("@taskid", taskid);
 				deleteCategoryRow.Parameters.AddWithValue("@userid", userid);
-				deleteCategoryRow.CommandText = "delete FROM Calendar_Schema.task_tbl where taskid = @task_id and user_id = @userid";
+				deleteCategoryRow.CommandText = "delete FROM Calendar_Schema.todo_tbl where task_id = @taskid and user_id = @userid";
 				deleteCategoryRow.ExecuteNonQuery();
 			}
 		}

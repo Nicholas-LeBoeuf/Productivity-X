@@ -124,7 +124,7 @@ namespace Productivity_X.Controllers
             // Update Category list
             GetTasksHelper();
             TempData["userid"] = userid;
-            return View("Categories");
+            return View("ToDo");
         }
 
         public IActionResult CreateTask(UserCreateTask createTask)
