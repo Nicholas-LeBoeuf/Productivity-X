@@ -863,7 +863,7 @@ namespace Productivity_X.Models
 				else
 				{
 */				MySqlCommand Query = conn.CreateCommand();
-				Query.CommandText = "insert into Calendar_Schema.todo_tbl (user_id, taskname, finished) VALUES (@user_id, @taskname, @bFinished)";
+				Query.CommandText = "insert into Calendar_Schema.todo_tbl (user_id, taskname, complete) VALUES (@user_id, @taskname, @bFinished)";
 
 				Query.Parameters.AddWithValue("@user_id", nUserID);
 				Query.Parameters.AddWithValue("@taskname", ct.taskName);
@@ -881,7 +881,7 @@ namespace Productivity_X.Models
 			{
 				conn.Open();
 				MySqlCommand FindTaskData = conn.CreateCommand();
-				FindTaskData.CommandText = "select task_id, taskname, finished from Calendar_Schema.todo_tbl where user_id = @user_id";
+				FindTaskData.CommandText = "select task_id, taskname, complete from Calendar_Schema.todo_tbl where user_id = @user_id";
 				FindTaskData.Parameters.AddWithValue("@user_id", userid);
 				FindTaskData.ExecuteNonQuery();
 				// Execute the SQL command against the DB:
@@ -914,17 +914,46 @@ namespace Productivity_X.Models
 			}
 		}
 
-		public void UpdateTask(int categoryid, string categoryname, int userid)
+		public void UpdateTask(int taskid, int userid, bool userCheckedBox)
 		{
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
 				MySqlCommand updateEventsTable = conn.CreateCommand();
-				updateEventsTable.Parameters.AddWithValue("@categoryname", categoryname);
+				updateEventsTable.Parameters.AddWithValue("@taskid", taskid);
 				updateEventsTable.Parameters.AddWithValue("@userid", userid);
-				updateEventsTable.CommandText = "update Calendar_Schema.events_tbl set categoryname = \"Default\" where categoryname = @categoryname and user_id = @userid";
+				if (userCheckedBox)
+				{
+					updateEventsTable.CommandText = "update Calendar_Schema.todo_tbl set complete = false where task_id = @taskid and user_id = @userid";
+				}
+				else
+					updateEventsTable.CommandText = "update Calendar_Schema.todo_tbl set complete = true where task_id = @taskid and user_id = @userid";
+
 				updateEventsTable.ExecuteNonQuery();
 			}
+		}
+
+		public bool TaskCompleteFromDB(int taskid, int nUserID)
+		{
+			bool bComplete = false;
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand FindCategoryName = conn.CreateCommand();
+
+				//Checks to see if there are duplicate category values for category name
+				FindCategoryName.Parameters.AddWithValue("@taskid", taskid);
+				FindCategoryName.Parameters.AddWithValue("@userid", nUserID);
+				FindCategoryName.CommandText = "select complete from Calendar_Schema.todo_tbl where task_id = @taskid and user_id = @userid";
+				MySqlDataReader reader = FindCategoryName.ExecuteReader();
+
+				while (reader.Read())
+				{
+					bComplete = reader.GetBoolean(0);
+				}
+				reader.Close();
+			}
+			return bComplete;
 		}
 	}
 }

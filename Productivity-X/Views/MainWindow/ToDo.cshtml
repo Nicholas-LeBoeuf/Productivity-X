@@ -315,7 +315,8 @@
 							for (int counter = 0; counter < tasklist.Count; counter++)
 							{
 						        <tr style="background-color:dodgerblue">
-								    <td><input type="checkbox" id="check"></td>
+
+								    <td><input type="checkbox" id="check" checked="@tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';"></td>
 
 							        <td value="@tasklist[counter].GetTaskName()">
 								        @tasklist[counter].GetTaskName().Trim(';')
@@ -326,7 +327,7 @@
 								        </button>
 							        </td>
 						        </tr>
-					        }
+							}
 						}
 
 					</tbody>

@@ -112,7 +112,19 @@ namespace Productivity_X.Controllers
             return View();
         }
 
-    // ToDo Action Results.....
+        // ToDo Action Results.....
+        public IActionResult UpdateStatus(int? taskid)
+        {
+            // Set userid
+            int userid = (int)TempData["userid"];
+
+            bool bComplete = _manager.TaskCompleteFromDB(Convert.ToInt32(taskid), userid);
+            _manager.UpdateTask(Convert.ToInt32(taskid), userid, bComplete);
+
+            TempData["userid"] = userid;
+            GetTasksHelper();
+            return View("ToDo");
+        }
         public IActionResult DeleteTask(int? taskid)
         {
             // Set userid
