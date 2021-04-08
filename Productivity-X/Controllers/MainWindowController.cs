@@ -43,7 +43,7 @@ namespace Productivity_X.Controllers
             bool bRet = true;
 
             if((createEvent.guest == true && createEvent.guestEmail == null && createEvent.guestUsername == null) || 
-                (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername != null) || (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername == null || createEvent.category == null))
+                (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername != null) || (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername == null || createEvent.category == null) || createEvent.eventName == null)
 			{
                 bRet = false;
             }

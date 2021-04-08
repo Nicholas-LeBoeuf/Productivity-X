@@ -42,6 +42,7 @@ namespace Productivity_X.Controllers
         public IActionResult LoginUser(UserLogin loginUser)
         {
             bool bUserExists = false;
+            bool bOldEventsExist = false;
 
             if (ModelState.IsValid)
             {
@@ -54,6 +55,17 @@ namespace Productivity_X.Controllers
 //                TempData["userid"] = nUserID;
                 if (bUserExists)
                 {
+                    // Delete events that are older than 10 days...
+                    bOldEventsExist = _manager.DeleteEventsGreaterThan10Days(nUserID);
+					if (bOldEventsExist)
+					{
+                        ViewBag.message = "Deleted events that are greater than 10 days!";
+					}
+					else
+					{
+                        ViewBag.message = "There were no events that exists 10 or more days ago that need to be deleted!";
+                    }
+
                     GetCategoriesHelper();
                     // Go to main screen
                     return View("~/Views/MainWindow/Main.cshtml");
@@ -64,6 +76,7 @@ namespace Productivity_X.Controllers
                     ViewBag.message = "Username not found or password incorrect!";
                 }
             }
+
             // Go to Login screen
             return View("Index");
         }

@@ -270,8 +270,7 @@ namespace Productivity_X.Models
 		}
 
 		public void UpdatePassword(ForgotPw3 forgotPassword, int nUserID)
-		{
-			bool bRet = false;
+		{			
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
@@ -482,6 +481,43 @@ namespace Productivity_X.Models
 				deleteEventRow.ExecuteNonQuery();
 			} 
 		}
+
+
+		public bool DeleteEventsGreaterThan10Days(int userid)
+		{
+			bool bRet = false;
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+
+				MySqlCommand countOldEvents = conn.CreateCommand();
+
+
+				var date = DateTime.Now.ToString("yyyy-MM-dd");
+
+				//Checks to see if there are duplicate category values for category name
+				countOldEvents.Parameters.AddWithValue("@userid", userid);
+				countOldEvents.Parameters.AddWithValue("@todaysdate", date);
+				countOldEvents.CommandText = "select count(*) FROM Calendar_Schema.events_tbl where user_id=@userid and event_date < now() - interval 10 DAY";
+				int nOldEvents = Convert.ToInt32(countOldEvents.ExecuteScalar());
+
+				if (nOldEvents == 0)
+				{
+					bRet = false;
+				}
+				else
+				{
+					MySqlCommand deleteOldEvents = conn.CreateCommand();
+					deleteOldEvents.Parameters.AddWithValue("@userid", userid);
+					deleteOldEvents.CommandText = "delete FROM Calendar_Schema.events_tbl where user_id=@userid and event_date < now() - interval 10 DAY";
+					deleteOldEvents.ExecuteNonQuery();
+					bRet = true;
+				}
+			}
+			return bRet;
+		}
+
+
 
 		/*
 				public bool EditEvent(EditEvent ee)
@@ -731,7 +767,6 @@ namespace Productivity_X.Models
 			string categoryname = "";
 			using (MySqlConnection conn = GetConnection())
 			{
-				int nCatExists = 0;
 				conn.Open();
 				MySqlCommand FindCategoryName = conn.CreateCommand();
 
