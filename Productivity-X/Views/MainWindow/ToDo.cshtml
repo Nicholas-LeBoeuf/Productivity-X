@@ -180,26 +180,24 @@
         width: 250px;
     }
 
-    table, th, td {
-        border: 1px solid black;
-    }
-
     table {
-        background-color: #7a7a7a;
+        table-layout: fixed;
+        width: 5000px;
     }
 
-        table.center {
-            margin-left: auto;
-            margin-right: auto;
-        }
+    table.center {
+        margin-left: auto;
+        margin-right: auto;
+    }
 
     td {
-        padding: 10px;
+        padding-top: 30px;
         font-weight: bold;
+        vertical-align: bottom;
     }
 
     th {
-        text-align: center;
+        text-align: left;
     }
 
     tr {
@@ -214,9 +212,10 @@
         text-decoration: none;
         font-family: 'Roboto',sans-serif;
         font-weight: 300;
-        background-color: #000;
-        width: 50px;
-        height: 50px;
+        background-color: transparent;
+        border-color: transparent;
+        width: 25px;
+        height: 25px;
         border-radius: 50%;
         color: red;
         font-weight: bolder;
@@ -239,6 +238,21 @@
     .inputs {
         height: 45px;
         opacity: 90%;
+    }
+
+    .outer {
+        display: grid;
+        grid-template: 1fr / 1fr;
+    }
+    .outer > * {
+        grid-column: 1 / 1;
+        grid-row: 1 / 1;
+    }
+    .outer .below {
+        z-index: 1;
+    }
+    .outer .top{
+        z-index: 2;
     }
 </style>
 
@@ -299,39 +313,106 @@
 
         </div>
 
-        <table id="categoriesTable" class="center" style="width:500px;">
-			<thead>
-				<tr>
-					<th>Check</th>
-					<th>Task</th>
-					<th>Delete</th>
-				</tr>
-			</thead>
-			        <tbody>
-		
-						@{
-							List<ToDoTasks> tasklist = new List<ToDoTasks>();
-							tasklist = ViewData["taskobjects"] as List<ToDoTasks>;
-							for (int counter = 0; counter < tasklist.Count; counter++)
-							{
-						        <tr style="background-color:dodgerblue">
+        <div class="outer">
 
-								    <td><input type="checkbox" id="check" checked="@tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';"></td>
+            <div class="top">
+                <table id="categoriesTable" class="center" style="width:1250px;" >
+                    @*<colgroup>
+                        <col span="1" style="width: 10px;" />
+                        <col span="1" style="width: 20px;" />
+                        <col span="1" style="width: 10px;" />
+                    </colgroup>*@
+                    <tbody>
 
-							        <td value="@tasklist[counter].GetTaskName()">
-								        @tasklist[counter].GetTaskName().Trim(';')
-							        </td>
-							        <td>
-								        <button id="deletebutton" type="button" value="@tasklist[counter]" onclick="window.location.href = '@Url.Action("DeleteTask", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
-									        <i class="fas fa-trash fa-lg"></i>
-								        </button>
-							        </td>
-						        </tr>
-							}
-						}
+                        @{
+                            List<ToDoTasks> tasklist = new List<ToDoTasks>();
+                            tasklist = ViewData["taskobjects"] as List<ToDoTasks>;
+                            for (int counter = 0; counter < tasklist.Count; counter++)
+                            {
+                                <tr>
 
-					</tbody>
-		</table>
+                                    <td><input type="checkbox" id="check" checked="@tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';"></td>
+
+                                    <td style="border-bottom: 1px solid white;" value="@tasklist[counter].GetTaskName()">
+                                        @tasklist[counter].GetTaskName().Trim(';')
+                                    </td>
+                                    <td >
+                                        <button id="deletebutton" type="button" value="@tasklist[counter]" onclick="window.location.href = '@Url.Action("DeleteTask", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
+                                            <i class="fas fa-trash fa-sm"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="below">
+                <table id="categoriesTable" class="center" style="width:800px;">
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td style="border-bottom: 1px solid white;">
+                                &nbsp;
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="border-bottom: 1px solid white;">
+                                &nbsp;
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="border-bottom: 1px solid white;">
+                                &nbsp;
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="border-bottom: 1px solid white;">
+                                &nbsp;
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="border-bottom: 1px solid white;">
+                                &nbsp;
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="border-bottom: 1px solid white;">
+                                &nbsp;
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="border-bottom: 1px solid white;">
+                                &nbsp;
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="border-bottom: 1px solid white;">
+                                &nbsp;
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
     </div>
 
 </body>
