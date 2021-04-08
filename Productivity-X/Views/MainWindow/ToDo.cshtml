@@ -1,7 +1,600 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Productivity_X.Models.UserCreateTask;
 @{
     ViewData["Title"] = "To-Do";
     Layout = "~/Views/Shared/_MainPageLayout.cshtml";
 }
+
+<link href="~/css/family.css" rel="stylesheet">
+<link href="~/css/materialdesignicons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+
+<style>
+    .title {
+        justify-content: center;
+        font-size: 25px;
+        color: gold;
+    }
+
+    .round_icon {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    #weekHeader {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        align-content: space-evenly;
+        margin-left: 3%;
+        margin-right: 3%;
+        margin-bottom: 0;
+        margin-top: 3%;
+    }
+
+    #weekHeader2 {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        align-content: space-evenly;
+        margin-left: 3%;
+        margin-right: 3%;
+        margin-bottom: 0;
+        margin-top: 0;
+    }
+
+    #createBtn {
+        background-image: url(../test/img/c3.jpg);
+    }
+
+    #create {
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+
+    #btnclick {
+        display: inline-block;
+        padding: 0.35em 1.2em;
+        border: 0.1em solid #353535;
+        margin: 0 0.3em 0.3em 0;
+        border-radius: 0.40em;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: 'Roboto',sans-serif;
+        font-weight: 300;
+        background-color: #353535;
+        color: #FFA700;
+        text-align: center;
+        transition: all 0.2s;
+    }
+
+        #btnclick:hover {
+            background: #424242;
+        }
+
+    #HidebtnModal {
+        display: inline-block;
+        padding: 0.35em 1.2em;
+        border: 0.1em solid #353535;
+        margin: 0 0.3em 0.3em 0;
+        border-radius: 0.40em;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: 'Roboto',sans-serif;
+        font-weight: 300;
+        background-color: #353535;
+        color: #FFA700;
+        text-align: center;
+        transition: all 0.2s;
+        position: absolute;
+        top: 220px;
+    }
+
+        #HidebtnModal:hover {
+            background: #424242;
+        }
+
+    #createCatSubmit {
+        display: inline-block;
+        padding: 0.35em 1.2em;
+        border: 0.1em solid #353535;
+        margin: 0 0.3em 0.3em 0;
+        border-radius: 0.40em;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: 'Roboto',sans-serif;
+        font-weight: 300;
+        background-color: #353535;
+        color: #FFA700;
+        text-align: center;
+        transition: all 0.2s;
+        position: absolute;
+        top: 220px;
+        right: 35px;
+    }
+
+        #createCatSubmit:hover {
+            background: #424242;
+        }
+
+    .container #eventModal1 {
+        width: 50%;
+        float: left;
+    }
+
+    .modal-body {
+        background-image: url('../Images/background2.jpeg');
+    }
+
+    option.red {
+        color: white;
+        background-color: red;
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    option.blue {
+        color: white;
+        background-color: blue;
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    option.green {
+        color: white;
+        background-color: green;
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    option.cyan {
+        color: white;
+        background-color: cyan;
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    option.saddlebrown {
+        color: white;
+        background-color: saddlebrown;
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    option.purple {
+        color: white;
+        background-color: purple;
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    option.tomato {
+        color: white;
+        background-color: tomato;
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    option.lightseagreen {
+        color: white;
+        background-color: lightseagreen;
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    .container #catName {
+        width: 250px;
+    }
+
+    .container #colorChoice {
+        width: 250px;
+    }
+
+    table {
+        table-layout: fixed;
+        width: 5000px;
+    }
+
+    table.center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    td {
+        padding-top: 30px;
+        font-weight: bold;
+        vertical-align: bottom;
+    }
+
+    th {
+        text-align: left;
+    }
+
+    tr {
+        text-align: center;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    #deletebutton {
+        display: inline-block;
+        margin: 0 0.3em 0.3em 0;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: 'Roboto',sans-serif;
+        font-weight: 300;
+        background-color: transparent;
+        border-color: transparent;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        color: red;
+        font-weight: bolder;
+        text-align: center;
+        margin: auto;
+        transition: all 0.2s;
+    }
+
+        #deletebutton:hover {
+            background: #343434;
+        }
+
+    small {
+        background: rgba(91, 86, 85, .48);
+        border-radius: 15px;
+        color: #FFA700;
+        font-size: 14px;
+    }
+
+    .inputs {
+        height: 45px;
+        opacity: 90%;
+    }
+
+    .outer {
+        display: grid;
+        grid-template: 1fr / 1fr;
+    }
+    .outer > * {
+        grid-column: 1 / 1;
+        grid-row: 1 / 1;
+    }
+    .outer .below {
+        z-index: 1;
+    }
+    .outer .top{
+        z-index: 2;
+    }
+
+    table .checkAction {
+        padding-right: 15px;
+        width: auto;
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    table .buttonAction {
+        padding-left: 7px;
+        width: auto;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .checkbox-round {
+        width: 1.3em;
+        height: 1.3em;
+        background-color: white;
+        border-radius: 50%;
+        vertical-align: middle;
+        border: 1px solid #ddd;
+        -webkit-appearance: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .checkbox-round:checked {
+        background-color: green;
+        content: '✔';
+        color: #fff;
+    }
+
+</style>
+
+<body style="background-color: #1C1C1C;
+        color: #fff;">
+    <div id="app" style="width: 100%;padding-left: 12%;">
+        <div id="weekHeader">
+
+            <div id="create">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <button id="btnclick" type="button">
+                                New Task
+                            </button>
+                            <div class="modal fade" id="login">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header text-center" style=" background-image: url('../Images/background2.jpeg'); border: none; border-bottom: 0 none; border-top:  rgba(43,42,40,255) solid 8px; border-right: rgba(53, 53, 53, 0.7) solid 8px; border-left: rgba(43,42,40,255) solid 8px;">
+                                            <h3 class="modal-title w-100" style="color: #FFA700; font-weight: bold; background: rgba(0, 132, 255, 0.7); border-radius: 25px;">New Task</h3>
+
+                                        </div>
+                                        <div class="modal-body" style=" border-right: rgba(53, 53, 53, 0.7) solid 8px; border-left: rgba(43,42,40,255) solid 8px;">
+                                            <form autocomplete="off" asp-action="CreateTask" id="createCatForm">
+                                                <div class="container" id="catName">
+                                                    <div class="form-group" id="categoryNm">
+                                                        <small>Task</small>
+                                                        <input class="form-control inputs" type="text"
+                                                               placeholder="Task" id="categoryName" asp-for="taskName" maxlength="25" />
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="modal-footer" style="background-image: url('../Images/background2.jpeg'); border-top: 0 none;  border-right: rgba(53, 53, 53, 0.7) solid 8px; border-left: rgba(43,42,40,255) solid 8px; border-bottom: rgba(53, 53, 53, 0.7) solid 8px;">
+                                            <div class="container" style="color: #FFA700; font-weight: bold; background: rgba(0, 132, 255, 0.7); border-radius: 25px; height: 50px;">
+                                                <button type="button" id="HidebtnModal" class="btn btn-primary mr-auto">Close</button>
+                                                <button type="submit" form="createCatForm" id="createCatSubmit" class="btn btn-primary float-right">Create</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="title" style="padding-right: 600px;">To-Do List</div>
+        </div>
+
+        <div id="weekHeader2">
+            <div class="title" style="padding-left: 540px;">
+                <span id="currentWeek"></span>,
+                <span id="currentMonth"></span>
+                <span id="currentDate"></span>,
+                <span id="currentYear"></span>
+            </div>
+        </div>
+
+        <div class="outer">
+
+            <div class="top">
+                <table id="categoriesTable" class="center" style="width:1250px;">
+                    <tbody>
+
+                        @{
+                            List<ToDoTasks> tasklist = new List<ToDoTasks>();
+                            tasklist = ViewData["taskobjects"] as List<ToDoTasks>;
+                            for (int counter = 0; counter < tasklist.Count; counter++)
+                            {
+                                <tr>
+
+                                    <td class="checkAction">  
+                                            <input class="checkbox-round" type="checkbox" checked="@tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
+                                    </td>
+
+                                    <td style="font-size:  22px;"value="@tasklist[counter].GetTaskName()">
+                                        @tasklist[counter].GetTaskName().Trim(';')
+                                    </td>
+                                    <td class="buttonAction">
+                                        <button id="deletebutton" type="button" value="@tasklist[counter]" onclick="window.location.href = '@Url.Action("DeleteTask", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
+                                            <i class="fas fa-trash fa-lg"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="below">
+                <table id="categoriesTable" class="center" style="width:1250px;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
+                            <td style="border-bottom: 1px solid white; font-size:  22px;">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
+                            <td style="border-bottom: 1px solid white; font-size:  22px;">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
+                            <td style="border-bottom: 1px solid white; font-size:  22px;">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
+                            <td style="border-bottom: 1px solid white; font-size:  22px;">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
+                            <td style="border-bottom: 1px solid white; font-size:  22px;">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
+                            <td style="border-bottom: 1px solid white; font-size:  22px;">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
+                            <td style="border-bottom: 1px solid white; font-size:  22px;">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
+                            <td style="border-bottom: 1px solid white; font-size:  22px;">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
+                            <td style="border-bottom: 1px solid white; font-size:  22px;">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
+                            <td style="border-bottom: 1px solid white; font-size:  22px;">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
+                            <td style="border-bottom: 1px solid white; font-size:  22px;">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+    </script>
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnclick").click(function () {
+            $("#login").modal('show');
+        });
+
+        $("#HidebtnModal").click(function () {
+            $("#login").modal('hide');
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var weeksInEng = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var t = new Date().getTime();
+    document.getElementById("currentWeek").innerHTML = weeksInEng[new Date(t).getDay()];
+    document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(t).getMonth() + 1];
+    document.getElementById("currentDate").innerHTML = new Date(t).getDate();
+    document.getElementById("currentYear").innerHTML = new Date(t).getFullYear();
+
+    var chArr = document.getElementsByClassName("v-calendar-daily__head");
+    for (i = 0; i < chArr.length; i++) {
+        if (chArr[i] != null)
+            chArr[i].parentNode.removeChild(chArr[i]);
+    }
+</script>

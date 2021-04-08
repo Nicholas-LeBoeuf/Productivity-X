@@ -19,38 +19,31 @@ namespace Productivity_X.Controllers
 
         public IActionResult Main()
         {
+            GetTasksHelper();
             GetCategoriesHelper();
             return View();
         }
         public IActionResult Weekly()
         {
-
             List<Categories> categoriesSaved = new List<Categories>();
-        //    List<Events> eventsSaved = new List<Events>();
             
-            int userid = (int)TempData["userid"];
-            //            int numCategories = _manager.TotalCategories(userid);
-
-
-            categoriesSaved = _manager.CategoryData(userid);
+            int userid = (int)TempData["userid"];       
+            categoriesSaved = _manager.GetCategoriesFromDB(userid);
                 
             ViewData["categoryobjects"] = categoriesSaved;
             TempData["userid"] = userid;
 
-        //    // Display events...
-        //    eventsSaved = _manager.EventData(userid);
-
-
             return View();
         }
 
+// Event Action Results
         public IActionResult CreateEvent(UserCreateEvent createEvent)
         {
             GetCategoriesHelper();
             bool bRet = true;
 
             if((createEvent.guest == true && createEvent.guestEmail == null && createEvent.guestUsername == null) || 
-                (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername != null) || (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername == null || createEvent.category == null))
+                (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername != null) || (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername == null || createEvent.category == null) || createEvent.eventName == null)
 			{
                 bRet = false;
             }
@@ -65,40 +58,22 @@ namespace Productivity_X.Controllers
 				{
                     ViewBag.message = "Event saved successfully!";
 				}
-				else
-				{
-                    ViewBag.message = "Event already exists!";
-                }
             }
 			else
 			{
-                ViewBag.message = "Event was not saved, not all fields were filled in or were filled in incorrectly!";
+                ViewBag.message = "Event was not saved, all fields were not filled in!";
             }
             TempData["userid"] = userid;
-            /*            bool bRet = false;
-                        // Checks if all required fields are met
-                        if (ModelState.IsValid)
-                        {
-                            bRet = _manager.SaveEvent(createEvent);
 
-                            if (!bRet)
-                            {
-                                // Go to Weekly page
-                                return View("Weekly");
-                            }
-                            else
-                            {
-                                ViewBag.message = "Event Created Successfully!";
-                            }
-                        }
-            */
             return View("Weekly");
         }
 
         public IActionResult DeleteEvent(int? eventid)
 		{
-            _manager.DeleteEvent(Convert.ToInt32(eventid));
+            int userid = (int)TempData["userid"];
+            _manager.DeleteEvent(Convert.ToInt32(eventid), userid);
             GetEventsHelper();
+            TempData["userid"] = userid;
             return View("Events");
 		}
 
@@ -115,21 +90,112 @@ namespace Productivity_X.Controllers
             return Json(_manager.GetTodayEvents(userid));
         }
 
+        public void GetEventsHelper()
+        {
+            List<Events> eventsSaved = new List<Events>();
+
+            int userid = (int)TempData["userid"];
+
+            TempData["userid"] = userid;
+
+            // Display events...
+            eventsSaved = _manager.GetEventsFromDB(userid);
+
+            ViewData["eventobjects"] = eventsSaved;
+        }
+        public IActionResult Events()
+        {
+            GetCategoriesHelper();
+            GetEventsHelper();
+            return View();
+        }
 
         public IActionResult Today()
         {
             return View();
         }
+
+        // ToDo Action Results.....
+        public IActionResult UpdateStatus(int? taskid)
+        {
+            // Set userid
+            int userid = (int)TempData["userid"];
+
+            bool bComplete = _manager.TaskCompleteFromDB(Convert.ToInt32(taskid), userid);
+            _manager.UpdateTask(Convert.ToInt32(taskid), userid, bComplete);
+
+            TempData["userid"] = userid;
+            GetTasksHelper();
+            return View("ToDo");
+        }
+        public IActionResult DeleteTask(int? taskid)
+        {
+            // Set userid
+            int userid = (int)TempData["userid"];
+  
+//            string taskname = _manager.GetTaskNameFromDB(Convert.ToInt32(taskid), userid);
+            _manager.DeleteTask(Convert.ToInt32(taskid), userid);
+
+            // Update Category list
+            GetTasksHelper();
+            TempData["userid"] = userid;
+            return View("ToDo");
+        }
+
+        public IActionResult CreateTask(UserCreateTask createTask)
+		{
+            bool bRet = true;
+
+            int userid = (int)TempData["userid"];
+
+            if (createTask.taskName == null)
+                bRet = false;
+
+            if (bRet)
+            {
+                bRet = _manager.SaveTask(createTask, userid);
+                if (bRet)
+                {
+                    ViewBag.message = "Task saved successfully!";
+                }
+                else
+                {
+                    ViewBag.message = "Too many tasks created, can only have 10 at a time!";
+                }
+            }
+            else
+            {
+                ViewBag.message = "Task was not saved, field was not filled in or was filled in incorrectly!";
+            }
+            GetTasksHelper();
+            TempData["userid"] = userid;
+            return View("ToDo");
+		}
+        public void GetTasksHelper()
+        {
+            List<ToDoTasks> tasksSaved = new List<ToDoTasks>();
+
+            int userid = (int)TempData["userid"];
+
+            tasksSaved = _manager.GetTasksFromDB(userid);
+
+            ViewData["taskobjects"] = tasksSaved;
+            TempData["userid"] = userid;
+        }
+
         public IActionResult ToDo()
         {
+            GetTasksHelper();
             return View();
         }
+
+// Category Action Results.....
         public IActionResult DeleteCategory(int? categoryid)
 		{
             // Set userid
             int userid = (int)TempData["userid"];
             // Find Categoryname
-            string categoryname = _manager.GetCategoryName(Convert.ToInt32(categoryid), userid);
+            string categoryname = _manager.GetCategoryNameFromDB(Convert.ToInt32(categoryid), userid);
             _manager.DeleteCategory(Convert.ToInt32(categoryid), categoryname, userid);
 
             // Update Category list
@@ -175,7 +241,7 @@ namespace Productivity_X.Controllers
             
             int userid = (int)TempData["userid"];
 
-            categoriesSaved = _manager.CategoryData(userid);
+            categoriesSaved = _manager.GetCategoriesFromDB(userid);
 
             ViewData["categoryobjects"] = categoriesSaved;
             TempData["userid"] = userid;
@@ -187,28 +253,10 @@ namespace Productivity_X.Controllers
             return View();
         }
 
+
+
         public IActionResult Friends()
         {
-            return View();
-        }
-
-        public void GetEventsHelper()
-		{
-            List<Events> eventsSaved = new List<Events>();
-
-            int userid = (int)TempData["userid"];
-
-            TempData["userid"] = userid;
-
-            // Display events...
-            eventsSaved = _manager.EventData(userid);
-
-            ViewData["eventobjects"] = eventsSaved;
-        }
-        public IActionResult Events()
-        {
-            GetCategoriesHelper();
-            GetEventsHelper();    
             return View();
         }
 

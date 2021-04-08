@@ -6,188 +6,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>test</title>
+	<meta charset="UTF-8">
+	<title>test</title>
 
-    <style>
-        .up {
-            display: flex;
-            justify-content: space-evenly;
-            flex-wrap: wrap;
-            align-content: space-evenly;
-        }
+	<style>
+		.up {
+			display: flex;
+			justify-content: space-evenly;
+			flex-wrap: wrap;
+			align-content: space-evenly;
+		}
 
-        .down {
-            display: flex;
-            justify-content: space-evenly;
-            flex-wrap: wrap;
-            align-content: space-evenly;
-        }
+		.down {
+			display: flex;
+			justify-content: space-evenly;
+			flex-wrap: wrap;
+			align-content: space-evenly;
+		}
 
-        .downLeft {
-            display: flex;
-            justify-content: space-evenly;
-            flex-wrap: wrap;
-            align-content: space-evenly;
-        }
+		.downLeft {
+			display: flex;
+			justify-content: space-evenly;
+			flex-wrap: wrap;
+			align-content: space-evenly;
+		}
 
-        .box {
-            background-color: #353535;
-            height: 500px;
-            border-radius: 15px;
-        }
+		.box {
+			background-color: #353535;
+			height: 500px;
+			border-radius: 15px;
+		}
 
-        .boxtitle {
-            font-size: 22px;
-            padding: 2%;
-            font-family: Montserrat;
-        }
+		.boxtitle {
+			font-size: 22px;
+			padding: 2%;
+			font-family: Montserrat;
+		}
 
-        .allweeklybox {
-            display: flex;
-            justify-content: space-evenly;
-            flex-wrap: wrap;
-            align-content: space-evenly;
-        }
+		.allweeklybox {
+			display: flex;
+			justify-content: space-evenly;
+			flex-wrap: wrap;
+			align-content: space-evenly;
+		}
 
-        .currentday {
-            display: flex;
-            justify-content: center;
-        }
-        .title {
-            font-size: 22px;
-            display: flex;
-            justify-content: center;
-            color: gold;
-            margin: 3%;
-        }
-        .box #sunday1 {
-            position: relative;
-            right: 12px;
-            top: 200px;
-            width: 75px;
-            height: 100px;
-            background: #372304;
-        }
-        .box #monday1 {
-            position: relative;
-            right: 12px;
-            top: 50px;
-            width: 75px;
-            height: 50px;
-            background: blue;
-        }
-        .box #monday2 {
-            position: relative;
-            right: 12px;
-            top: 75px;
-            width: 75px;
-            height: 50px;
-            background: magenta;
-        }
-        .box #monday3 {
-            position: relative;
-            right: 12px;
-            top: 150px;
-            width: 75px;
-            height: 100px;
-            background: #372304;
-        }
-        .box #tuesday1 {
-            position: relative;
-            right: 12px;
-            top: 69px;
-            width: 75px;
-            height: 35px;
-            background: yellow;
-        }
-        .box #tuesday2 {
-            position: relative;
-            right: 12px;
-            top: 100px;
-            width: 75px;
-            height: 75px;
-            background: lime;
-        }
-        .box #wednesday1 {
-            position: relative;
-            top: 50px;
-            width: 75px;
-            height: 50px;
-            background: blue;
-        }
+		.currentday {
+			display: flex;
+			justify-content: center;
+		}
 
-        .box #wednesday2 {
-            position: relative;
-            top: 86px;
-            width: 75px;
-            height: 75px;
-            background: lime;
-        }
-        .box #wednesday3 {
-            position: relative;
-            top: 127px;
-            width: 75px;
-            height: 100px;
-            background: #372304;
-        }
-        .box #thursday1 {
-            position: relative;
-            right: 4px;
-            top: 130px;
-            width: 75px;
-            height: 50px;
-            background: magenta;
-        }
+		.title {
+			font-size: 22px;
+			display: flex;
+			justify-content: center;
+			color: gold;
+			margin: 3%;
+		}
 
-        .box #thursday2 {
-            position: relative;
-            right: 4px;
-            top: 203px;
-            width: 75px;
-            height: 100px;
-            background: #372304;
-        }
-        .box #friday1 {
-            position: relative;
-            right: 12px;
-            top: 69px;
-            width: 75px;
-            height: 35px;
-            background: yellow;
-        }
-        .box #saturday1 {
-            position: relative;
-            right: 4px;
-            top: 150px;
-            width: 75px;
-            height: 150px;
-            background: #372304;
-        }
-        .box #today1 {
-            position: relative;
-            right: -55px;
-            top: 50px;
-            width: 300px;
-            height: 50px;
-            background: blue;
-        }
-        .box #today2 {
-            position: relative;
-            right: -55px;
-            top: 75px;
-            width: 300px;
-            height: 50px;
-            background: magenta;
-        }
-        .box #today3 {
-            position: relative;
-            right: -55px;
-            top: 175px;
-            width: 300px;
-            height: 100px;
-            background: #372304;
-        }
+		.box #sunday1 {
+			position: relative;
+			right: 12px;
+			top: 200px;
+			width: 75px;
+			height: 100px;
+			background: #372304;
+		}
+
+		.box #monday1 {
+			position: relative;
+			right: 12px;
+			top: 50px;
+			width: 75px;
+			height: 50px;
+			background: blue;
+		}
+
+		.box #monday2 {
+			position: relative;
+			right: 12px;
+			top: 75px;
+			width: 75px;
+			height: 50px;
+			background: magenta;
+		}
+
+		.box #monday3 {
+			position: relative;
+			right: 12px;
+			top: 150px;
+			width: 75px;
+			height: 100px;
+			background: #372304;
+		}
+
+		.box #tuesday1 {
+			position: relative;
+			right: 12px;
+			top: 69px;
+			width: 75px;
+			height: 35px;
+			background: yellow;
+		}
+
+		.box #tuesday2 {
+			position: relative;
+			right: 12px;
+			top: 100px;
+			width: 75px;
+			height: 75px;
+			background: lime;
+		}
+
+		.box #wednesday1 {
+			position: relative;
+			top: 50px;
+			width: 75px;
+			height: 50px;
+			background: blue;
+		}
+
+		.box #wednesday2 {
+			position: relative;
+			top: 86px;
+			width: 75px;
+			height: 75px;
+			background: lime;
+		}
+
+		.box #wednesday3 {
+			position: relative;
+			top: 127px;
+			width: 75px;
+			height: 100px;
+			background: #372304;
+		}
+
+		.box #thursday1 {
+			position: relative;
+			right: 4px;
+			top: 130px;
+			width: 75px;
+			height: 50px;
+			background: magenta;
+		}
+
+		.box #thursday2 {
+			position: relative;
+			right: 4px;
+			top: 203px;
+			width: 75px;
+			height: 100px;
+			background: #372304;
+		}
+
+		.box #friday1 {
+			position: relative;
+			right: 12px;
+			top: 69px;
+			width: 75px;
+			height: 35px;
+			background: yellow;
+		}
+
+		.box #saturday1 {
+			position: relative;
+			right: 4px;
+			top: 150px;
+			width: 75px;
+			height: 150px;
+			background: #372304;
+		}
+
+		.box #today1 {
+			position: relative;
+			right: -55px;
+			top: 50px;
+			width: 300px;
+			height: 50px;
+			background: blue;
+		}
+
+		.box #today2 {
+			position: relative;
+			right: -55px;
+			top: 75px;
+			width: 300px;
+			height: 50px;
+			background: magenta;
+		}
+
+		.box #today3 {
+			position: relative;
+			right: -55px;
+			top: 175px;
+			width: 300px;
+			height: 100px;
+			background: #372304;
+		}
 
 		ul.categorynames li span {
 			font-size: 26px;
@@ -201,94 +216,131 @@
 			list-style-type: disc;
 		}
 
-    </style>
+		ul.tasknames li {
+			margin-left: 20%;
+			border-radius: 50%;
+			margin-top: 0.02%;
+			font-size: 26px;
+			list-style-type: disc;
+		}
+
+		s {
+			text-decoration: line-through;
+		}
+	</style>
 </head>
 <body style="color: #fff;">
-    <div id="wrap" style=" width: 100%; padding-left: 12%;">
-        <div class="title">Productivity-X</div>
-        <div class="up">
-            <div class="box" id="weekly" style="width: 55%;">
-                <a href='@Url.Action("Weekly", "MainWindow")'>
-                    <div class="boxtitle" style="color: white;">Weekly</div>
-                </a>
-                <div class="allweeklybox">
+	<div id="wrap" style=" width: 100%; padding-left: 12%;">
+		<div class="title">Productivity-X</div>
+		<div class="up">
+			<div class="box" id="weekly" style="width: 55%;">
+				<a href='@Url.Action("Weekly", "MainWindow")'>
+					<div class="boxtitle" style="color: white;">Weekly</div>
+				</a>
+				<div class="allweeklybox">
 
-                    <div class="weeklybox"> Sunday
-                        <div class="box" id="sunday1">Work</div>
-                    </div>
+					<div class="weeklybox">
+						Sunday
+						<div class="box" id="sunday1">Work</div>
+					</div>
 
 
-                    <div class="weeklybox">Monday
+					<div class="weeklybox">
+						Monday
 						<div class="box" id="monday1">Physics</div>
-                        <div class="box" id="monday2">Software Class</div>
+						<div class="box" id="monday2">Software Class</div>
 						<div class="box" id="monday3">Work</div>
-                    </div>
+					</div>
 
 
-                    <div class="weeklybox">Tuesday
-                        <div class="box" id="tuesday1"><span style="color:black">Math</span></div>
-                        <div class="box" id="tuesday2"><span style="color:black">Data Structure class</span></div>
-                    </div>
+					<div class="weeklybox">
+						Tuesday
+						<div class="box" id="tuesday1"><span style="color:black">Math</span></div>
+						<div class="box" id="tuesday2"><span style="color:black">Data Structure class</span></div>
+					</div>
 
 
-                    <div class="weeklybox">Wednesday
-                        <div class="box" id="wednesday1">Physics</div>
-                        <div class="box" id="wednesday2"><span style="color:black">Data Structure class</span></div>
-                        <div class="box" id="wednesday3">Work</div>
-                    </div>
+					<div class="weeklybox">
+						Wednesday
+						<div class="box" id="wednesday1">Physics</div>
+						<div class="box" id="wednesday2"><span style="color:black">Data Structure class</span></div>
+						<div class="box" id="wednesday3">Work</div>
+					</div>
 
 
-                    <div class="weeklybox">Thursday
-                        <div class="box" id="thursday1">Software Class</div>
-                        <div class="box" id="thursday2">Work</div>
-                    </div>
+					<div class="weeklybox">
+						Thursday
+						<div class="box" id="thursday1">Software Class</div>
+						<div class="box" id="thursday2">Work</div>
+					</div>
 
 
-                    <div class="weeklybox">Friday
-                        <div class="box" id="friday1"><span style="color:black">Math</span></div>
-                    </div>
+					<div class="weeklybox">
+						Friday
+						<div class="box" id="friday1"><span style="color:black">Math</span></div>
+					</div>
 
 
-                    <div class="weeklybox">Saturday
-                        <div class="box" id="saturday1">Work</div>
-                    </div>
+					<div class="weeklybox">
+						Saturday
+						<div class="box" id="saturday1">Work</div>
+					</div>
 
+				</div>
 
+			</div>
+			<div class="box" id="today" style="width: 30%;">
 
-                </div>
+				<a href='@Url.Action("Today", "MainWindow")'>
+					<div class="boxtitle" style="color: white;">Today</div>
+				</a>
+				<div class="currentday">
+					<span id="currentWeek"></span>&emsp;
+					<span id="currentMonth"></span>&emsp;
+					<span id="currentdate"></span>
+				</div>
 
-            </div>
-            <div class="box" id="today" style="width: 30%;">
-                
-                <a href='@Url.Action("Today", "MainWindow")'>
-                    <div class="boxtitle" style="color: white;">Today</div>
-                </a>
-                <div class="currentday">
-                    <span id="currentWeek"></span>&emsp;
-                    <span id="currentMonth"></span>&emsp;
-                    <span id="currentdate"></span>
-                </div>
+				<div class="box" id="today1">Physics</div>
+				<div class="box" id="today2">Software Class</div>
+				<div class="box" id="today3">Work</div>
 
-                <div class="box" id="today1">Physics</div>
-                <div class="box" id="today2">Software Class</div>
-                <div class="box" id="today3">Work</div>
+			</div>
+		</div>
+		<div style="height: 5%;"></div>
+		<div class="down">
+			<div class="downLeft" style="width:55%">
+				<div class="box" id="todo" style="width: 45%; overflow-y:auto">
+					<a href='@Url.Action("ToDo", "MainWindow")'>
+						<div class="boxtitle" style="color: white;">To-do</div>
+					</a>
 
-            </div>
-        </div>
-        <div style="height: 5%;"></div>
-        <div class="down">
-            <div class="downLeft" style="width:55%">
-                <div class="box" id="todo" style="width: 45%;">
-                    <a href='@Url.Action("ToDo", "MainWindow")'>
-                        <div class="boxtitle" style="color: white;">To-do</div>
-                    </a>
-                </div>
-                <div class="box1" id="nullDiv" style="width: 10%;">
-                </div>
-                <div class="box" id="categories" style="width: 45%; overflow-y:auto">
-                    <a href='@Url.Action("Categories", "MainWindow")'>
-                        <div class="boxtitle" style="color: white;">Categories</div>
-                    </a>
+					<ul class="tasknames">
+						@{
+							List<ToDoTasks> taskList = new List<ToDoTasks>();
+							taskList = ViewData["taskobjects"] as List<ToDoTasks>;
+							for (int counter = 0; counter < taskList.Count; counter++)
+							{
+								// Put line through text if task is complete
+								if (taskList[counter].IsComplete())
+								{
+									<li style="color:dodgerblue"><span value="taskList[counter].GetCategoryName()" style="color: white"><s>@taskList[counter].GetTaskName()</s></span></li>
+								}
+								else
+								{
+									<li style="color:dodgerblue"><span value="taskList[counter].GetCategoryName()" style="color: white">@taskList[counter].GetTaskName()</span></li>
+								}
+							}
+
+						}
+					</ul>
+				</div>
+
+				<div class="box1" id="nullDiv" style="width: 10%;">
+				</div>
+				<div class="box" id="categories" style="width: 45%; overflow-y:auto">
+					<a href='@Url.Action("Categories", "MainWindow")'>
+						<div class="boxtitle" style="color: white;">Categories</div>
+					</a>
 
 					<ul class="categorynames">
 						<li style="color: grey"><span style="color: white">Default</span></li>
@@ -298,32 +350,41 @@
 							categoryList = ViewData["categoryobjects"] as List<Categories>;
 							for (int counter = 0; counter < categoryList.Count; counter++)
 							{
-								<li style="color: @categoryList[counter].GetColor()"><span value="categoryList[counter].GetCategoryName()"style="color: white" >@categoryList[counter].GetCategoryName()</span></li>
+								<li style="color: @categoryList[counter].GetColor()"><span value="categoryList[counter].GetCategoryName()" style="color: white">@categoryList[counter].GetCategoryName()</span></li>
 							}
 						}
 					</ul>
-
-                </div>
-            </div>
-            <div class="box" id="friends" style="width: 30%;">
-                <a href='@Url.Action("Friends", "MainWindow")'>
-                    <div class="boxtitle" style="color: white;">Friends</div>
-                </a>
-            </div>
-        </div>
-    </div>
+				</div>
+			</div>
+			<div class="box" id="friends" style="width: 30%;">
+				<a href='@Url.Action("Friends", "MainWindow")'>
+					<div class="boxtitle" style="color: white;">Friends</div>
+				</a>
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>
 
+@if (ViewBag.Message != null)
+{
+	<script type="text/javascript">
+
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+	</script>
+}
+
 <script type="text/javascript">
-    var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    var daysInEng = ['', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th',
-        '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th',
-        '21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th', '31st'];
-    var weeksInEng = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    var t = new Date().getTime();
-    document.getElementById("currentWeek").innerHTML = weeksInEng[new Date(t).getDay()];
-    document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(t).getMonth() + 1];
-    document.getElementById("currentdate").innerHTML = daysInEng[new Date(t).getDate()];
+	var monthsInEng = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	var daysInEng = ['', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th',
+		'11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th',
+		'21st', '22nd', '23rd', '24th', '25th', '26th', '27th', '28th', '29th', '30th', '31st'];
+	var weeksInEng = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	var t = new Date().getTime();
+	document.getElementById("currentWeek").innerHTML = weeksInEng[new Date(t).getDay()];
+	document.getElementById("currentMonth").innerHTML = monthsInEng[new Date(t).getMonth() + 1];
+	document.getElementById("currentdate").innerHTML = daysInEng[new Date(t).getDate()];
 </script>
