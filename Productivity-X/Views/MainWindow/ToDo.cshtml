@@ -254,6 +254,20 @@
     .outer .top{
         z-index: 2;
     }
+
+    table .checkAction {
+        padding-right: 15px;
+        width: auto;
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    table .buttonAction {
+        padding-left: 7px;
+        width: auto;
+        text-align: left;
+        white-space: nowrap;
+    }
 </style>
 
 <body style="background-color: #1C1C1C;
@@ -281,7 +295,7 @@
                                                     <div class="form-group" id="categoryNm">
                                                         <small>Task</small>
                                                         <input class="form-control inputs" type="text"
-                                                               placeholder="Task" id="categoryName" asp-for="taskName" />
+                                                               placeholder="Task" id="categoryName" asp-for="taskName" maxlength="25" />
                                                     </div>
                                                 </div>
                                             </form>
@@ -331,12 +345,14 @@
                             {
                                 <tr>
 
-                                    <td><input type="checkbox" id="check" checked="@tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';"></td>
+                                    <td class="checkAction">
+                                        <input type="checkbox" id="check" checked="@tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
+                                    </td>
 
-                                    <td style="border-bottom: 1px solid white;" value="@tasklist[counter].GetTaskName()">
+                                    <td value="@tasklist[counter].GetTaskName()">
                                         @tasklist[counter].GetTaskName().Trim(';')
                                     </td>
-                                    <td >
+                                    <td class="buttonAction">
                                         <button id="deletebutton" type="button" value="@tasklist[counter]" onclick="window.location.href = '@Url.Action("DeleteTask", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
                                             <i class="fas fa-trash fa-sm"></i>
                                         </button>
@@ -350,63 +366,140 @@
             </div>
 
             <div class="below">
-                <table id="categoriesTable" class="center" style="width:800px;">
+                <table id="categoriesTable" class="center" style="width:1250px;">
                     <tbody>
                         <tr>
-                            <td></td>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
                             <td style="border-bottom: 1px solid white;">
                                 &nbsp;
                             </td>
-                            <td></td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-sm"></i>
+                                </button>
+                            </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
                             <td style="border-bottom: 1px solid white;">
                                 &nbsp;
                             </td>
-                            <td></td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-sm"></i>
+                                </button>
+                            </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
                             <td style="border-bottom: 1px solid white;">
                                 &nbsp;
                             </td>
-                            <td></td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-sm"></i>
+                                </button>
+                            </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
                             <td style="border-bottom: 1px solid white;">
                                 &nbsp;
                             </td>
-                            <td></td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-sm"></i>
+                                </button>
+                            </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
                             <td style="border-bottom: 1px solid white;">
                                 &nbsp;
                             </td>
-                            <td></td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-sm"></i>
+                                </button>
+                            </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
                             <td style="border-bottom: 1px solid white;">
                                 &nbsp;
                             </td>
-                            <td></td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-sm"></i>
+                                </button>
+                            </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
                             <td style="border-bottom: 1px solid white;">
                                 &nbsp;
                             </td>
-                            <td></td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-sm"></i>
+                                </button>
+                            </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
                             <td style="border-bottom: 1px solid white;">
                                 &nbsp;
                             </td>
-                            <td></td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-sm"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
+                            <td style="border-bottom: 1px solid white;">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-sm"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check" style="visibility: hidden" />
+                            </td>
+                            <td style="border-bottom: 1px solid white;">
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button id="deletebutton" type="button" style="visibility:hidden;">
+                                    <i class="fas fa-trash fa-sm"></i>
+                                </button>
+                            </td>
+
                         </tr>
                     </tbody>
                 </table>
