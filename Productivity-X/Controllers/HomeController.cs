@@ -61,10 +61,6 @@ namespace Productivity_X.Controllers
 					{
                         ViewBag.message = "Deleted events that are greater than 10 days!";
 					}
-					else
-					{
-                        ViewBag.message = "There were no events that exists 10 or more days ago that need to be deleted!";
-                    }
 
                     GetCategoriesHelper();
                     // Go to main screen

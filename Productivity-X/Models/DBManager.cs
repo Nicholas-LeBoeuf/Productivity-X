@@ -466,8 +466,8 @@ namespace Productivity_X.Models
 					int id = Convert.ToInt32(reader[0]);
 					reader.Close();
 					MySqlCommand deleteGuestRow = conn.CreateCommand();
-					CheckData.Parameters.AddWithValue("@eventid", id);
-					CheckData.Parameters.AddWithValue("@userid", userid);
+					deleteGuestRow.Parameters.AddWithValue("@eventid", id);
+					deleteGuestRow.Parameters.AddWithValue("@userid", userid);
 					deleteGuestRow.CommandText = "delete FROM Calendar_Schema.guest_tbl where event_id = @eventid and user_id=@userid";
 					
 					deleteGuestRow.ExecuteNonQuery();
