@@ -46,6 +46,11 @@
   display: block;
 }
 
+label:hover {
+    background-color: #dcdcdd;
+}
+
+
 .dropdown-content a:hover {background-color: #ddd;}
 
 .dropdown:hover .dropdown-content {display: block;}
@@ -77,7 +82,11 @@
         <div class="dropdown">
             <button class="dropbtn"></button>
             <div class="dropdown-content">
-                <a href="@Url.Action("Logout", "MainWindow")">Logout</a>
+                <a href="@Url.Action("Logout", "MainWindow")" style="text-align: center; ">Logout</a>
+                <label style="color: black; text-align: center;  cursor: pointer;">
+                    <input type="file" style="display: none;" />
+                    Change Profile Icon
+                </label>
             </div>
         </div>
     </div>
