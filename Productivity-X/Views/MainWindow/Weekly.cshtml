@@ -156,10 +156,8 @@
             width: 50%;
             float: right;
         }
-
-        .container #guest {
+        .container #rem {
             width: 50%;
-            margin:auto;
             clear: both;
         }
 
@@ -168,11 +166,7 @@
         }
 
         .container #rem {
-            background-color: white;
-        }
-
-        .container #guest {
-            background-color: white;
+            background-color: #C2C2C2;
         }
 
         small {
@@ -180,10 +174,23 @@
             border-radius: 15px;
             color: #FFA700;
             font-size: 15px;
+            font-weight: bold;
         }
         .inputs {
             height: 45px;
             opacity: 90%;
+            background-color: #C2C2C2;
+            color: black;
+            font-weight: bold;
+        }
+        ::-webkit-input-placeholder {
+            color: black;
+            font-weight: bold;
+        }
+
+        ::-moz-placeholder {
+            color: black;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -226,14 +233,14 @@
                                                     <div class="form-group" id="eventLocation">
                                                         <small>&nbsp;Event Location&nbsp;</small>
                                                         <input class="form-control inputs" type="text"
-                                                               placeholder="Location" id="location" asp-for="location" />
+                                                               placeholder="Location" id="location" asp-for="location"/>
                                                     </div>
 
                                                     <div class="form-group" id="eventDesc">
                                                         <small>&nbsp;Event Description (100 characters)&nbsp;</small>
                                                         <textarea name="description" cols="41" rows="2"
                                                                   placeholder="Description" id="description" maxlength="100"
-                                                                  style="background-color: white; border-radius: 5px; opacity: 90%;"></textarea>
+                                                                  style="background-color: #C2C2C2; border-radius: 5px; opacity: 90%;"></textarea>
                                                         <input id="description" asp-for="description" />
 
                                                     </div>
@@ -253,7 +260,7 @@
 
                                                     <div class="form-group" id="eventCategory">
                                                         <small>&nbsp;<span style="color: red; font-weight: bold;">*</span> Event Category&nbsp;</small>
-                                                        <select asp-for="category" style="background-color: white; opacity: 90%; width: 360px; height: 45px; border-radius: 5px;">
+                                                        <select asp-for="category" style="background-color: #C2C2C2; opacity: 90%; width: 360px; height: 45px; border-radius: 5px;">
                                                             <option value="" disabled selected hidden>Choose Category...</option>
                                                             <option value="Default">
                                                                 Default
@@ -278,40 +285,32 @@
                                                         </select>
 
                                                     </div>
+                                                    <div class="form-group" id="eventFriend" style="padding-right: 25px;">
+                                                        <small>&nbsp;Invite a Friend (optional)&nbsp;</small>
+                                                        <select asp-for="friendUsername" style="background-color: #C2C2C2; opacity: 90%; width: 360px; height: 45px; border-radius: 5px;">
+                                                            <option value="" disabled selected hidden>Choose friend...</option>
+                                                            
+                                                            @*Place friend code here*@
 
-                                                    <div class="container" id="rem" style="height: 46px; margin-top: 40px; border-radius: 5px; opacity: 90%;">
-                                                        <div class="form-group" id="eventNotifCheck">
-                                                            <input class="form-controlCheck" type="checkbox"
-                                                                   id="notification" name="notification" asp-for="notification" />
-                                                            <label for="notification">Reminder?</label>
-
-                                                            <label for="reminders">&emsp;&emsp; Minutes:</label>
-                                                            <input class="form-controlSpinner" type="number"
-                                                                   min="5" max="60" step="5" value="15" size="1"
-                                                                   placeholder="Minutes" id="reminders"
-                                                                   style="background-color: white; border-width: 2px; border-style: solid; border-color: #777474" asp-for="reminder" />
-
-                                                        </div>
+                                                        </select>
                                                     </div>
 
                                                 </div>
 
-                                                <div class="container" id="guest" style="height:170px; border-radius: 5px; opacity: 90%;">
-                                                    <div class="form-group" id="eventGuestCheck">
+                                                <div class="container" id="rem" style="height: 46px; margin-top: 40px; border-radius: 5px; opacity: 90%;">
+                                                    <div class="form-group" id="eventNotifCheck">
                                                         <input class="form-controlCheck" type="checkbox"
-                                                               id="guestt" name="guest" asp-for="guest" />
-                                                        <label for="guestt">Guest?</label>
-                                                    </div>
-                                                    <div class="form-group" id="eventGuestUsername">
-                                                        <input class="form-control" type="text"
-                                                               placeholder="Guest Username" id="guestUsername" asp-for="guestUsername" />
-                                                    </div>
-                                                    <div class="form-group" id="eventGuestEmail">
-                                                        <input class="form-control" type="text"
-                                                               placeholder="Guest Email" id="guestEmail" asp-for="guestEmail" />
+                                                               id="notification" name="notification" asp-for="notification" />
+                                                        <label for="notification">Reminder?</label>
+
+                                                        <label for="reminders">&emsp;&emsp; Minutes:</label>
+                                                        <input class="form-controlSpinner" type="number"
+                                                               min="5" max="60" step="5" value="15" size="1"
+                                                               placeholder="Minutes" id="reminders"
+                                                               style="background-color: white; border-width: 2px; border-style: solid; border-color: #777474" asp-for="reminder" />
+
                                                     </div>
                                                 </div>
-
                                             </form>
                                             
                                         </div>

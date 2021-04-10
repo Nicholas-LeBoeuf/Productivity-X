@@ -384,8 +384,8 @@ namespace Productivity_X.Models
 					Query.Parameters.AddWithValue("@location", ce.location);
 					Query.Parameters.AddWithValue("@description", ce.description);
 					Query.Parameters.AddWithValue("@categoryname", ce.category);
-					Query.Parameters.AddWithValue("@guest", ce.guest);
-					Query.Parameters.AddWithValue("@friend", ce.friend);
+					/*Query.Parameters.AddWithValue("@guest", ce.guest);
+					Query.Parameters.AddWithValue("@friend", ce.friend);*/
 
 					Query.ExecuteNonQuery();
 
@@ -394,7 +394,7 @@ namespace Productivity_X.Models
 						// Send notification to user via email based upon the current time and amount of minutes before starting time
 					}
 
-					if (ce.guest)
+					/*if (ce.guest)
 					{
 						MySqlCommand InsertIntoGuestTable = conn.CreateCommand();
 						InsertIntoGuestTable.CommandText = "insert into Calendar_Schema.guest_tbl (user_id, event_id, guest_username, guest_email, isFriend) VALUES (@user_id, @eventid, @guestusername, " +
@@ -406,7 +406,7 @@ namespace Productivity_X.Models
 						InsertIntoGuestTable.Parameters.AddWithValue("@guestemail", ce.guestEmail);
 						InsertIntoGuestTable.Parameters.AddWithValue("@isfriend", ce.friend);
 						InsertIntoGuestTable.ExecuteNonQuery();
-					}
+					}*/
 				}
 			}
 			return bRet;
