@@ -63,6 +63,16 @@ namespace Productivity_X.Controllers
 					}
 
                     GetCategoriesHelper();
+
+
+
+                    // Get profile from DB
+                    string filename = _manager.GetProfilePicFromDB(nUserID);
+                    ViewData["ProfilePicFromDB"] = filename;
+
+
+
+
                     // Go to main screen
                     return View("~/Views/MainWindow/Main.cshtml");
                 }
@@ -110,6 +120,12 @@ namespace Productivity_X.Controllers
 
                 if (!bRet)
                 {
+                    string filename = "~Productivity-X/wwwroot/Images/ProductivityXLogin";
+                    // Set default profile image into database...
+                    _manager.SaveUserProfilePicDB(filename, _manager.GetUserID(uc.username));
+
+                    ViewData["ProfilePicFromDB"] = filename;
+
                     // Go to Login page
                     return View("Index");
                 }

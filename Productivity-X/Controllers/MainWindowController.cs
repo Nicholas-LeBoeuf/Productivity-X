@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Productivity_X.Models;
+using System.IO;
 
 namespace Productivity_X.Controllers
 {
@@ -17,8 +18,39 @@ namespace Productivity_X.Controllers
 
         }
 
+/*        private string UploadedFile(ChangeProfileImage model)
+        {
+            string uniqueFileName = null;
+
+            if (model.ProfileImage != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.ProfileImage.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
+        }
+*/
+
+        public IActionResult ChangeProfilePic(ChangeProfileImage cpi)
+		{
+            int userid = (int)TempData["userid"];
+            string filename = cpi.ProfileImage.ToString();
+            // Set default profile image into database...
+            _manager.SaveUserProfilePicDB(filename, userid);
+
+            TempData["userid"] = userid;
+            ViewData["ProfilePicFromDB"] = filename;
+            return View();
+        }
+
         public IActionResult Main()
         {
+            ViewData["ProfilePicFromDB"] = ViewData["ProfilePicFromDB"] as string;
             GetTasksHelper();
             GetCategoriesHelper();
             return View();

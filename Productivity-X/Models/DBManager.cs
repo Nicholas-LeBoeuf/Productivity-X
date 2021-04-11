@@ -992,5 +992,68 @@ namespace Productivity_X.Models
 			}
 			return bComplete;
 		}
+
+		public void SaveUserProfilePicDB(string filename, int userid)
+		{
+			bool bRet = false;
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand CheckUser = conn.CreateCommand();
+
+				// Checks to see if there are duplicate usernames
+				CheckUser.Parameters.AddWithValue("@filename", filename);
+				CheckUser.Parameters.AddWithValue("@userid", userid);
+				CheckUser.CommandText = "select count(*) from Calendar_Schema.user_tbl where profilePic = @filename and user_id = @userid";
+
+				// if 1 then already exist
+				int sameFilename = Convert.ToInt32(CheckUser.ExecuteScalar());
+
+				if (sameFilename >= 1)
+				{
+					bRet = true;
+				}
+				else
+				{
+					// Inserting data into profilepic field of database
+					MySqlCommand Query = conn.CreateCommand();
+					Query.CommandText = "insert into Calendar_Schema.user_tbl (profilepic) VALUES (@filename)";
+					Query.Parameters.AddWithValue("@filename", filename);
+
+					Query.ExecuteNonQuery();
+				}
+			}
+		}
+
+		// Gets the profile pic based upon user id
+		public string GetProfilePicFromDB(int nUserID)
+		{
+			string sRet = "";
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+
+				// Inserting data into fields of database
+				MySqlCommand FindProfilePic = conn.CreateCommand();
+				FindProfilePic.CommandText = "select profilepic from Calendar_Schema.user_tbl where user_id = @userID;";
+				FindProfilePic.Parameters.AddWithValue("@userID", nUserID);
+				FindProfilePic.ExecuteNonQuery();
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = FindProfilePic.ExecuteReader();
+				if (reader.Read()) // Read returns false if the verificationcode does not exist!
+				{
+					// Read the DB values:
+					Object[] values = new object[1];
+					int fieldCount = reader.GetValues(values);
+					if (1 == fieldCount)
+					{
+						sRet = values[0].ToString();
+					}
+				}
+				reader.Close();
+			}
+			return sRet;
+		}
 	}
 }
