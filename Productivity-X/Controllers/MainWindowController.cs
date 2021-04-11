@@ -265,5 +265,9 @@ namespace Productivity_X.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult CombinedSchedules()
+        {
+            return View();
+        }
     }
 }
