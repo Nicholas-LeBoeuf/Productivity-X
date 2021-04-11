@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="~/css/mainLayout.css" />
 	<script src="https://kit.fontawesome.com/1e6384ea85.js" crossorigin="anonymous"></script>
 
-	@section scripts{
+<!--	section scripts{
 		<script type="text/javascript">
 			// Add the following code if you want the name of the file appear on select
 			$(".custom-file-input").on("change", function () {
@@ -19,6 +19,7 @@
 			});
 		</script>
 	}
+-->	
 </head>
 
 <style>
@@ -104,12 +105,13 @@
 				<a href="@Url.Action("Logout", "MainWindow")" style="text-align: center; ">Logout</a>
 
 				<label style="color: black; text-align: center;  cursor: pointer;">
-					<input asp-for="ProfileImage" type="file" style="display: inline;" />
-
+	<!-- Might need to this below line into input.... to get file and then use above script to get filename-->				
+	<!--asp-for="ProfileImage"-->
+					<input type="file" style="display: none;" />
 					Change Profile Icon
 				</label>
-				<input type="submit" value="submit" class="btn btn-sm btn-primary rounded-0 text-uppercase" onclick="window.location.href = '@Url.Action("ChangeProfilePic", "MainWindow")'"/>
-				<!--<a href='Url.Action("ChangeProfilePic", "MainWindow")'</a>-->
+				<!--<input type="submit" value="submit" class="btn btn-sm btn-primary rounded-0 text-uppercase" onclick="window.location.href = '@Url.Action("ChangeProfilePic", "MainWindow")'"/>
+	<a href='Url.Action("ChangeProfilePic", "MainWindow")'</a>-->
 			</div>
 		</div>
 	</div>
