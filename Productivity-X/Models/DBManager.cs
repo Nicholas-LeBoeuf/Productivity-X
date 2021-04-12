@@ -679,11 +679,12 @@ namespace Productivity_X.Models
 					// Read the DB values:
 					result.Add(new WeeklyEventsView()
 					{
+						categoryname = category,
 						name = reader[0].ToString(),
 						start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),
 						end = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[3].ToString(),
 						color = color
-					});
+					}) ;
 				}
 				reader.Close();
 
@@ -695,14 +696,14 @@ namespace Productivity_X.Models
 						MySqlCommand FindCategoryColor = conn.CreateCommand();
 						FindCategoryColor.CommandText = "select color from Calendar_Schema.category_tbl where user_id = @user_id and categoryname = @categoryname";
 						FindCategoryColor.Parameters.AddWithValue("@user_id", userid);
-						FindCategoryColor.Parameters.AddWithValue("@categoryname", category);
+						FindCategoryColor.Parameters.AddWithValue("@categoryname", result[counter].categoryname);
 						FindCategoryColor.ExecuteNonQuery();
 
 						// Execute the SQL command against the DB:
 						MySqlDataReader Reader = FindCategoryColor.ExecuteReader();
 						while (Reader.Read())
 						{
-							color = Convert.ToString(Reader[0]);
+							result[counter].color = Convert.ToString(Reader[0]);
 						}
 						Reader.Close();
 					}
@@ -717,44 +718,69 @@ namespace Productivity_X.Models
 		public List<TodayEventView> GetTodayEvents(int userid)
 		{
 			var result = new List<TodayEventView>();
+			string color = "", categoryname = "";
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
 				MySqlCommand FindEvents = conn.CreateCommand();
-
 				var date = DateTime.Now.ToString("yyyy-MM-dd");
-				// Checks to see if there are duplicate usernames
 				FindEvents.Parameters.AddWithValue("@user_id", userid);
-				FindEvents.CommandText = "SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname,c.color FROM Calendar_Schema.events_tbl e  left join  Calendar_Schema.category_tbl c on e.categoryname = c.categoryname where e.user_id = @user_id  and e.event_date= " + "'" + date + "' and c.user_id = @user_id";
+				//FindEvents.Parameters.AddWithValue("@eventdate", date);
+				// FindEvents.CommandText = "SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname,c.color FROM Calendar_Schema.events_tbl e  left join  Calendar_Schema.category_tbl c on e.categoryname = c.categoryname where e.user_id = @user_id  and e.event_date= " + "'" + date + "' and c.user_id = @user_id";
+				FindEvents.CommandText = "SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname FROM Calendar_Schema.events_tbl e where e.user_id = @user_id and e.event_date= " + "'" + date + "'";
 
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = FindEvents.ExecuteReader();
-				while (reader.Read()) // Read returns false if the user does not exist!
+				while (reader.Read()) // Read returns false if the event does not exist!
 				{
-					var category = reader[4].ToString();
-					var color = reader[5].ToString();
-					if (category == "Default")
+					categoryname = reader[4].ToString();
+					if (categoryname == "Default")
 					{
 						color = "grey";
 
 					}
-					else if (category == "Friends")
+					else if (categoryname == "Friends")
 					{
 						color = "pink";
 					}
-					// Read the DB values:
-
-					result.Add(new TodayEventView()
-
+					else
 					{
+						color = "";
+					}
+					// Read the DB values:
+					result.Add(new TodayEventView()
+					{
+						category = categoryname,
 						name = reader[0].ToString(),
 						start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),
 						end = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[3].ToString(),
-						color = color,
-						category = "J"
+						color = color
 					});
 				}
 				reader.Close();
+
+				// Did not set color yet, category must exist in database
+				for (int counter = 0; counter < result.Count(); counter++)
+				{
+					if (result[counter].color == "" && (result[counter].category != "Default" && result[counter].category != "Friends"))
+					{
+						MySqlCommand FindCategoryColor = conn.CreateCommand();
+						FindCategoryColor.CommandText = "select color from Calendar_Schema.category_tbl where user_id = @user_id and categoryname = @categoryname";
+						FindCategoryColor.Parameters.AddWithValue("@user_id", userid);
+						FindCategoryColor.Parameters.AddWithValue("@categoryname", result[counter].category);
+						FindCategoryColor.ExecuteNonQuery();
+
+						// Execute the SQL command against the DB:
+						MySqlDataReader Reader = FindCategoryColor.ExecuteReader();
+						while (Reader.Read())
+						{
+							result[counter].color = Convert.ToString(Reader[0]);
+						}
+						Reader.Close();
+					}
+					else
+						continue;
+				}
 			}
 			return result;
 		}
