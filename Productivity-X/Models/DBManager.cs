@@ -670,7 +670,7 @@ namespace Productivity_X.Models
 					}
 					else if(category == "Friends")
 					{
-						color = "pink";
+						color = "#FF69B4";
 					}
 					else
 					{
@@ -741,7 +741,7 @@ namespace Productivity_X.Models
 					}
 					else if (categoryname == "Friends")
 					{
-						color = "pink";
+						color = "#FF69B4";
 					}
 					else
 					{
