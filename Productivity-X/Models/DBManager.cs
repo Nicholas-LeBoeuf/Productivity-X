@@ -750,12 +750,12 @@ namespace Productivity_X.Models
 					// Read the DB values:
 					result.Add(new TodayEventView()
 					{
-						category = categoryname,
 						name = reader[0].ToString(),
 						start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),
 						end = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[3].ToString(),
-						color = color
-					});
+						color = color,
+						category = "J"
+					}) ;
 				}
 				reader.Close();
 
