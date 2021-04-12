@@ -64,14 +64,10 @@ namespace Productivity_X.Controllers
 
                     GetCategoriesHelper();
 
-
-
                     // Get profile from DB
                     string filename = _manager.GetProfilePicFromDB(nUserID);
-                    ViewData["ProfilePicFromDB"] = filename;
-
-
-
+                    TempData["ProfilePicFromDB"] = filename;
+                    TempData.Keep("ProfilePicFromDB");
 
                     // Go to main screen
                     return View("~/Views/MainWindow/Main.cshtml");

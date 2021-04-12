@@ -44,13 +44,15 @@ namespace Productivity_X.Controllers
             _manager.SaveUserProfilePicDB(filename, userid);
 
             TempData["userid"] = userid;
-            ViewData["ProfilePicFromDB"] = filename;
+            TempData["ProfilePicFromDB"] = filename;
+            TempData.Keep("ProfilePicFromDB");
             return View();
         }
 
         public IActionResult Main()
         {
-            ViewData["ProfilePicFromDB"] = ViewData["ProfilePicFromDB"] as string;
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             GetTasksHelper();
             GetCategoriesHelper();
             return View();
@@ -64,7 +66,8 @@ namespace Productivity_X.Controllers
                 
             ViewData["categoryobjects"] = categoriesSaved;
             TempData["userid"] = userid;
-
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View();
         }
 
@@ -96,7 +99,8 @@ namespace Productivity_X.Controllers
                 ViewBag.message = "Event was not saved, all fields were not filled in!";
             }
             TempData["userid"] = userid;
-
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View("Weekly");
         }
 
@@ -106,6 +110,8 @@ namespace Productivity_X.Controllers
             _manager.DeleteEvent(Convert.ToInt32(eventid), userid);
             GetEventsHelper();
             TempData["userid"] = userid;
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View("Events");
 		}
 
@@ -139,11 +145,15 @@ namespace Productivity_X.Controllers
         {
             GetCategoriesHelper();
             GetEventsHelper();
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View();
         }
 
         public IActionResult Today()
         {
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View();
         }
 
@@ -158,6 +168,7 @@ namespace Productivity_X.Controllers
 
             TempData["userid"] = userid;
             GetTasksHelper();
+
             return View("ToDo");
         }
         public IActionResult DeleteTask(int? taskid)
@@ -201,6 +212,8 @@ namespace Productivity_X.Controllers
             }
             GetTasksHelper();
             TempData["userid"] = userid;
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View("ToDo");
 		}
         public void GetTasksHelper()
@@ -218,6 +231,8 @@ namespace Productivity_X.Controllers
         public IActionResult ToDo()
         {
             GetTasksHelper();
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View();
         }
 
@@ -233,6 +248,8 @@ namespace Productivity_X.Controllers
             // Update Category list
             GetCategoriesHelper();
             TempData["userid"] = userid;
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View("Categories");
 		}
 
@@ -265,6 +282,8 @@ namespace Productivity_X.Controllers
             }
             GetCategoriesHelper();
             TempData["userid"] = userid;
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View("Categories");
         }
         public void GetCategoriesHelper()
@@ -280,15 +299,17 @@ namespace Productivity_X.Controllers
         }
         public IActionResult Categories()
         {
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             GetCategoriesHelper();
 
             return View();
         }
 
-
-
         public IActionResult Friends()
         {
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View();
         }
 
