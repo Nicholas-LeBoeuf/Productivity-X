@@ -361,7 +361,7 @@
                     <th>Location</th>
                     <th>Description</th>
                     <th>Notification</th>
-                    <th>Guest</th>
+                    <th>Friend</th>
                     <th>Delete</th>
                 </tr>
                 @{
@@ -394,8 +394,8 @@
                             <td value="@eventlist[counter].GetNotification()">
                                 @eventlist[counter].GetNotification()
                             </td>
-                            <td value="@eventlist[counter].IsThereAGuest()">
-                                @eventlist[counter].IsThereAGuest()
+                            <td value="@eventlist[counter].GetFriendName()">
+                                @eventlist[counter].GetFriendName().Trim(';');
                             </td>
                             <td>
                                 <button id="deletebutton" type="button" value="@eventlist[counter]" onclick="window.location.href = '@Url.Action("DeleteEvent", "MainWindow")?eventid=@eventlist[counter].GetEventID()'">
