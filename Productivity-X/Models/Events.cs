@@ -17,8 +17,7 @@ namespace Productivity_X.Models
 		private string location;
 		private string description;
 		private string category;
-		private bool guest;
-		private bool friend;
+		private string friendname;
 		private string eventColor;
 		private object[] eventData = new object[11];
 
@@ -40,8 +39,7 @@ namespace Productivity_X.Models
 			location = Convert.ToString(eventData.ElementAt(6));
 			description = Convert.ToString(eventData.ElementAt(7));
 			category = Convert.ToString(eventData.ElementAt(8));
-			guest = Convert.ToBoolean(eventData.ElementAt(9));
-			friend = Convert.ToBoolean(eventData.ElementAt(10));
+			friendname = Convert.ToString(eventData.ElementAt(9));
 		}
 
 
@@ -78,9 +76,9 @@ namespace Productivity_X.Models
 		{
 			return notification;
 		}
-		public bool IsThereAGuest()
+		public string GetFriendName()
 		{
-			return guest;
+			return friendname;
 		}
 
 		public void SetEventColor(string color)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Productivity_X.Models;
+using System.IO;
 
 namespace Productivity_X.Controllers
 {
@@ -17,8 +18,41 @@ namespace Productivity_X.Controllers
 
         }
 
+/*        private string UploadedFile(ChangeProfileImage model)
+        {
+            string uniqueFileName = null;
+
+            if (model.ProfileImage != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.ProfileImage.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
+        }
+*/
+
+        public IActionResult ChangeProfilePic(ChangeProfileImage cpi)
+		{
+            int userid = (int)TempData["userid"];
+            string filename = cpi.ProfileImage.ToString();
+            // Set default profile image into database...
+            _manager.SaveUserProfilePicDB(filename, userid);
+
+            TempData["userid"] = userid;
+            TempData["ProfilePicFromDB"] = filename;
+            TempData.Keep("ProfilePicFromDB");
+            return View();
+        }
+
         public IActionResult Main()
         {
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             GetTasksHelper();
             GetCategoriesHelper();
             return View();
@@ -32,7 +66,8 @@ namespace Productivity_X.Controllers
                 
             ViewData["categoryobjects"] = categoriesSaved;
             TempData["userid"] = userid;
-
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View();
         }
 
@@ -42,11 +77,11 @@ namespace Productivity_X.Controllers
             GetCategoriesHelper();
             bool bRet = true;
 
-            if((createEvent.guest == true && createEvent.guestEmail == null && createEvent.guestUsername == null) || 
+            /*if((createEvent.guest == true && createEvent.guestEmail == null && createEvent.guestUsername == null) || 
                 (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername != null) || (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername == null || createEvent.category == null) || createEvent.eventName == null)
 			{
                 bRet = false;
-            }
+            }*/
 
             int userid = (int)TempData["userid"];
 
@@ -64,7 +99,8 @@ namespace Productivity_X.Controllers
                 ViewBag.message = "Event was not saved, all fields were not filled in!";
             }
             TempData["userid"] = userid;
-
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View("Weekly");
         }
 
@@ -74,6 +110,8 @@ namespace Productivity_X.Controllers
             _manager.DeleteEvent(Convert.ToInt32(eventid), userid);
             GetEventsHelper();
             TempData["userid"] = userid;
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View("Events");
 		}
 
@@ -107,11 +145,15 @@ namespace Productivity_X.Controllers
         {
             GetCategoriesHelper();
             GetEventsHelper();
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View();
         }
 
         public IActionResult Today()
         {
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View();
         }
 
@@ -126,6 +168,7 @@ namespace Productivity_X.Controllers
 
             TempData["userid"] = userid;
             GetTasksHelper();
+
             return View("ToDo");
         }
         public IActionResult DeleteTask(int? taskid)
@@ -169,6 +212,8 @@ namespace Productivity_X.Controllers
             }
             GetTasksHelper();
             TempData["userid"] = userid;
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View("ToDo");
 		}
         public void GetTasksHelper()
@@ -186,6 +231,8 @@ namespace Productivity_X.Controllers
         public IActionResult ToDo()
         {
             GetTasksHelper();
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View();
         }
 
@@ -201,6 +248,8 @@ namespace Productivity_X.Controllers
             // Update Category list
             GetCategoriesHelper();
             TempData["userid"] = userid;
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View("Categories");
 		}
 
@@ -233,6 +282,8 @@ namespace Productivity_X.Controllers
             }
             GetCategoriesHelper();
             TempData["userid"] = userid;
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View("Categories");
         }
         public void GetCategoriesHelper()
@@ -248,15 +299,17 @@ namespace Productivity_X.Controllers
         }
         public IActionResult Categories()
         {
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             GetCategoriesHelper();
 
             return View();
         }
 
-
-
         public IActionResult Friends()
         {
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
             return View();
         }
 
