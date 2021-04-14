@@ -116,11 +116,11 @@ namespace Productivity_X.Controllers
 
                 if (!bRet)
                 {
-                    string filename = "~Productivity-X/wwwroot/Images/ProductivityXLogin";
+                    string filename = "../Images/ProductivityXLogin.png";
                     // Set default profile image into database...
                     _manager.SaveUserProfilePicDB(filename, _manager.GetUserID(uc.username));
 
-                    ViewData["ProfilePicFromDB"] = filename;
+                    TempData["ProfilePicFromDB"] = filename;
 
                     // Go to Login page
                     return View("Index");

@@ -719,67 +719,64 @@ namespace Productivity_X.Models
 		{
 			var result = new List<TodayEventView>();
 			string color = "", categoryname = "";
-			using (MySqlConnection conn = GetConnection())
-			{
+
+			using (MySqlConnection conn = GetConnection()) { 
 				conn.Open();
-				MySqlCommand FindEvents = conn.CreateCommand();
 				var date = DateTime.Now.ToString("yyyy-MM-dd");
-				FindEvents.Parameters.AddWithValue("@user_id", userid);
-				//FindEvents.Parameters.AddWithValue("@eventdate", date);
-				// FindEvents.CommandText = "SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname,c.color FROM Calendar_Schema.events_tbl e  left join  Calendar_Schema.category_tbl c on e.categoryname = c.categoryname where e.user_id = @user_id  and e.event_date= " + "'" + date + "' and c.user_id = @user_id";
-				FindEvents.CommandText = "SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname FROM Calendar_Schema.events_tbl e where e.user_id = @user_id and e.event_date= " + "'" + date + "'";
-
-				// Execute the SQL command against the DB:
-				MySqlDataReader reader = FindEvents.ExecuteReader();
-				while (reader.Read()) // Read returns false if the event does not exist!
+				// Find events that match todays date
+				using (MySqlCommand cmd = new MySqlCommand("SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname FROM Calendar_Schema.events_tbl e where e.user_id = @user_id and e.event_date= " + "'" + date + "'",conn))
 				{
-					categoryname = reader[4].ToString();
-					if (categoryname == "Default")
-					{
-						color = "grey";
+					cmd.Parameters.AddWithValue("@user_id", userid);
 
-					}
-					else if (categoryname == "Friends")
+					using (var reader = cmd.ExecuteReader())
 					{
-						color = "pink";
-					}
-					else
-					{
-						color = "";
-					}
-					// Read the DB values:
-					result.Add(new TodayEventView()
-					{
-						name = reader[0].ToString(),
-						start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),
-						end = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[3].ToString(),
-						color = color,
-						category = "J"
-					}) ;
-				}
-				reader.Close();
-
-				// Did not set color yet, category must exist in database
-				for (int counter = 0; counter < result.Count(); counter++)
-				{
-					if (result[counter].color == "" && (result[counter].category != "Default" && result[counter].category != "Friends"))
-					{
-						MySqlCommand FindCategoryColor = conn.CreateCommand();
-						FindCategoryColor.CommandText = "select color from Calendar_Schema.category_tbl where user_id = @user_id and categoryname = @categoryname";
-						FindCategoryColor.Parameters.AddWithValue("@user_id", userid);
-						FindCategoryColor.Parameters.AddWithValue("@categoryname", result[counter].category);
-						FindCategoryColor.ExecuteNonQuery();
-
-						// Execute the SQL command against the DB:
-						MySqlDataReader Reader = FindCategoryColor.ExecuteReader();
-						while (Reader.Read())
+						while (reader.Read()) // Read returns false if the event does not exist!
 						{
-							result[counter].color = Convert.ToString(Reader[0]);
+							categoryname = reader[4].ToString();
+							if (categoryname == "Default")
+							{
+								color = "grey";
+
+							}
+							else if (categoryname == "Friends")
+							{
+								color = "pink";
+							}
+							// Category exists in database
+							else
+							{
+								using (MySqlConnection conn2 = GetConnection())
+								{
+									conn2.Open();
+									// Find color in the database and then set variable color
+									using (MySqlCommand categoryreader = new MySqlCommand("select color from Calendar_Schema.category_tbl where user_id = @user_id and categoryname = @categoryname", conn2))
+									{
+										categoryreader.Parameters.AddWithValue("@user_id", userid);
+										categoryreader.Parameters.AddWithValue("@categoryname", categoryname);
+
+										using (var reader2 = categoryreader.ExecuteReader())
+										{
+											while (reader2.Read())
+											{
+												color = Convert.ToString(reader2[0]);
+											}
+											reader2.Close();
+										}
+									}
+								}
+							}
+							// Read the DB values:
+							result.Add(new TodayEventView()
+							{
+								name = reader[0].ToString(),
+								start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),
+								end = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[3].ToString(),
+								color = color,
+								category = "J"
+							});
 						}
-						Reader.Close();
+						reader.Close();
 					}
-					else
-						continue;
 				}
 			}
 			return result;
