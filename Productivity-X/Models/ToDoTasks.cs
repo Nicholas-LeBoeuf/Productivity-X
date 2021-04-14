@@ -10,11 +10,14 @@ namespace Productivity_X.Models
 		private int m_nTaskID;
 		private string m_sTaskname;
 		private bool m_bComplete;
-		public ToDoTasks(int taskid, string taskname, bool finished)
+		private bool m_bKeepForNextDay;
+
+		public ToDoTasks(int taskid, string taskname, bool finished, bool keep)
 		{
 			m_nTaskID = taskid;
 			m_sTaskname = taskname;
 			m_bComplete = finished;
+			m_bKeepForNextDay = keep;
 		}
 
 		public string GetTaskName()
@@ -28,6 +31,10 @@ namespace Productivity_X.Models
 		public int GetTaskID()
 		{
 			return m_nTaskID;
+		}
+		public bool IsSavedforNextDay()
+		{
+			return m_bKeepForNextDay;
 		}
 	}
 }

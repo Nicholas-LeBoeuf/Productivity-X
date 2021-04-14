@@ -492,8 +492,6 @@ namespace Productivity_X.Models
 				conn.Open();
 
 				MySqlCommand countOldEvents = conn.CreateCommand();
-
-
 				var date = DateTime.Now.ToString("yyyy-MM-dd");
 
 				//Checks to see if there are duplicate category values for category name
@@ -950,11 +948,14 @@ namespace Productivity_X.Models
 				}
 				else
 				{
+					var date = DateTime.Now.ToString("yyyy-MM-dd");
 					MySqlCommand Query = conn.CreateCommand();
-					Query.CommandText = "insert into Calendar_Schema.todo_tbl (user_id, taskname, complete) VALUES (@user_id, @taskname, @bFinished)";
+					Query.CommandText = "insert into Calendar_Schema.todo_tbl (user_id, taskname, complete, keepfornextday, task_date) VALUES (@user_id, @taskname, @bFinished, @bkeepfornextday, @date)";
 					Query.Parameters.AddWithValue("@user_id", nUserID);
 					Query.Parameters.AddWithValue("@taskname", ct.taskName);
 					Query.Parameters.AddWithValue("@bFinished", false);
+					Query.Parameters.AddWithValue("@bkeepfornextday", false);
+					Query.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd"));
 					Query.ExecuteNonQuery();
 				}
 			}
@@ -968,7 +969,7 @@ namespace Productivity_X.Models
 			{
 				conn.Open();
 				MySqlCommand FindTaskData = conn.CreateCommand();
-				FindTaskData.CommandText = "select task_id, taskname, complete from Calendar_Schema.todo_tbl where user_id = @user_id";
+				FindTaskData.CommandText = "select task_id, taskname, complete, keepfornextday from Calendar_Schema.todo_tbl where user_id = @user_id";
 				FindTaskData.Parameters.AddWithValue("@user_id", userid);
 				FindTaskData.ExecuteNonQuery();
 				// Execute the SQL command against the DB:
@@ -976,18 +977,118 @@ namespace Productivity_X.Models
 
 				int taskid = 0;
 				string taskname;
-				bool finished;
+				bool finished, keeptask;
 				while (reader.Read())
 				{
 					taskid = Convert.ToInt32(reader[0]);
 					taskname = reader.GetString(1);
 					finished = Convert.ToBoolean(reader[2]);
-					taskObj.Add(new ToDoTasks(taskid, taskname, finished));
+					keeptask = Convert.ToBoolean(reader[3]);
+					taskObj.Add(new ToDoTasks(taskid, taskname, finished, keeptask));
 				}
 				reader.Close();
 			}
 			return taskObj;
 		}
+
+		// Check if there are events that are not completed yet, but expired then save them to a list to display next to the to do list... 
+		public void DeleteOrKeepTasksAfterMidnight(int userid)
+		{
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+
+				MySqlCommand countOldEvents = conn.CreateCommand();
+				var date = DateTime.Now.ToString("yyyy-MM-dd");
+
+				//Checks to see if there are duplicate category values for category name
+				countOldEvents.Parameters.AddWithValue("@userid", userid);
+				countOldEvents.Parameters.AddWithValue("@todaysdate", date);
+				countOldEvents.CommandText = "select count(*) FROM Calendar_Schema.todo_tbl where user_id=@userid and task_date < now() - interval 1 DAY";
+				int nOldEvents = Convert.ToInt32(countOldEvents.ExecuteScalar());
+
+				if (nOldEvents > 0)
+				{
+					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date < now() - interval 1 DAY and complete = @finished", conn))
+					{
+						cmd.Parameters.AddWithValue("@userid", userid);
+						cmd.Parameters.AddWithValue("@finished", true);
+						using (var reader = cmd.ExecuteReader())
+						{
+							while (reader.Read())
+							{
+								using (MySqlConnection conn2 = GetConnection())
+								{
+									conn2.Open();
+									using (MySqlCommand deleteTasks = new MySqlCommand("delete FROM Calendar_Schema.todo_tbl where user_id = @userid and task_id = @taskid", conn2))
+									{
+										deleteTasks.Parameters.AddWithValue("@userid", userid);
+										deleteTasks.Parameters.AddWithValue("@taskid", reader[0]);
+										deleteTasks.ExecuteNonQuery();
+									}
+								}
+							}
+						}
+					}
+
+					// Check for events that have not been completed and keep for next day
+					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date < now() - interval 1 DAY and complete = @finished", conn))
+					{
+						cmd.Parameters.AddWithValue("@userid", userid);
+						cmd.Parameters.AddWithValue("@finished", false);
+						using (var reader = cmd.ExecuteReader())
+						{
+							while (reader.Read())
+							{
+								using (MySqlConnection conn2 = GetConnection())
+								{
+									conn2.Open();
+									using (MySqlCommand updateTasks = new MySqlCommand("update Calendar_Schema.todo_tbl set keepfornextday = true where task_id = @taskid and user_id = @userid", conn2))
+									{
+										updateTasks.Parameters.AddWithValue("@userid", userid);
+										updateTasks.Parameters.AddWithValue("@taskid", reader[0]);
+										updateTasks.ExecuteNonQuery();
+									}
+								}
+							}
+						}
+					}
+
+					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date < now() - interval 2 DAY and complete = @finished", conn))
+					{
+						cmd.Parameters.AddWithValue("@userid", userid);
+						cmd.Parameters.AddWithValue("@finished", false);
+						using (var reader = cmd.ExecuteReader())
+						{
+							while (reader.Read())
+							{
+								using (MySqlConnection conn2 = GetConnection())
+								{
+									conn2.Open();
+									// Delete tasks that have been saved for two days
+									using (MySqlCommand deleteTasksAfter2Days = new MySqlCommand("delete FROM Calendar_Schema.todo_tbl where user_id = @userid and task_id = @taskid", conn2))
+									{
+										deleteTasksAfter2Days.Parameters.AddWithValue("@userid", userid);
+										deleteTasksAfter2Days.Parameters.AddWithValue("@taskid", reader[0]);
+										deleteTasksAfter2Days.ExecuteNonQuery();
+									}
+								}
+							}
+						}
+					}
+
+				}
+					
+					
+			}
+		}
+
+
+
+
+
+
+
 		public void DeleteTask(int taskid, int userid)
 		{
 			using (MySqlConnection conn = GetConnection())

@@ -222,6 +222,7 @@ namespace Productivity_X.Controllers
 
             int userid = (int)TempData["userid"];
 
+            _manager.DeleteOrKeepTasksAfterMidnight(userid);
             tasksSaved = _manager.GetTasksFromDB(userid);
 
             ViewData["taskobjects"] = tasksSaved;
