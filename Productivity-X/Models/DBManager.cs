@@ -1168,8 +1168,9 @@ namespace Productivity_X.Models
 				{
 					// Inserting data into profilepic field of database
 					MySqlCommand Query = conn.CreateCommand();
-					Query.CommandText = "insert into Calendar_Schema.user_tbl (profilepic) VALUES (@filename)";
+					Query.CommandText = "update Calendar_Schema.user_tbl set profilepic = @filename where user_id = @userid";
 					Query.Parameters.AddWithValue("@filename", filename);
+					Query.Parameters.AddWithValue("@userid", userid);
 
 					Query.ExecuteNonQuery();
 				}
