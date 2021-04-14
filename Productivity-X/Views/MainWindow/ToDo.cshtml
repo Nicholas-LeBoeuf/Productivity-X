@@ -269,12 +269,19 @@
     
     .reportTitle {
         text-align: center;
-        height: 50px;
-        font-size: 20px;
+        height: 55px;
+        font-size: 23px;
         color: gold;
         font-weight: 200;
     }
 
+	ul.tasknames li {
+		margin-left: 20%;
+		border-radius: 50%;
+		margin-top: 0.02%;
+		font-size: 160%;
+		list-style-type: disc;
+	}
 </style>
 
 <body style="background-color: #1C1C1C;
@@ -351,57 +358,29 @@
                                 tasklist = ViewData["taskobjects"] as List<ToDoTasks>;
                                 for (int counter = 0; counter < tasklist.Count; counter++)
                                 {
-                                    <tr>
-                                        @if (tasklist[counter].IsSavedforNextDay() == false)
-                                        {
-                                            <td class="checkAction">
-                                                <input class="checkbox-round" type="checkbox" checked="tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
-                                            </td>
-                                            <td class="taskAction" style="font-size:  22px;" value="@tasklist[counter].GetTaskName()">
-                                                @tasklist[counter].GetTaskName().Trim(';')
-                                            </td>
-                                            <td class="buttonAction">
-                                                <button id="deletebutton" type="button" value="tasklist[counter]" onclick="window.location.href = '@Url.Action("DeleteTask", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
-                                                    <i class="fas fa-trash fa-lg"></i>
-                                                </button>
-                                            </td>
-                                        }
-                                    </tr>
+									<tr>
+										@if (tasklist[counter].IsSavedforNextDay() == false)
+										{
+											<td class="checkAction">
+												<input class="checkbox-round" type="checkbox" checked="tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
+											</td>
+											<td class="taskAction" style="font-size: 22px;" value="@tasklist[counter].GetTaskName()">
+												@tasklist[counter].GetTaskName().Trim(';')
+											</td>
+											
+											<td class="buttonAction">
+												<button id="deletebutton" type="button" value="tasklist[counter]" onclick="window.location.href = '@Url.Action("DeleteTask", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
+													<i class="fas fa-trash fa-lg"></i>
+												</button>
+											</td>
+										}
+									</tr>
                                 }
                             }
 
                         </tbody>
                     </table>
                 </div>
-                <!--
-                    <div class="box" id="todo" style="width: 45%; overflow-y:auto">
-                        <a href='@Url.Action("ToDo", "MainWindow")'>
-                            <div class="boxtitle" style="color: white;">To-do</div>
-                        </a>
-
-                        <ul class="tasknames">
-                            @{
-                                List<ToDoTasks> taskList = new List<ToDoTasks>();
-                                taskList = ViewData["taskobjects"] as List<ToDoTasks>;
-                                for (int counter = 0; counter < taskList.Count; counter++)
-                                {
-                                    if (taskList[counter].IsSavedforNextDay() == false)
-                                    {
-                                        // Put line through text if task is complete
-                                        if (taskList[counter].IsComplete())
-                                        {
-                                            <li style="color:dodgerblue"><span value="taskList[counter].GetCategoryName()" style="color: white"><s>@taskList[counter].GetTaskName()</s></span></li>
-                                        }
-                                        else
-                                        {
-                                            <li style="color:dodgerblue"><span value="taskList[counter].GetCategoryName()" style="color: white">@taskList[counter].GetTaskName()</span></li>
-                                        }
-                                    }
-                                }
-
-                            }
-                        </ul>
-        -->
 
                 <div class="below" style="width: 50%;">
                     <table id="categoriesTable" class="center" style="width:500px; margin-left: 40%;">
@@ -562,10 +541,30 @@
 
         <div class="ToDoReport">
             <div class="box" id="report">
-                <div class="reportTitle">
-                    Suggested Tasks
-                </div>
-                
+				<div class="reportTitle" style="overflow-y: auto">
+					Tasks Not Completed Yesterday
+				</div>
+				<ul class="tasknames">
+					@{
+						bool bSuggestedTasksExist = false;
+						List<ToDoTasks> taskList = new List<ToDoTasks>();
+						taskList = ViewData["taskobjects"] as List<ToDoTasks>;
+						for (int counter = 0; counter < taskList.Count; counter++)
+						{
+							if (taskList[counter].IsSavedforNextDay())
+							{
+								<li style="color:dodgerblue"><span style="color: white"><s>@taskList[counter].GetTaskName()</s></span></li>
+								bSuggestedTasksExist = true;
+							}
+						}
+
+						if (!bSuggestedTasksExist)
+						{
+							<li style="color:dodgerblue"><span style="color: white"><s>All tasks were completed yesterday!</s></span></li>
+						}
+
+					}
+				</ul>
             </div>
         </div>
 
