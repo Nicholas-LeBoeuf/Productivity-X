@@ -320,18 +320,21 @@
 							taskList = ViewData["taskobjects"] as List<ToDoTasks>;
 							for (int counter = 0; counter < taskList.Count; counter++)
 							{
-								// Put line through text if task is complete
-								if (taskList[counter].IsComplete())
+								if (taskList[counter].IsSavedforNextDay() == false)
 								{
-									<li style="color:dodgerblue"><span value="taskList[counter].GetCategoryName()" style="color: white"><s>@taskList[counter].GetTaskName()</s></span></li>
-								}
-								else
-								{
-									<li style="color:dodgerblue"><span value="taskList[counter].GetCategoryName()" style="color: white">@taskList[counter].GetTaskName()</span></li>
+									// Put line through text if task is complete
+									if (taskList[counter].IsComplete())
+									{
+										<li style="color:dodgerblue"><span value="taskList[counter].GetCategoryName()" style="color: white"><s>@taskList[counter].GetTaskName()</s></span></li>
+									}
+									else
+									{
+										<li style="color:dodgerblue"><span value="taskList[counter].GetCategoryName()" style="color: white">@taskList[counter].GetTaskName()</span></li>
+									}
 								}
 							}
 
-						}
+							}
 					</ul>
 				</div>
 
