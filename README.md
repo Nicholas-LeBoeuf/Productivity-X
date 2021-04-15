@@ -31,5 +31,3 @@ The purpose of this application is to allow you to enhance your productivity by 
 - Able to press on saved events on Today and Weekly pages to edit, delete, etc.
 - Send event reminders/notifications through email, such as 15, 20 minutes before the saved event
 - Message friends on the Friends page
-
-# Application Images
