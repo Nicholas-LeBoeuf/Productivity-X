@@ -130,7 +130,7 @@
     }
 
     table {
-        table-layout: fixed;
+        @*table-layout: fixed;*@
         width: 50px;
         z-index: 1;
     }
@@ -211,7 +211,7 @@
     }
 
     table .checkAction {
-        padding-right: 15px;
+        padding-right: 7px;
         width: 50px;
         text-align: right;
         white-space: nowrap;
@@ -224,10 +224,17 @@
         white-space: nowrap;
     }
 
-    table .dummyTdAction {
+    table .dummyTdAction2 {
         padding-left: 7px;
         width: 50px;
         text-align: left;
+        white-space: nowrap;
+    }
+
+    table .dummyTdAction {
+        padding-left: 7px;
+        width: 50px;
+        text-align: right;
         white-space: nowrap;
     }
 
@@ -348,9 +355,6 @@
             <div class="outer" style="width: 50%;">
                 <div class="top" style="width: 50%;">
                     <table id="categoriesTable" class="center" style="width:500px; margin-left: 40%;">
-                        <colgroup>
-                            
-                        </colgroup>
                         <tbody>
 
                             @{
@@ -362,7 +366,7 @@
 										@if (tasklist[counter].IsSavedforNextDay() == false)
 										{
 											<td class="checkAction">
-												<input class="checkbox-round" type="checkbox" checked="tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
+												<input class="checkbox-round" type="checkbox" checked="@tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
 											</td>
 											<td class="taskAction" style="font-size: 22px;" value="@tasklist[counter].GetTaskName()">
 												@tasklist[counter].GetTaskName().Trim(';')
@@ -392,7 +396,7 @@
                                 <td class="dummyTd" style="border-bottom: 1px solid white; font-size:  22px;">
                                     &nbsp;
                                 </td>
-                                <td class="dummyTdAction">
+                                <td class="dummyTdAction2">
                                     <button id="deletebutton" type="button" style="visibility:hidden;">
                                         <i class="fas fa-trash fa-lg"></i>
                                     </button>
@@ -405,7 +409,7 @@
                                 <td class="dummyTd" style="border-bottom: 1px solid white; font-size:  22px;">
                                     &nbsp;
                                 </td>
-                                <td class="dummyTdAction">
+                                <td class="dummyTdAction2">
                                     <button id="deletebutton" type="button" style="visibility:hidden;">
                                         <i class="fas fa-trash fa-lg"></i>
                                     </button>
@@ -418,7 +422,7 @@
                                 <td class="dummyTd" style="border-bottom: 1px solid white; font-size:  22px;">
                                     &nbsp;
                                 </td>
-                                <td class="dummyTdAction">
+                                <td class="dummyTdAction2">
                                     <button id="deletebutton" type="button" style="visibility:hidden;">
                                         <i class="fas fa-trash fa-lg"></i>
                                     </button>
@@ -431,7 +435,7 @@
                                 <td class="dummyTd" style="border-bottom: 1px solid white; font-size:  22px;">
                                     &nbsp;
                                 </td>
-                                <td class="dummyTdAction">
+                                <td class="dummyTdAction2">
                                     <button id="deletebutton" type="button" style="visibility:hidden;">
                                         <i class="fas fa-trash fa-lg"></i>
                                     </button>
@@ -444,7 +448,7 @@
                                 <td class="dummyTd" style="border-bottom: 1px solid white; font-size:  22px;">
                                     &nbsp;
                                 </td>
-                                <td class="dummyTdAction">
+                                <td class="dummyTdAction2">
                                     <button id="deletebutton" type="button" style="visibility:hidden;">
                                         <i class="fas fa-trash fa-lg"></i>
                                     </button>
@@ -457,7 +461,7 @@
                                 <td class="dummyTd" style="border-bottom: 1px solid white; font-size:  22px;">
                                     &nbsp;
                                 </td>
-                                <td class="dummyTdAction">
+                                <td class="dummyTdAction2">
                                     <button id="deletebutton" type="button" style="visibility:hidden;">
                                         <i class="fas fa-trash fa-lg"></i>
                                     </button>
@@ -470,7 +474,7 @@
                                 <td class="dummyTd" style="border-bottom: 1px solid white; font-size:  22px;">
                                     &nbsp;
                                 </td>
-                                <td class="dummyTdAction">
+                                <td class="dummyTdAction2">
                                     <button id="deletebutton" type="button" style="visibility:hidden;">
                                         <i class="fas fa-trash fa-lg"></i>
                                     </button>
@@ -483,21 +487,7 @@
                                 <td class="dummyTd" style="border-bottom: 1px solid white; font-size:  22px;">
                                     &nbsp;
                                 </td>
-                                <td class="dummyTdAction">
-                                    <button id="deletebutton" type="button" style="visibility:hidden;">
-                                        <i class="fas fa-trash fa-lg"></i>
-                                    </button>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td class="dummyTdAction">
-                                    <input type="checkbox" id="check" style="visibility: hidden" />
-                                </td>
-                                <td class="dummyTd" style="border-bottom: 1px solid white; font-size:  22px;">
-                                    &nbsp;
-                                </td>
-                                <td class="dummyTdAction">
+                                <td class="dummyTdAction2">
                                     <button id="deletebutton" type="button" style="visibility:hidden;">
                                         <i class="fas fa-trash fa-lg"></i>
                                     </button>
@@ -511,7 +501,7 @@
                                 <td class="dummyTd" style="border-bottom: 1px solid white; font-size:  22px;">
                                     &nbsp;
                                 </td>
-                                <td class="dummyTdAction">
+                                <td class="dummyTdAction2">
                                     <button id="deletebutton" type="button" style="visibility:hidden;">
                                         <i class="fas fa-trash fa-lg"></i>
                                     </button>
@@ -525,7 +515,21 @@
                                 <td class="dummyTd" style="border-bottom: 1px solid white; font-size:  22px;">
                                     &nbsp;
                                 </td>
+                                <td class="dummyTdAction2">
+                                    <button id="deletebutton" type="button" style="visibility:hidden;">
+                                        <i class="fas fa-trash fa-lg"></i>
+                                    </button>
+                                </td>
+
+                            </tr>
+                            <tr>
                                 <td class="dummyTdAction">
+                                    <input type="checkbox" id="check" style="visibility: hidden" />
+                                </td>
+                                <td class="dummyTd" style="border-bottom: 1px solid white; font-size:  22px;">
+                                    &nbsp;
+                                </td>
+                                <td class="dummyTdAction2">
                                     <button id="deletebutton" type="button" style="visibility:hidden;">
                                         <i class="fas fa-trash fa-lg"></i>
                                     </button>
