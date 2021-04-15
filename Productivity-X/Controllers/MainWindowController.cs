@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Productivity_X.Models;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace Productivity_X.Controllers
 {
@@ -307,7 +308,7 @@ namespace Productivity_X.Controllers
             return View();
         }
 
-        public IActionResult Friends()
+        public IActionResult FriendsPic()
         {
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
@@ -323,5 +324,54 @@ namespace Productivity_X.Controllers
         {
             return View();
         }
+
+        #region Friends
+
+        public IActionResult Friends()
+        {
+            return View();
+        }
+
+        public IActionResult GetSearchUser(string keyword)
+        {
+            return Json(_manager.GetSearchUser(keyword));
+        }
+
+        public IActionResult AddFriend(int friendId)
+        {
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            _manager.AddFriend(userid, friendId);
+            return View("Friends");
+        }
+        public IActionResult VerifyFriend(int friendId)
+        {
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            _manager.VerifyFriend(userid, friendId);
+            return View("Friends");
+        }
+        public IActionResult GetFriendsRequest()
+        {
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            return Json(_manager.GetFriendsRequest(userid));
+        }
+        public IActionResult GetFriends()
+        {
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            return Json(_manager.GetFriends(userid));
+        }
+        public IActionResult DeleteFriend(int friendId)
+        {
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            _manager.DeleteFriend(userid, friendId);
+            return View("Friends");
+        }
+
+        public IActionResult DeleteRequest(int friendId)
+        {
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            _manager.DeleteRequest(userid, friendId);
+            return View("Friends");
+        }
+        #endregion
     }
 }
