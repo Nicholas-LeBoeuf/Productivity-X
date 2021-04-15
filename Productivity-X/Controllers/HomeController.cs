@@ -43,6 +43,7 @@ namespace Productivity_X.Controllers
         public IActionResult LoginUser(UserLogin loginUser)
         {
             bool bUserExists = false;
+            bool bOldEventsExist = false;
 
             if (ModelState.IsValid)
             {
@@ -55,7 +56,20 @@ namespace Productivity_X.Controllers
 //                TempData["userid"] = nUserID;
                 if (bUserExists)
                 {
+                    // Delete events that are older than 10 days...
+                    bOldEventsExist = _manager.DeleteEventsGreaterThan10Days(nUserID);
+					if (bOldEventsExist)
+					{
+                        ViewBag.message = "Deleted events that are greater than 10 days!";
+					}
+
                     GetCategoriesHelper();
+
+                    // Get profile from DB
+                    string filename = _manager.GetProfilePicFromDB(nUserID);
+                    TempData["ProfilePicFromDB"] = filename;
+                    TempData.Keep("ProfilePicFromDB");
+
                     // Go to main screen
                     return View("~/Views/MainWindow/Main.cshtml");
                 }
@@ -65,6 +79,7 @@ namespace Productivity_X.Controllers
                     ViewBag.message = "Username not found or password incorrect!";
                 }
             }
+
             // Go to Login screen
             return View("Index");
         }
@@ -72,12 +87,15 @@ namespace Productivity_X.Controllers
         public void GetCategoriesHelper()
         {
             List<Categories> categoriesSaved = new List<Categories>();
+            List<ToDoTasks> tasksSaved = new List<ToDoTasks>();
 
             int userid = (int)TempData["userid"];
 
-            categoriesSaved = _manager.CategoryData(userid);
+            categoriesSaved = _manager.GetCategoriesFromDB(userid);
+            tasksSaved = _manager.GetTasksFromDB(userid);
 
             ViewData["categoryobjects"] = categoriesSaved;
+            ViewData["taskobjects"] = tasksSaved;
             TempData["userid"] = userid;
         }
 
@@ -99,6 +117,12 @@ namespace Productivity_X.Controllers
 
                 if (!bRet)
                 {
+                    string filename = "../Images/ProductivityXLogin.png";
+                    // Set default profile image into database...
+                    _manager.SaveUserProfilePicDB(filename, _manager.GetUserID(uc.username));
+
+                    TempData["ProfilePicFromDB"] = filename;
+
                     // Go to Login page
                     return View("Index");
                 }

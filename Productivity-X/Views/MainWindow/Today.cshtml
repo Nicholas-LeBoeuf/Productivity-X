@@ -199,7 +199,7 @@
             next() {
                 this.$refs.calendar.next()
             },
-             fetchEvents({ start, end }) {
+             fetchEvents({ start, end, color }) {
                 const that = this;
                 axios.get('/MainWindow/GetTodayEvents')
                     .then(function (response) {

@@ -16,10 +16,7 @@ namespace Productivity_X.Models
         public string location { get; set; }
         public string description { get; set; }
         public string category { get; set; }
-        public bool guest { get; set; }
-        public bool friend { get; set; }
-        public string guestUsername { get; set; }
-        public string guestEmail { get; set; }
+        public string friendUsername { get; set; }
 
     }
 }

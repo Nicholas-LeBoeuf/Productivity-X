@@ -210,8 +210,8 @@
 }
 
 .v-application .pink {
-    background-color: #e91e63 !important;
-    border-color: #e91e63 !important
+    background-color: #FF69B4 !important;
+    border-color: #FF69B4 !important
 }
 
 .v-application .pink--text {
@@ -770,8 +770,8 @@
 }
 
 .v-application .blue {
-    background-color: #2196f3 !important;
-    border-color: #2196f3 !important
+    background-color: blue !important;
+    border-color: blue !important
 }
 
 .v-application .blue--text {

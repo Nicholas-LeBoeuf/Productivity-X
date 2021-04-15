@@ -148,6 +148,10 @@ input[type=password] {
     text-align: center;
 }
 
+input:-webkit-autofill:first-line {
+    color: #797979;
+}
+
 input[type=password]:focus {
     background-color: #FFA700;
     color: black;

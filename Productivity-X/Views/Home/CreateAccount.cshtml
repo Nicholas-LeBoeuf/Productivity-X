@@ -5,8 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #FFA700 inset !important;
+    }
+</style>
+
 <div>
-    <form asp-action="AddUser">
+    <form autocomplete="off" asp-action="AddUser">
         <div id="createLogo">
             <img src="~/Images/ProductivityXLogo.png" alt="Productivity X Logo" />
         </div>
