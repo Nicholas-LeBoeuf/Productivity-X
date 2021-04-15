@@ -69,6 +69,12 @@
     background-color: saddlebrown !important;
     border-color: saddlebrown !important
 }
+
+.v-application .lightseagreen {
+    background-color: lightseagreen !important;
+    border-color: lightseagreen !important
+}
+
 .v-application .red--text {
     color: #f44336 !important;
     caret-color: #f44336 !important
