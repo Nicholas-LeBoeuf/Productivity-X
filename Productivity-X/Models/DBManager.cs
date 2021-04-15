@@ -1209,4 +1209,183 @@ namespace Productivity_X.Models
 			return sRet;
 		}
 	}
+			public List<UserView> GetSearchUser(string keyword)
+		{
+			var result = new List<UserView>();
+			if (keyword != string.Empty && keyword !=null)
+			{
+				using (MySqlConnection conn = GetConnection())
+				{
+					conn.Open();
+					MySqlCommand FindEvents = conn.CreateCommand();
+					FindEvents.CommandText = "SELECT user_id,username,email FROM Calendar_Schema.user_tbl  where username =" + "'" + keyword + "'" + " or  email like'%" + keyword + "%'";
+
+					// Execute the SQL command against the DB:
+					MySqlDataReader reader = FindEvents.ExecuteReader();
+					while (reader.Read()) // Read returns false if the user does not exist!
+					{
+						result.Add(new UserView()
+						{
+							userid = reader[0].ToString(),
+							username = reader[1].ToString(),
+							email = reader[2].ToString(),
+						});
+					}
+					reader.Close();
+				}
+			}
+            else
+            {
+				using (MySqlConnection conn = GetConnection())
+				{
+					conn.Open();
+					MySqlCommand FindEvents = conn.CreateCommand();
+					FindEvents.CommandText = "SELECT user_id,username,email FROM Calendar_Schema.user_tbl ";
+
+					// Execute the SQL command against the DB:
+					MySqlDataReader reader = FindEvents.ExecuteReader();
+					while (reader.Read()) // Read returns false if the user does not exist!
+					{
+						result.Add(new UserView()
+						{
+							userid = reader[0].ToString(),
+							username = reader[1].ToString(),
+							email = reader[2].ToString(),
+						});
+					}
+					reader.Close();
+				}
+			}
+
+			return result;
+		}
+
+		public bool AddFriend(int userid, int friendId)
+		{
+			bool status = false;
+
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand currentQuery = conn.CreateCommand();
+				currentQuery.Parameters.AddWithValue("@user_id", friendId);
+				currentQuery.Parameters.AddWithValue("@friend_id", userid);
+				currentQuery.CommandText = "insert into Calendar_Schema.friends_tbl (user_id, friend_id, request ) VALUES (@user_id, @friend_id, 0)";
+                currentQuery.ExecuteNonQuery();
+                //MySqlDataReader reader = currentQuery.ExecuteReader();
+                //reader.Close();
+                status = true;
+			}
+			return status;
+		}
+		public bool VerifyFriend(int userid, int friendId)
+		{
+			bool status = false;
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand Query = conn.CreateCommand();
+				Query.Parameters.AddWithValue("@user_id", userid);
+				Query.Parameters.AddWithValue("@friend_id", friendId);
+				Query.CommandText = "update Calendar_Schema.friends_tbl set request = 1 where user_id = @user_id and  friend_id = @friend_id;";
+                Query.ExecuteNonQuery();
+
+                MySqlCommand currentQuery = conn.CreateCommand();
+				currentQuery.Parameters.AddWithValue("@user_id", friendId);
+				currentQuery.Parameters.AddWithValue("@friend_id", userid);
+				currentQuery.CommandText = "insert into Calendar_Schema.friends_tbl (user_id, friend_id, request ) VALUES (@user_id, @friend_id, 1)";
+				currentQuery.ExecuteNonQuery();
+				status = true;
+			}
+			return status;
+		}
+
+
+		public bool DeleteFriend(int userid, int friendId)
+		{
+			bool status = false;
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand Query = conn.CreateCommand();
+				Query.Parameters.AddWithValue("@user_id", userid);
+				Query.Parameters.AddWithValue("@friend_id", friendId);
+				Query.CommandText = "Delete from Calendar_Schema.friends_tbl where request =1 and (user_id = @user_id and  friend_id = @friend_id) or (user_id = @friend_id and  friend_id = @user_id) ;";
+				Query.ExecuteNonQuery();
+			}
+			return status;
+		}
+		public bool DeleteRequest(int userid, int friendId)
+		{
+			bool status = false;
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand Query = conn.CreateCommand();
+				Query.Parameters.AddWithValue("@user_id", userid);
+				Query.Parameters.AddWithValue("@friend_id", friendId);
+				Query.CommandText = "Delete from Calendar_Schema.friends_tbl where request = 0 and user_id = @user_id and  friend_id = @friend_id ;";
+				Query.ExecuteNonQuery();
+			}
+			return status;
+		}
+		public List<FriendsView> GetFriendsRequest(int userid)
+		{
+			var result = new List<FriendsView>();
+
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand FindEvents = conn.CreateCommand();
+				FindEvents.Parameters.AddWithValue("@user_id", userid);
+				FindEvents.CommandText = "SELECT u.user_id,u.username,u.email,f.request,f.id FROM Calendar_Schema.friends_tbl f join user_tbl u on f.friend_id = u.user_id where f.user_id = @user_id and f.request = 0;";
+
+				MySqlDataReader reader = FindEvents.ExecuteReader();
+				while (reader.Read()) // Read returns false if the user does not exist!
+				{
+					result.Add(new FriendsView()
+					{
+						friendid = Convert.ToInt32(reader[0]),
+						friendname = reader[1].ToString(),
+						friendemail = reader[2].ToString(),
+						request = Convert.ToBoolean(reader[3].ToString()),
+						id = Convert.ToInt32(reader[4])
+					});
+				}
+				reader.Close();
+			}
+			return result;
+		}
+		public List<FriendsView> GetFriends(int userid)
+		{
+			var result = new List<FriendsView>();
+
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand FindEvents = conn.CreateCommand();
+				FindEvents.Parameters.AddWithValue("@user_id", userid);
+				FindEvents.CommandText = "SELECT u.user_id,u.username,u.email,f.request,f.id FROM Calendar_Schema.friends_tbl f join user_tbl u on f.friend_id = u.user_id where f.user_id = @user_id and f.request = 1;";
+
+				MySqlDataReader reader = FindEvents.ExecuteReader();
+				while (reader.Read()) // Read returns false if the user does not exist!
+				{
+					result.Add(new FriendsView()
+					{
+						friendid = Convert.ToInt32(reader[0]),
+						friendname = reader[1].ToString(),
+						friendemail = reader[2].ToString(),
+						request = Convert.ToBoolean(reader[3].ToString()),
+						id = Convert.ToInt32(reader[4])
+					});
+				}
+				reader.Close();
+			}
+			return result;
+		}
+
+
+	
+
 }
+

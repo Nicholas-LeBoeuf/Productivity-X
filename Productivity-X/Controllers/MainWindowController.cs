@@ -308,7 +308,7 @@ namespace Productivity_X.Controllers
             return View();
         }
 
-        public IActionResult Friends()
+        public IActionResult FriendsPic()
         {
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
