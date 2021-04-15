@@ -271,8 +271,11 @@ namespace Productivity_X.Models
 
 		public void UpdatePassword(ForgotPw3 forgotPassword, int nUserID)
 <<<<<<< HEAD
+<<<<<<< HEAD
 		{			
 =======
+=======
+>>>>>>> parent of 7d177fc (Friendpage)
 		{
 			bool bRet = false;
 >>>>>>> parent of 7d177fc (Friendpage)
@@ -486,6 +489,7 @@ namespace Productivity_X.Models
 				deleteEventRow.CommandText = "delete FROM Calendar_Schema.events_tbl where event_id = @eventid and user_id=@userid";
 				deleteEventRow.ExecuteNonQuery();
 			} 
+<<<<<<< HEAD
 		}
 
 
@@ -519,6 +523,8 @@ namespace Productivity_X.Models
 				}
 			}
 			return bRet;
+=======
+>>>>>>> parent of 7d177fc (Friendpage)
 		}
 
 
@@ -1044,6 +1050,7 @@ namespace Productivity_X.Models
 						}
 					}
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 					// Check for events that have not been completed and keep for next day
 					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date = curdate() - interval 1 day and complete = @finished", conn))
@@ -1067,6 +1074,8 @@ namespace Productivity_X.Models
 							}
 						}
 =======
+=======
+>>>>>>> parent of 7d177fc (Friendpage)
                     else if (category == "Friends")
                     {
 						color = "pink";
@@ -1235,6 +1244,7 @@ namespace Productivity_X.Models
 			}
 			return sRet;
 		}
+<<<<<<< HEAD
 <<<<<<< HEAD
 	}
 			public List<UserView> GetSearchUser(string keyword)
@@ -1417,6 +1427,11 @@ namespace Productivity_X.Models
 
 }
 
+=======
+
+	}
+}
+>>>>>>> parent of 7d177fc (Friendpage)
 =======
 
 	}

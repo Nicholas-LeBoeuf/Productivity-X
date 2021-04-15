@@ -5,8 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Productivity_X.Models;
 <<<<<<< HEAD
+<<<<<<< HEAD
 using System.IO;
 using Microsoft.AspNetCore.Http;
+=======
+>>>>>>> parent of 7d177fc (Friendpage)
 =======
 >>>>>>> parent of 7d177fc (Friendpage)
 
@@ -65,6 +68,7 @@ namespace Productivity_X.Controllers
         {
             List<Categories> categoriesSaved = new List<Categories>();
 <<<<<<< HEAD
+<<<<<<< HEAD
             
             int userid = (int)TempData["userid"];       
             categoriesSaved = _manager.GetCategoriesFromDB(userid);
@@ -74,6 +78,8 @@ namespace Productivity_X.Controllers
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
 =======
+=======
+>>>>>>> parent of 7d177fc (Friendpage)
         //    List<Events> eventsSaved = new List<Events>();
             
             int userid = (int)TempData["userid"];
@@ -100,8 +106,13 @@ namespace Productivity_X.Controllers
             bool bRet = true;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             /*if((createEvent.guest == true && createEvent.guestEmail == null && createEvent.guestUsername == null) || 
                 (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername != null) || (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername == null || createEvent.category == null) || createEvent.eventName == null)
+=======
+            if((createEvent.guest == true && createEvent.guestEmail == null && createEvent.guestUsername == null) || 
+                (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername != null) || (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername == null || createEvent.category == null))
+>>>>>>> parent of 7d177fc (Friendpage)
 =======
             if((createEvent.guest == true && createEvent.guestEmail == null && createEvent.guestUsername == null) || 
                 (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername != null) || (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername == null || createEvent.category == null))
@@ -121,11 +132,14 @@ namespace Productivity_X.Controllers
                     ViewBag.message = "Event saved successfully!";
 				}
 <<<<<<< HEAD
+<<<<<<< HEAD
             }
 			else
 			{
                 ViewBag.message = "Event was not saved, all fields were not filled in!";
 =======
+=======
+>>>>>>> parent of 7d177fc (Friendpage)
 				else
 				{
                     ViewBag.message = "Event already exists!";
@@ -145,9 +159,12 @@ namespace Productivity_X.Controllers
         public IActionResult DeleteEvent(int? eventid)
 		{
 <<<<<<< HEAD
+<<<<<<< HEAD
             int userid = (int)TempData["userid"];
             _manager.DeleteEvent(Convert.ToInt32(eventid), userid);
 =======
+=======
+>>>>>>> parent of 7d177fc (Friendpage)
             _manager.DeleteEvent(Convert.ToInt32(eventid));
 >>>>>>> parent of 7d177fc (Friendpage)
             GetEventsHelper();
@@ -350,11 +367,14 @@ namespace Productivity_X.Controllers
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         public IActionResult FriendsPic()
         {
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
 =======
+=======
+>>>>>>> parent of 7d177fc (Friendpage)
         public IActionResult Friends()
         {
             return View();
@@ -377,6 +397,9 @@ namespace Productivity_X.Controllers
         {
             GetCategoriesHelper();
             GetEventsHelper();    
+<<<<<<< HEAD
+>>>>>>> parent of 7d177fc (Friendpage)
+=======
 >>>>>>> parent of 7d177fc (Friendpage)
             return View();
         }
