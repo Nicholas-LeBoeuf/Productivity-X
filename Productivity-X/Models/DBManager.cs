@@ -1003,13 +1003,13 @@ namespace Productivity_X.Models
 
 				//Checks to see if there are duplicate category values for category name
 				countOldEvents.Parameters.AddWithValue("@userid", userid);
-				countOldEvents.Parameters.AddWithValue("@todaysdate", date);
+				//countOldEvents.Parameters.AddWithValue("@todaysdate", date);
 				countOldEvents.CommandText = "select count(*) FROM Calendar_Schema.todo_tbl where user_id=@userid and task_date < now() - interval 1 DAY";
 				int nOldEvents = Convert.ToInt32(countOldEvents.ExecuteScalar());
 
 				if (nOldEvents > 0)
 				{
-					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date < now() - interval 1 DAY and complete = @finished", conn))
+					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date = curdate() - interval 1 day and complete = @finished", conn))
 					{
 						cmd.Parameters.AddWithValue("@userid", userid);
 						cmd.Parameters.AddWithValue("@finished", true);
@@ -1032,7 +1032,7 @@ namespace Productivity_X.Models
 					}
 
 					// Check for events that have not been completed and keep for next day
-					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date < now() - interval 1 DAY and complete = @finished", conn))
+					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date = curdate() - interval 1 day and complete = @finished", conn))
 					{
 						cmd.Parameters.AddWithValue("@userid", userid);
 						cmd.Parameters.AddWithValue("@finished", false);
@@ -1054,7 +1054,7 @@ namespace Productivity_X.Models
 						}
 					}
 
-					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date < now() - interval 2 DAY and complete = @finished", conn))
+					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date = Curdate() - interval 2 day and complete = @finished", conn))
 					{
 						cmd.Parameters.AddWithValue("@userid", userid);
 						cmd.Parameters.AddWithValue("@finished", false);
