@@ -230,7 +230,6 @@ namespace Productivity_X.Models
 			return sRet;
 		}
 
-
 		// Checks if password matches with username
 		public bool CheckPassword(UserLogin loginUser, string sUsername, int nUserID)
 		{
@@ -271,7 +270,12 @@ namespace Productivity_X.Models
 		}
 
 		public void UpdatePassword(ForgotPw3 forgotPassword, int nUserID)
+<<<<<<< HEAD
 		{			
+=======
+		{
+			bool bRet = false;
+>>>>>>> parent of 7d177fc (Friendpage)
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
@@ -481,7 +485,7 @@ namespace Productivity_X.Models
 				deleteEventRow.Parameters.AddWithValue("@userid", userid);
 				deleteEventRow.CommandText = "delete FROM Calendar_Schema.events_tbl where event_id = @eventid and user_id=@userid";
 				deleteEventRow.ExecuteNonQuery();
-			}
+			} 
 		}
 
 
@@ -919,7 +923,7 @@ namespace Productivity_X.Models
 				updateEventsTable.Parameters.AddWithValue("@userid", userid);
 				updateEventsTable.CommandText = "update Calendar_Schema.events_tbl set categoryname = \"Default\" where categoryname = @categoryname and user_id = @userid";
 				updateEventsTable.ExecuteNonQuery();
-
+			
 				MySqlCommand deleteCategoryRow = conn.CreateCommand();
 				deleteCategoryRow.Parameters.AddWithValue("@categoryid", categoryid);
 				deleteCategoryRow.CommandText = "delete FROM Calendar_Schema.category_tbl where category_id = @categoryid";
@@ -981,6 +985,7 @@ namespace Productivity_X.Models
 				bool finished, keeptask;
 				while (reader.Read())
 				{
+<<<<<<< HEAD
 					taskid = Convert.ToInt32(reader[0]);
 					taskname = reader.GetString(1);
 					finished = Convert.ToBoolean(reader[2]);
@@ -1001,6 +1006,13 @@ namespace Productivity_X.Models
 
 				MySqlCommand countOldEvents = conn.CreateCommand();
 				var date = DateTime.Now.ToString("yyyy-MM-dd");
+=======
+					var category = reader[4].ToString();
+					var color = reader[5].ToString();
+                    if (category == "Default")
+                    {
+						color = "grey";
+>>>>>>> parent of 7d177fc (Friendpage)
 
 				//Checks to see if there are duplicate category values for category name
 				countOldEvents.Parameters.AddWithValue("@userid", userid);
@@ -1031,6 +1043,7 @@ namespace Productivity_X.Models
 							}
 						}
 					}
+<<<<<<< HEAD
 
 					// Check for events that have not been completed and keep for next day
 					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date = curdate() - interval 1 day and complete = @finished", conn))
@@ -1053,6 +1066,11 @@ namespace Productivity_X.Models
 								}
 							}
 						}
+=======
+                    else if (category == "Friends")
+                    {
+						color = "pink";
+>>>>>>> parent of 7d177fc (Friendpage)
 					}
 
 					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date = Curdate() - interval 2 day and complete = @finished", conn))
@@ -1201,13 +1219,23 @@ namespace Productivity_X.Models
 					int fieldCount = reader.GetValues(values);
 					if (1 == fieldCount)
 					{
+<<<<<<< HEAD
 						sRet = values[0].ToString();
 					}
+=======
+						name = reader[0].ToString(),
+						start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),
+						end = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[3].ToString(),
+						color = color,
+						category ="J"
+					});
+>>>>>>> parent of 7d177fc (Friendpage)
 				}
 				reader.Close();
 			}
 			return sRet;
 		}
+<<<<<<< HEAD
 	}
 			public List<UserView> GetSearchUser(string keyword)
 		{
@@ -1389,3 +1417,8 @@ namespace Productivity_X.Models
 
 }
 
+=======
+
+	}
+}
+>>>>>>> parent of 7d177fc (Friendpage)

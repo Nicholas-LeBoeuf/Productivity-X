@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Productivity_X.Models;
+<<<<<<< HEAD
 using System.IO;
 using Microsoft.AspNetCore.Http;
+=======
+>>>>>>> parent of 7d177fc (Friendpage)
 
 namespace Productivity_X.Controllers
 {
@@ -61,6 +64,7 @@ namespace Productivity_X.Controllers
         public IActionResult Weekly()
         {
             List<Categories> categoriesSaved = new List<Categories>();
+<<<<<<< HEAD
             
             int userid = (int)TempData["userid"];       
             categoriesSaved = _manager.GetCategoriesFromDB(userid);
@@ -69,6 +73,23 @@ namespace Productivity_X.Controllers
             TempData["userid"] = userid;
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
+=======
+        //    List<Events> eventsSaved = new List<Events>();
+            
+            int userid = (int)TempData["userid"];
+            //            int numCategories = _manager.TotalCategories(userid);
+
+
+            categoriesSaved = _manager.CategoryData(userid);
+                
+            ViewData["categoryobjects"] = categoriesSaved;
+            TempData["userid"] = userid;
+
+        //    // Display events...
+        //    eventsSaved = _manager.EventData(userid);
+
+
+>>>>>>> parent of 7d177fc (Friendpage)
             return View();
         }
 
@@ -78,8 +99,13 @@ namespace Productivity_X.Controllers
             GetCategoriesHelper();
             bool bRet = true;
 
+<<<<<<< HEAD
             /*if((createEvent.guest == true && createEvent.guestEmail == null && createEvent.guestUsername == null) || 
                 (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername != null) || (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername == null || createEvent.category == null) || createEvent.eventName == null)
+=======
+            if((createEvent.guest == true && createEvent.guestEmail == null && createEvent.guestUsername == null) || 
+                (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername != null) || (createEvent.guest == false && createEvent.guestEmail != null && createEvent.guestUsername == null || createEvent.category == null))
+>>>>>>> parent of 7d177fc (Friendpage)
 			{
                 bRet = false;
             }*/
@@ -88,16 +114,27 @@ namespace Productivity_X.Controllers
 
             // True, save event to the database
             if (bRet)
-            {
-                bRet = _manager.SaveEvent(createEvent, userid);
-                if (bRet)
-                {
+			{
+                bRet = _manager.SaveEvent(createEvent,userid);
+				if (bRet)
+				{
                     ViewBag.message = "Event saved successfully!";
 				}
+<<<<<<< HEAD
             }
 			else
 			{
                 ViewBag.message = "Event was not saved, all fields were not filled in!";
+=======
+				else
+				{
+                    ViewBag.message = "Event already exists!";
+                }
+            }
+			else
+			{
+                ViewBag.message = "Event was not saved, not all fields were filled in or were filled in incorrectly!";
+>>>>>>> parent of 7d177fc (Friendpage)
             }
             TempData["userid"] = userid;
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
@@ -107,14 +144,18 @@ namespace Productivity_X.Controllers
 
         public IActionResult DeleteEvent(int? eventid)
 		{
+<<<<<<< HEAD
             int userid = (int)TempData["userid"];
             _manager.DeleteEvent(Convert.ToInt32(eventid), userid);
+=======
+            _manager.DeleteEvent(Convert.ToInt32(eventid));
+>>>>>>> parent of 7d177fc (Friendpage)
             GetEventsHelper();
             TempData["userid"] = userid;
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
             return View("Events");
-        }
+		}
 
         public IActionResult GetWeeklyEvents()
         {
@@ -240,7 +281,7 @@ namespace Productivity_X.Controllers
 
 // Category Action Results.....
         public IActionResult DeleteCategory(int? categoryid)
-        {
+		{
             // Set userid
             int userid = (int)TempData["userid"];
             // Find Categoryname
@@ -253,7 +294,7 @@ namespace Productivity_X.Controllers
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
             return View("Categories");
-        }
+		}
 
         public IActionResult CreateCategory(UserCreateCategory createCategory)
         {
@@ -289,9 +330,9 @@ namespace Productivity_X.Controllers
             return View("Categories");
         }
         public void GetCategoriesHelper()
-        {
+		{
             List<Categories> categoriesSaved = new List<Categories>();
-
+            
             int userid = (int)TempData["userid"];
 
             categoriesSaved = _manager.GetCategoriesFromDB(userid);
@@ -308,10 +349,35 @@ namespace Productivity_X.Controllers
             return View();
         }
 
+<<<<<<< HEAD
         public IActionResult FriendsPic()
         {
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
+=======
+        public IActionResult Friends()
+        {
+            return View();
+        }
+
+        public void GetEventsHelper()
+		{
+            List<Events> eventsSaved = new List<Events>();
+
+            int userid = (int)TempData["userid"];
+
+            TempData["userid"] = userid;
+
+            // Display events...
+            eventsSaved = _manager.EventData(userid);
+
+            ViewData["eventobjects"] = eventsSaved;
+        }
+        public IActionResult Events()
+        {
+            GetCategoriesHelper();
+            GetEventsHelper();    
+>>>>>>> parent of 7d177fc (Friendpage)
             return View();
         }
 
@@ -319,56 +385,6 @@ namespace Productivity_X.Controllers
         {
             return RedirectToAction("Index", "Home");
         }
-
-
-        #region Friends
-
-        public IActionResult Friends()
-        {
-            return View();
-        }
-
-        public IActionResult GetSearchUser(string keyword)
-        {
-            return Json(_manager.GetSearchUser(keyword));
-        }
-
-        public IActionResult AddFriend(int friendId)
-        {
-            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
-            _manager.AddFriend(userid, friendId);
-            return View("Friends");
-        }
-        public IActionResult VerifyFriend(int friendId)
-        {
-            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
-            _manager.VerifyFriend(userid, friendId);
-            return View("Friends");
-        }
-        public IActionResult GetFriendsRequest()
-        {
-            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
-            return Json(_manager.GetFriendsRequest(userid));
-        }
-        public IActionResult GetFriends()
-        {
-            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
-            return Json(_manager.GetFriends(userid));
-        }
-        public IActionResult DeleteFriend(int friendId)
-        {
-            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
-            _manager.DeleteFriend(userid, friendId);
-            return View("Friends");
-        }
-
-        public IActionResult DeleteRequest(int friendId)
-        {
-            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
-            _manager.DeleteRequest(userid, friendId);
-            return View("Friends");
-        }
-        #endregion
 
     }
 }
