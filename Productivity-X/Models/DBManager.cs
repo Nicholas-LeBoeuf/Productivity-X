@@ -938,7 +938,7 @@ namespace Productivity_X.Models
 				MySqlCommand AmountTasksCreated = conn.CreateCommand();
 
 				// Checks to see if there are more than 10 tasks created
-				AmountTasksCreated.CommandText = "select count(*) from Calendar_Schema.todo_tbl where user_id = @userid";
+				AmountTasksCreated.CommandText = "select count(*) from Calendar_Schema.todo_tbl where user_id = @userid and task_date = curdate()";
 				AmountTasksCreated.Parameters.AddWithValue("@userid", nUserID);
 				nTaskCounter = Convert.ToInt32(AmountTasksCreated.ExecuteScalar());
 
@@ -1004,7 +1004,7 @@ namespace Productivity_X.Models
 				//Checks to see if there are duplicate category values for category name
 				countOldEvents.Parameters.AddWithValue("@userid", userid);
 				//countOldEvents.Parameters.AddWithValue("@todaysdate", date);
-				countOldEvents.CommandText = "select count(*) FROM Calendar_Schema.todo_tbl where user_id=@userid and task_date < now() - interval 1 DAY";
+				countOldEvents.CommandText = "select count(*) FROM Calendar_Schema.todo_tbl where user_id=@userid and task_date < curdate()";
 				int nOldEvents = Convert.ToInt32(countOldEvents.ExecuteScalar());
 
 				if (nOldEvents > 0)
