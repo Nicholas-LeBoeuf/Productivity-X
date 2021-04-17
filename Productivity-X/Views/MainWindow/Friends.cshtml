@@ -55,19 +55,18 @@
                 <div class="grid-content bg-purple">
                     <div class="title">Search</div>
                     <template>
-                        <el-select v-model="value"
-                                                     filterable
-                                                     remote
-                                                     reserve-keyword
-                                                     placeholder="Search"
-                                                     :remote-method="remoteMethod"
-                                                     :loading="loading"
-                                                     @@change="addFriend($event)">
-                            <el-option class="list" v-for="item in options"
-                                                           :key="item.userid"
-                                                           :label="item.username"
-                                                           :value="item"
-                                                           >
+                        <el-select v-model="user"
+                                   filterable
+                                   remote
+                                   reserve-keyword
+                                   placeholder="Search"
+                                   :remote-method="remoteMethod"
+                                   :loading="loading"
+                                   @@change="addFriend($event)">
+                            <el-option v-for="item in options"
+                                       :key="item.userid"
+                                       :label="item.username"
+                                       :value="item">
                             </el-option>
                         </el-select>
                     </template>
@@ -75,7 +74,6 @@
             </el-col>
         </el-row>
     </div>
-
 </body>
 </html>
 <script src="~/js/vue.js"></script>
@@ -133,6 +131,7 @@
                 })
                     .then(function (response) {
                         console.log(response);
+                        alert("send success");
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -145,10 +144,14 @@
                 })
                     .then(function (response) {
                         console.log(response);
+                        alert("send success");
+
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
+                this.getData();
+
             },
             DeleteRequest: function (id) {
                 const that = this;
@@ -157,6 +160,8 @@
                 })
                     .then(function (response) {
                         that.userList = response.data;
+                        alert("Delete success");
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -170,6 +175,8 @@
                 })
                     .then(function (response) {
                         that.userList = response.data;
+                        alert("Delete success");
+
                     })
                     .catch(function (error) {
                         console.log(error);
