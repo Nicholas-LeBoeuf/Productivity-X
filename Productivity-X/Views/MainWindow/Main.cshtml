@@ -2,7 +2,7 @@
 	ViewData["Title"] = "Home";
 	Layout = "~/Views/Shared/_MainPageLayout.cshtml";
 }
-
+@ViewBag.Message
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,12 +31,12 @@
 			align-content: space-evenly;
 		}
 
-        .box {
-            background-color: #353535;
-            height: 500px;
-            border-radius: 15px;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
+		.box {
+			background-color: #353535;
+			height: 500px;
+			border-radius: 15px;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+		}
 
 		.boxtitle {
 			font-size: 22px;
@@ -64,210 +64,210 @@
 			margin: 3%;
 		}
 
-        .box #sunday1 {
-            position: relative;
-            right: 12px;
-            top: 200px;
-            width: 75px;
-            height: 100px;
-            background: #372304;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 100px;
-        }
+		.box #sunday1 {
+			position: relative;
+			right: 12px;
+			top: 200px;
+			width: 75px;
+			height: 100px;
+			background: #372304;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 100px;
+		}
 
-        .box #monday1 {
-            position: relative;
-            right: 12px;
-            top: 50px;
-            width: 75px;
-            height: 50px;
-            background: blue;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 50px;
-        }
+		.box #monday1 {
+			position: relative;
+			right: 12px;
+			top: 50px;
+			width: 75px;
+			height: 50px;
+			background: blue;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 50px;
+		}
 
-        .box #monday2 {
-            position: relative;
-            right: 12px;
-            top: 75px;
-            width: 75px;
-            height: 50px;
-            background: magenta;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 50px;
-        }
+		.box #monday2 {
+			position: relative;
+			right: 12px;
+			top: 75px;
+			width: 75px;
+			height: 50px;
+			background: magenta;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 50px;
+		}
 
-        .box #monday3 {
-            position: relative;
-            right: 12px;
-            top: 150px;
-            width: 75px;
-            height: 100px;
-            background: #372304;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 100px;
-        }
+		.box #monday3 {
+			position: relative;
+			right: 12px;
+			top: 150px;
+			width: 75px;
+			height: 100px;
+			background: #372304;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 100px;
+		}
 
-        .box #tuesday1 {
-            position: relative;
-            right: 12px;
-            top: 69px;
-            width: 75px;
-            height: 35px;
-            background: tomato;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 35px;
-        }
+		.box #tuesday1 {
+			position: relative;
+			right: 12px;
+			top: 69px;
+			width: 75px;
+			height: 35px;
+			background: tomato;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 35px;
+		}
 
-        .box #tuesday2 {
-            position: relative;
-            right: 12px;
-            top: 100px;
-            width: 75px;
-            height: 75px;
-            background: green;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 75px;
-        }
+		.box #tuesday2 {
+			position: relative;
+			right: 12px;
+			top: 100px;
+			width: 75px;
+			height: 75px;
+			background: green;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 75px;
+		}
 
-        .box #wednesday1 {
-            position: relative;
-            top: 50px;
-            width: 75px;
-            height: 50px;
-            background: blue;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 50px;
-        }
+		.box #wednesday1 {
+			position: relative;
+			top: 50px;
+			width: 75px;
+			height: 50px;
+			background: blue;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 50px;
+		}
 
-        .box #wednesday2 {
-            position: relative;
-            top: 86px;
-            width: 75px;
-            height: 75px;
-            background: green;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 75px;
-        }
+		.box #wednesday2 {
+			position: relative;
+			top: 86px;
+			width: 75px;
+			height: 75px;
+			background: green;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 75px;
+		}
 
-        .box #wednesday3 {
-            position: relative;
-            top: 127px;
-            width: 75px;
-            height: 100px;
-            background: #372304;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 100px;
-        }
+		.box #wednesday3 {
+			position: relative;
+			top: 127px;
+			width: 75px;
+			height: 100px;
+			background: #372304;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 100px;
+		}
 
-        .box #thursday1 {
-            position: relative;
-            right: 4px;
-            top: 130px;
-            width: 75px;
-            height: 50px;
-            background: magenta;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 50px;
-        }
+		.box #thursday1 {
+			position: relative;
+			right: 4px;
+			top: 130px;
+			width: 75px;
+			height: 50px;
+			background: magenta;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 50px;
+		}
 
-        .box #thursday2 {
-            position: relative;
-            right: 4px;
-            top: 203px;
-            width: 75px;
-            height: 100px;
-            background: #372304;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 100px;
-        }
+		.box #thursday2 {
+			position: relative;
+			right: 4px;
+			top: 203px;
+			width: 75px;
+			height: 100px;
+			background: #372304;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 100px;
+		}
 
-        .box #friday1 {
-            position: relative;
-            right: 12px;
-            top: 69px;
-            width: 75px;
-            height: 35px;
-            background: tomato;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 35px;
-        }
+		.box #friday1 {
+			position: relative;
+			right: 12px;
+			top: 69px;
+			width: 75px;
+			height: 35px;
+			background: tomato;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 35px;
+		}
 
-        .box #saturday1 {
-            position: relative;
-            right: 4px;
-            top: 150px;
-            width: 75px;
-            height: 150px;
-            background: #372304;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 150px;
-        }
+		.box #saturday1 {
+			position: relative;
+			right: 4px;
+			top: 150px;
+			width: 75px;
+			height: 150px;
+			background: #372304;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 150px;
+		}
 
-        .box #today1 {
-            position: relative;
-            right: -55px;
-            top: 50px;
-            width: 300px;
-            height: 50px;
-            background: blue;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 50px;
-        }
+		.box #today1 {
+			position: relative;
+			right: -55px;
+			top: 50px;
+			width: 300px;
+			height: 50px;
+			background: blue;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 50px;
+		}
 
-        .box #today2 {
-            position: relative;
-            right: -55px;
-            top: 75px;
-            width: 300px;
-            height: 50px;
-            background: magenta;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 50px;
-        }
+		.box #today2 {
+			position: relative;
+			right: -55px;
+			top: 75px;
+			width: 300px;
+			height: 50px;
+			background: magenta;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 50px;
+		}
 
-        .box #today3 {
-            position: relative;
-            right: -55px;
-            top: 175px;
-            width: 300px;
-            height: 100px;
-            background: #372304;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-align: center;
-            vertical-align: middle;
-            line-height: 100px;
-        }
+		.box #today3 {
+			position: relative;
+			right: -55px;
+			top: 175px;
+			width: 300px;
+			height: 100px;
+			background: #372304;
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 100px;
+		}
 
 		ul.categorynames li span {
 			font-size: 26px;
@@ -399,7 +399,7 @@
 								}
 							}
 
-							}
+						}
 					</ul>
 				</div>
 

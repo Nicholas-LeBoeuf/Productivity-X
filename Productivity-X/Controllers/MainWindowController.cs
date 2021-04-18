@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Productivity_X.Models;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace Productivity_X.Controllers
 {
@@ -18,39 +19,46 @@ namespace Productivity_X.Controllers
 
         }
 
-/*        private string UploadedFile(ChangeProfileImage model)
+        [HttpPost]
+        public async Task<IActionResult> UploadImage(IFormCollection form)
         {
-            string uniqueFileName = null;
-
-            if (model.ProfileImage != null)
-            {
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    model.ProfileImage.CopyTo(fileStream);
-                }
-            }
-            return uniqueFileName;
-        }
-*/
-
-        public IActionResult ChangeProfilePic(ChangeProfileImage cpi)
-		{
             int userid = (int)TempData["userid"];
-            string filename = cpi.ProfileImage.ToString();
-            // Set default profile image into database...
-            _manager.SaveUserProfilePicDB(filename, userid);
+            string storePath = "../Images/";
+            try
+            {
+                if (form.Files == null || form.Files[0].Length == 0)
+                {
+                    return RedirectToAction("Main");
+                }
 
-            TempData["userid"] = userid;
-            TempData["ProfilePicFromDB"] = filename;
-            TempData.Keep("ProfilePicFromDB");
-            return View();
+                var path = Path.Combine(
+                        Directory.GetCurrentDirectory(), storePath,
+                        form.Files[0].FileName);
+
+                /*  using (var stream = new FileStream(path, FileMode.Create))
+                  {
+                      await form.Files[0].CopyToAsync(stream);
+                  }
+                */
+
+                _manager.SaveUserProfilePicDB(storePath + form.Files[0].FileName, userid);
+                TempData["MessageToUser"] = "Profile pic updated!";
+                TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
+                TempData.Keep("ProfilePicFromDB");
+                TempData["userid"] = userid;
+                return RedirectToAction("Main");
+            }
+            catch(Exception e)
+			{
+                TempData["MessageToUser"] = "Image not selected!";
+                return RedirectToAction("Main");
+            }
         }
 
+    
         public IActionResult Main()
         {
+            ViewBag.message = TempData["MessageToUser"] as string;
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
             GetTasksHelper();
