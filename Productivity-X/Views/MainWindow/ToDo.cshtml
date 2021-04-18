@@ -362,23 +362,25 @@
                                 tasklist = ViewData["taskobjects"] as List<ToDoTasks>;
                                 for (int counter = 0; counter < tasklist.Count; counter++)
                                 {
-									<tr>
-										@if (tasklist[counter].IsSavedforNextDay() == false)
-										{
-											<td class="checkAction">
-												<input class="checkbox-round" type="checkbox" checked="@tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
-											</td>
-											<td class="taskAction" style="font-size: 22px;" value="@tasklist[counter].GetTaskName()">
-												@tasklist[counter].GetTaskName().Trim(';')
-											</td>
-											
-											<td class="buttonAction">
-												<button id="deletebutton" type="button" value="tasklist[counter]" onclick="window.location.href = '@Url.Action("DeleteTask", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
-													<i class="fas fa-trash fa-lg"></i>
-												</button>
-											</td>
-										}
-									</tr>
+														<tr>
+															@if (tasklist[counter].IsSavedforNextDay() == false)
+															{
+																<!-- <td><input type="checkbox" id="check" checked="@tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';"></td>-->
+																<td class="checkAction">
+																	<input type="checkbox" checked="@tasklist[counter].IsComplete()" value="@tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
+																</td>
+
+																<td class="taskAction" style="font-size: 22px;" value="@tasklist[counter].GetTaskName()">
+																	@tasklist[counter].GetTaskName().Trim(';')
+																</td>
+
+																<td class="buttonAction">
+																	<button id="deletebutton" type="button" value="tasklist[counter]" onclick="window.location.href = '@Url.Action("DeleteTask", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
+																		<i class="fas fa-trash fa-lg"></i>
+																	</button>
+																</td>
+															}
+														</tr>
                                 }
                             }
 
