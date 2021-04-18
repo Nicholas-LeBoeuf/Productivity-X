@@ -35,12 +35,6 @@ namespace Productivity_X.Controllers
                         Directory.GetCurrentDirectory(), storePath,
                         form.Files[0].FileName);
 
-                /*  using (var stream = new FileStream(path, FileMode.Create))
-                  {
-                      await form.Files[0].CopyToAsync(stream);
-                  }
-                */
-
                 _manager.SaveUserProfilePicDB(storePath + form.Files[0].FileName, userid);
                 TempData["MessageToUser"] = "Profile pic updated!";
                 TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
