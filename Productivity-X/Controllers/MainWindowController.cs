@@ -224,6 +224,8 @@ namespace Productivity_X.Controllers
 
             _manager.DeleteOrKeepTasksAfterMidnight(userid);
             tasksSaved = _manager.GetTasksFromDB(userid);
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
 
             ViewData["taskobjects"] = tasksSaved;
             TempData["userid"] = userid;
