@@ -290,13 +290,6 @@
                     });
                 this.getData();
             },
-            CombineSchedules: function (id) {
-                const that = this;
-                axios.get('/MainWindow/GetFriendUserEvents', {
-                    params: { 'friendId': id }
-                })
-                    .then(function (response) {
-                        that.userList = response.data;
                     })
                     .catch(function (error) {
                         console.log(error);

@@ -326,10 +326,6 @@ namespace Productivity_X.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
-
-
-
         public IActionResult CombinedSchedules()
         {
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
@@ -344,11 +340,6 @@ namespace Productivity_X.Controllers
             TempData["userid"] = userid;
             return Json(_manager.GetCombinedEvents(userid));
         }
-
-
-
-
-
 
         #region Friends
 
