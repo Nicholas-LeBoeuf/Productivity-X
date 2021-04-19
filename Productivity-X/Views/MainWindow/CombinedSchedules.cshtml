@@ -180,11 +180,12 @@
         }),
         mounted() {
             this.getData();
+            this.getData2();
         },
         methods: {
             getData() {
                 const that = this;
-                axios.get('/MainWindow/GetWeeklyEvents')
+				axios.get('/MainWindow/GetFriendUserEvents')
                     .then(function (response) {
                         that.events = response.data;
                     })
