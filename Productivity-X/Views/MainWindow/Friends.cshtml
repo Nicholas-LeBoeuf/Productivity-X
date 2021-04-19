@@ -105,7 +105,6 @@
                 })
                     .then(function (response) {
                         that.userList = response.data;
-                        //that.options = response.data.map(obj => { return obj.username })
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -132,6 +131,9 @@
                     .then(function (response) {
                         console.log(response);
                         alert("send success");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -145,13 +147,13 @@
                     .then(function (response) {
                         console.log(response);
                         alert("send success");
-
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-                this.getData();
-
             },
             DeleteRequest: function (id) {
                 const that = this;
@@ -161,12 +163,13 @@
                     .then(function (response) {
                         that.userList = response.data;
                         alert("Delete success");
-
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-                this.getData();
             },
             DeleteFriend: function (id) {
                 const that = this;
@@ -176,12 +179,14 @@
                     .then(function (response) {
                         that.userList = response.data;
                         alert("Delete success");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000);
 
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-                this.getData();
             },
             remoteMethod(query) {
                 if (query !== '') {
