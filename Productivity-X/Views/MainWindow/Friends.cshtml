@@ -136,7 +136,7 @@
                             <ul>
                                 <li class="list" v-for='list in friendList' v-bind:key='list.id'>
                                     <button id="deletebutton" type="button" v-on:click='DeleteFriend(list.friendid)'><i class="fas fa-minus-circle"></i></button>
-                                    <button id="combinebutton" type="button"><i class="fas fa-calendar-alt"></i></button>
+                                    <button id="combinebutton" type="button" onclick="window.location= '@Url.Action("CombinedSchedules", "MainWindow")'"><i class="fas fa-calendar-alt"></i></button>
                                     {{list.friendname}}
                                 </li>
                             </ul>
@@ -284,6 +284,12 @@
                         that.userList = response.data;
                         alert("Delete success");
                         window.location.reload();
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                this.getData();
+            },
                     })
                     .catch(function (error) {
                         console.log(error);

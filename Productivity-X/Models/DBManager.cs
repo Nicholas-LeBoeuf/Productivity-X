@@ -618,7 +618,7 @@ namespace Productivity_X.Models
 				MySqlDataReader reader = FindEvents.ExecuteReader();
 				while (reader.Read()) // Read returns false if the event does not exist!
 				{
-					if (Convert.ToString(reader[5]) != "")
+					if (Convert.ToString(reader[5]) != "Not Selected")
 					{
 						color = "pink";
 					}
