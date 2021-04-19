@@ -543,7 +543,6 @@ namespace Productivity_X.Models
 				conn.Open();
 				MySqlCommand FindEvents = conn.CreateCommand();
 				FindEvents.Parameters.AddWithValue("@user_id", userid);
-				//FindEvents.CommandText = "SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname, c.color FROM Calendar_Schema.events_tbl e  left join  Calendar_Schema.category_tbl c on e.categoryname = c.categoryname where e.user_id = @user_id and c.user_id = @user_id";
 				FindEvents.CommandText = "SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname FROM Calendar_Schema.events_tbl e where e.user_id = @user_id";
 
 				// Execute the SQL command against the DB:
@@ -599,6 +598,46 @@ namespace Productivity_X.Models
 					else
 						continue;
 				}
+			}
+			return result;
+		}
+
+		// Get weekly events for weekly calendar....
+		public List<CombinedEvents> GetCombinedEvents(int userid)
+		{
+			var result = new List<CombinedEvents>();
+			string color = "";
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				MySqlCommand FindEvents = conn.CreateCommand();
+				FindEvents.Parameters.AddWithValue("@user_id", userid);
+				FindEvents.CommandText = "SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname, e.friendname FROM Calendar_Schema.events_tbl e where e.user_id = @user_id";
+
+				// Execute the SQL command against the DB:
+				MySqlDataReader reader = FindEvents.ExecuteReader();
+				while (reader.Read()) // Read returns false if the event does not exist!
+				{
+					if (Convert.ToString(reader[5]) != "")
+					{
+						color = "pink";
+					}
+					else
+					{
+						color = "green";
+					}
+
+					// Read the DB values:
+					result.Add(new CombinedEvents()
+					{
+						name = reader[0].ToString(),
+						start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),
+						end = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[3].ToString(),
+						friendname = Convert.ToString(reader[5]),
+						color = color
+					});
+				}
+				reader.Close();
 			}
 			return result;
 		}
