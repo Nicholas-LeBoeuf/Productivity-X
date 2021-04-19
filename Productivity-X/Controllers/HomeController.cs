@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
+using Microsoft.AspNetCore.Http;
 
 namespace Productivity_X.Controllers
 {
@@ -50,7 +51,8 @@ namespace Productivity_X.Controllers
                 int nUserID = _manager.GetUserID(TempData["username"] as string);
                 bUserExists = _manager.CheckPassword(loginUser, TempData["username"] as string, nUserID);
                 TempData["userid"] = nUserID;
-
+                ViewData["friendobjects"] = _manager.GetFriends(nUserID);
+                HttpContext.Session.SetString("userid", nUserID.ToString());
                 _manager.LoadUser(loginUser, ref nUserID, loginUser.username);
 //                TempData["userid"] = nUserID;
                 if (bUserExists)

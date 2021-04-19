@@ -3,8 +3,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    ViewData["Title"] = "Weekly";
-    Layout = "~/Views/Shared/_MainPageLayout.cshtml";
+	ViewData["Title"] = "Weekly";
+	Layout = "~/Views/Shared/_MainPageLayout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -260,39 +260,48 @@
 
                                                     <div class="form-group" id="eventCategory">
                                                         <small>&nbsp;<span style="color: red; font-weight: bold;">*</span> Event Category&nbsp;</small>
-                                                        <select asp-for="category" style="background-color: #C2C2C2; opacity: 90%; width: 360px; height: 45px; border-radius: 5px;">
-                                                            <option value="" disabled selected hidden>Choose Category...</option>
-                                                            <option value="Default">
-                                                                Default
-                                                            </option>
-                                                            <option value="Friends">
-                                                                Friends
-                                                            </option>
+														<select asp-for="category" style="background-color: #C2C2C2; opacity: 90%; width: 360px; height: 45px; border-radius: 5px;">
+															<option value="Default">
+																Default
+															</option>
+															<option value="Friends">
+																Friends
+															</option>
 
-                                                            @{
-                                                                List<Categories> categorylist = new List<Categories>();
-                                                                categorylist = ViewData["categoryobjects"] as List<Categories>;
-                                                                if (categorylist != null)
-                                                                {
-                                                                    for (int counter = 0; counter < categorylist.Count; counter++)
-                                                                    {
-                                                                        <option value="@categorylist[counter].GetCategoryName()">
-                                                                            @categorylist[counter].GetCategoryName().Trim(';')
-                                                                        </option>
-                                                                    }
-                                                                }
-                                                            }
-                                                        </select>
+															@{
+																List<Categories> categorylist = new List<Categories>();
+																categorylist = ViewData["categoryobjects"] as List<Categories>;
+																if (categorylist != null)
+																{
+																	for (int counter = 0; counter < categorylist.Count; counter++)
+																	{
+																		<option value="@categorylist[counter].GetCategoryName()">
+																			@categorylist[counter].GetCategoryName().Trim(';')
+																		</option>
+																	}
+																}
+															}
+														</select>
 
                                                     </div>
                                                     <div class="form-group" id="eventFriend" style="padding-right: 25px;">
                                                         <small>&nbsp;Invite a Friend (optional)&nbsp;</small>
-                                                        <select asp-for="friendUsername" style="background-color: #C2C2C2; opacity: 90%; width: 360px; height: 45px; border-radius: 5px;">
-                                                            <option value="" disabled selected hidden>Choose friend...</option>
-                                                            
-                                                            @*Place friend code here*@
-
-                                                        </select>
+														<select asp-for="friendUsername" style="background-color: #C2C2C2; opacity: 90%; width: 360px; height: 45px; border-radius: 5px;">
+															<option value="Not Selected">Choose Friend</option>
+															@{
+																List<FriendsView> friendlist = new List<FriendsView>();
+																friendlist = ViewData["friendobjects"] as List<FriendsView>;
+																if (friendlist != null)
+																{
+																	for (int counter = 0; counter < friendlist.Count; counter++)
+																	{
+																		<option value="@friendlist[counter].friendname">
+																			@friendlist[counter].friendname
+																		</option>
+																	}
+																}
+															}
+														</select>
                                                     </div>
 
                                                 </div>
@@ -395,7 +404,7 @@
         var day = date.getDay();
         var deltaDay;
         if (day == 0) {
-            deltaDay = 7;
+            deltaDay = 0;
         } else {
             deltaDay = day;
         }
