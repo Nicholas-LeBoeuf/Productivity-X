@@ -447,13 +447,13 @@
 						}
 						for (int counter = 0; counter < friendslist.Count; counter++)
 						{
-							if (friendslist.Count == 0 || friendslist[counter].request == true)
+							if (friendslist.Count == 0 || friendslist[counter].request == false)
 							{
 								<li style="color:dodgerblue"><span style="color: white">@friendslist[counter].friendname request still in review!</span></li>
 							}
 							else
 							{
-								if (friendslist[counter].request == false)
+								if (friendslist[counter].request == true)
 								{
 									<li style="color: dodgerblue"><span value="friendslist[counter].friendname" style="color: white">@friendslist[counter].friendname</span></li>
 								}
