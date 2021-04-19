@@ -334,6 +334,13 @@ namespace Productivity_X.Controllers
             return View();
         }
 
+        public IActionResult GetFriendUserEvents()
+        {
+            int userid = (int)TempData["userid"];
+            TempData["userid"] = userid;
+            return Json(_manager.GetCombinedEvents(userid));
+        }
+
         #region Friends
 
         public IActionResult Friends()
