@@ -16,44 +16,45 @@ namespace Productivity_X.Controllers
         public MainWindowController(DBManager manager)
         {
             _manager = manager;
-
         }
 
-/*        private string UploadedFile(ChangeProfileImage model)
+        [HttpPost]
+        public async Task<IActionResult> UploadImage(IFormCollection form)
         {
-            string uniqueFileName = null;
-
-            if (model.ProfileImage != null)
-            {
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    model.ProfileImage.CopyTo(fileStream);
-                }
-            }
-            return uniqueFileName;
-        }
-*/
-
-        public IActionResult ChangeProfilePic(ChangeProfileImage cpi)
-		{
             int userid = (int)TempData["userid"];
-            string filename = cpi.ProfileImage.ToString();
-            // Set default profile image into database...
-            _manager.SaveUserProfilePicDB(filename, userid);
+            string storePath = "../Images/";
+            try
+            {
+                if (form.Files == null || form.Files[0].Length == 0)
+                {
+                    return RedirectToAction("Main");
+                }
 
-            TempData["userid"] = userid;
-            TempData["ProfilePicFromDB"] = filename;
-            TempData.Keep("ProfilePicFromDB");
-            return View();
+                var path = Path.Combine(
+                        Directory.GetCurrentDirectory(), storePath,
+                        form.Files[0].FileName);
+
+                _manager.SaveUserProfilePicDB(storePath + form.Files[0].FileName, userid);
+                TempData["MessageToUser"] = "Profile pic updated!";
+                TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
+                TempData.Keep("ProfilePicFromDB");
+                TempData["userid"] = userid;
+                return RedirectToAction("Main");
+            }
+            catch(Exception e)
+			{
+                TempData["MessageToUser"] = "Image not selected!";
+                return RedirectToAction("Main");
+            }
         }
-
+    
         public IActionResult Main()
         {
+            ViewBag.message = TempData["MessageToUser"] as string;
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            ViewData["friendobjects"] = _manager.GetFriends(userid);
             GetTasksHelper();
             GetCategoriesHelper();
             return View();
@@ -61,10 +62,11 @@ namespace Productivity_X.Controllers
         public IActionResult Weekly()
         {
             List<Categories> categoriesSaved = new List<Categories>();
-            
             int userid = (int)TempData["userid"];       
             categoriesSaved = _manager.GetCategoriesFromDB(userid);
-                
+
+            ViewData["friendobjects"] = _manager.GetFriends(userid);
+
             ViewData["categoryobjects"] = categoriesSaved;
             TempData["userid"] = userid;
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
@@ -146,6 +148,8 @@ namespace Productivity_X.Controllers
         {
             GetCategoriesHelper();
             GetEventsHelper();
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            ViewData["friendobjects"] = _manager.GetFriends(userid);
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
             return View();
@@ -225,6 +229,8 @@ namespace Productivity_X.Controllers
 
             _manager.DeleteOrKeepTasksAfterMidnight(userid);
             tasksSaved = _manager.GetTasksFromDB(userid);
+            TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
+            TempData.Keep("ProfilePicFromDB");
 
             ViewData["taskobjects"] = tasksSaved;
             TempData["userid"] = userid;
@@ -322,6 +328,9 @@ namespace Productivity_X.Controllers
 
         public IActionResult CombinedSchedules()
         {
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
+            TempData.Keep("ProfilePicFromDB");
             return View();
         }
 
@@ -329,11 +338,17 @@ namespace Productivity_X.Controllers
 
         public IActionResult Friends()
         {
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
+            TempData.Keep("ProfilePicFromDB");
             return View();
         }
 
         public IActionResult GetSearchUser(string keyword)
         {
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
+            TempData.Keep("ProfilePicFromDB");
             return Json(_manager.GetSearchUser(keyword));
         }
 
@@ -347,22 +362,30 @@ namespace Productivity_X.Controllers
         {
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
             _manager.VerifyFriend(userid, friendId);
+            TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
+            TempData.Keep("ProfilePicFromDB");
             return View("Friends");
         }
         public IActionResult GetFriendsRequest()
         {
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
+            TempData.Keep("ProfilePicFromDB");
             return Json(_manager.GetFriendsRequest(userid));
         }
         public IActionResult GetFriends()
         {
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
+            TempData.Keep("ProfilePicFromDB");
             return Json(_manager.GetFriends(userid));
         }
         public IActionResult DeleteFriend(int friendId)
         {
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
             _manager.DeleteFriend(userid, friendId);
+            TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
+            TempData.Keep("ProfilePicFromDB");
             return View("Friends");
         }
 
@@ -370,6 +393,8 @@ namespace Productivity_X.Controllers
         {
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
             _manager.DeleteRequest(userid, friendId);
+            TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
+            TempData.Keep("ProfilePicFromDB");
             return View("Friends");
         }
         #endregion

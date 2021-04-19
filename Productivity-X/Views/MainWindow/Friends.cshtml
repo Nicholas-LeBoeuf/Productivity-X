@@ -7,73 +7,170 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="~/css/materialdesignicons.min.css" rel="stylesheet">
     <title></title>
     <style>
         .title {
             color: white;
             font-size: 20px;
             font-weight: bold;
-            /*margin-left: 20px;*/
+            text-align: center;
+            padding-bottom: 18px;
+        }
+
+        .headerTitle {
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 25px;
+            color: gold;
+        }
+
+        #weekHeader {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            align-content: space-evenly;
+            margin: 3%;
         }
 
         .list {
             color: white;
             font-size: 18px;
+            padding-left: 41.6px;
+            padding-right: 41.6px;
+        }
+
+        #friend {
+            padding-right: 75px;
+        }
+        #deletebutton {
+            display: inline-block;
+            margin: 0 0.3em 0.3em 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            background-color: transparent;
+            border-color: transparent;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: red;
+            font-weight: bolder;
+            text-align: center;
+            margin: auto;
+            transition: all 0.2s;
+        }
+
+        #deletebutton:hover {
+            background: #343434;
+        }
+
+        #combinebutton {
+            display: inline-block;
+            margin: 0 0.3em 0.3em 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            background-color: transparent;
+            border-color: transparent;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: grey;
+            font-weight: bolder;
+            text-align: center;
+            margin: auto;
+            transition: all 0.2s;
+        }
+
+        #combinebutton:hover {
+            background: #343434;
+        }
+
+        #acceptbutton {
+            display: inline-block;
+            margin: 0 0.3em 0.3em 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Roboto',sans-serif;
+            font-weight: 300;
+            background-color: transparent;
+            border-color: transparent;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: green;
+            font-weight: bolder;
+            text-align: center;
+            margin: auto;
+            transition: all 0.2s;
+        }
+
+        #acceptbutton:hover {
+            background: #343434;
         }
     </style>
     <link href="~/css/index.css" rel="stylesheet" />
 </head>
 <body>
-    <div id="app" style="width: 100%;padding-left: 12%; padding-top: 5%;">
-        <div style="color: gold ;font-size: 20px;font-weight: bold; text-align:center;">Friends</div>
-        <el-row :gutter="20" type="flex" justify="center">
-            <el-col :span="6">
-                <div class="grid-content bg-purple">
-                    <div class="title">Friends List</div>
-                    <div id="friend">
-                        <ul>
-                            <li class="list" v-for='list in friendList' v-bind:key='list.id'>
-                                {{list.friendname}}  <a v-on:click='DeleteFriend(list.friendid)'>Delete</a>
-                            </li>
-                        </ul>
+    <div id="app" style="width: 100%;padding-left: 12%;">
+        <div id="weekHeader">
+            <div class="headerTitle">Friends</div>
+        </div>
+            <el-row :gutter="20" type="flex" justify="center" style="margin-left: auto; margin-right: auto;">
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <div class="title">Friends List</div>
+                        <div id="friend" style="padding-right: 0px; padding-left: ">
+                            <ul>
+                                <li class="list" v-for='list in friendList' v-bind:key='list.id'>
+                                    <button id="deletebutton" type="button" v-on:click='DeleteFriend(list.friendid)'><i class="fas fa-minus-circle"></i></button>
+                                    <button id="combinebutton" type="button"><i class="fas fa-calendar-alt"></i></button>
+                                    {{list.friendname}}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </el-col>
-            <el-col :span="6">
-                <div class="grid-content bg-purple">
-                    <div class="title">Friends Requests</div>
-                    <div id="request">
-                        <ul>
-                            <li class="list" v-for='list in requestList' v-bind:key='list.id'>
-                                {{list.friendname}} <a v-on:click='verifyFriend(list.friendid)'>YES</a> <a v-on:click='DeleteRequest(list.friendid)'>Delete</a>
-                            </li>
-                        </ul>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <div class="title">Friends Requests</div>
+                        <div id="request">
+                            <ul>
+                                <li class="list" v-for='list in requestList' v-bind:key='list.id'>
+                                    <button id="acceptbutton" type="button" v-on:click='verifyFriend(list.friendid)'><i class="fas fa-check-circle"></i></button>
+                                    <button id="deletebutton" type="button" v-on:click='DeleteRequest(list.friendid)'><i class="fas fa-minus-circle"></i></button>
+                                    {{list.friendname}}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </el-col>
-            <el-col :span="6">
-                <div class="grid-content bg-purple">
-                    <div class="title">Search</div>
-                    <template>
-                        <el-select v-model="user"
-                                   filterable
-                                   remote
-                                   reserve-keyword
-                                   placeholder="Search"
-                                   :remote-method="remoteMethod"
-                                   :loading="loading"
-                                   @@change="addFriend($event)">
-                            <el-option v-for="item in options"
-                                       :key="item.userid"
-                                       :label="item.username"
-                                       :value="item">
-                            </el-option>
-                        </el-select>
-                    </template>
-                </div>
-            </el-col>
-        </el-row>
-    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div class="grid-content bg-purple">
+                        <div class="title">Search</div>
+                        <template>
+                            <el-select v-model="user" style="padding-left: 67px;"
+                                       filterable
+                                       remote
+                                       reserve-keyword
+                                       placeholder="Search"
+                                       :remote-method="remoteMethod"
+                                       :loading="loading"
+                                       @@change="addFriend($event)">
+                                <el-option v-for="item in options"
+                                           :key="item.userid"
+                                           :label="item.username"
+                                           :value="item">
+                                </el-option>
+                            </el-select>
+                        </template>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
 </body>
 </html>
 <script src="~/js/vue.js"></script>

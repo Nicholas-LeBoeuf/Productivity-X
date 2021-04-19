@@ -11,8 +11,6 @@ namespace Productivity_X.Models
         public string event_date { get; set; }
         public string start_at { get; set; }
         public string end_at { get; set; }
-        public bool notification { get; set; }
-        public int reminder { get; set; }
         public string location { get; set; }
         public string description { get; set; }
         public string category { get; set; }

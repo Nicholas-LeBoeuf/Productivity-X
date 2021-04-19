@@ -366,12 +366,13 @@
 										@if (tasklist[counter].IsSavedforNextDay() == false)
 										{
 											<td class="checkAction">
-												<input class="checkbox-round" type="checkbox" checked="@tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
+												<input type="checkbox" checked="@tasklist[counter].IsComplete()" value="@tasklist[counter].IsComplete()" onclick="window.location.href = '@Url.Action("UpdateStatus", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
 											</td>
+
 											<td class="taskAction" style="font-size: 22px;" value="@tasklist[counter].GetTaskName()">
 												@tasklist[counter].GetTaskName().Trim(';')
 											</td>
-											
+
 											<td class="buttonAction">
 												<button id="deletebutton" type="button" value="tasklist[counter]" onclick="window.location.href = '@Url.Action("DeleteTask", "MainWindow")?taskid=@tasklist[counter].GetTaskID()';">
 													<i class="fas fa-trash fa-lg"></i>
@@ -566,7 +567,6 @@
 						{
 							<li style="color:dodgerblue"><span style="color: white"><s>All tasks were completed yesterday!</s></span></li>
 						}
-
 					}
 				</ul>
             </div>

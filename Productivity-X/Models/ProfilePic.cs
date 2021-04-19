@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace Productivity_X.Models
 {
-	public class ChangeProfileImage
+	public class ProfilePic
 	{
-		public IFormFile ProfileImage { get; set; }
+		public IFormFile MyImage { set; get; }
 	}
 }

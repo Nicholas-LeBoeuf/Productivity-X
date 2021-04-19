@@ -367,8 +367,8 @@ namespace Productivity_X.Models
 				{
 					// Inserting data into fields of database, can have duplicate events:
 					MySqlCommand Query = conn.CreateCommand();
-					Query.CommandText = "insert into Calendar_Schema.events_tbl (user_id, eventname, event_date, start_at, end_at, notification, reminder, " +
-						"location, description, categoryname, friendname) VALUES (@user_id, @eventname, @event_date, @start_at, @end_at, @notification, @reminder, @location, @description, " +
+					Query.CommandText = "insert into Calendar_Schema.events_tbl (user_id, eventname, event_date, start_at, end_at, " +
+						"location, description, categoryname, friendname) VALUES (@user_id, @eventname, @event_date, @start_at, @end_at, @location, @description, " +
 						"@categoryname, @friendname)";
 
 					Query.Parameters.AddWithValue("@user_id", nUserID);
@@ -379,34 +379,12 @@ namespace Productivity_X.Models
 					Query.Parameters.AddWithValue("@start_at", ce.start_at);
 					// Saved as time
 					Query.Parameters.AddWithValue("@end_at", ce.end_at);
-					Query.Parameters.AddWithValue("@notification", ce.notification);
-					Query.Parameters.AddWithValue("@reminder", ce.reminder);
 					Query.Parameters.AddWithValue("@location", ce.location);
 					Query.Parameters.AddWithValue("@description", ce.description);
 					Query.Parameters.AddWithValue("@categoryname", ce.category);
-					//Query.Parameters.AddWithValue("@guest", ce.guest);
 					Query.Parameters.AddWithValue("@friendname", ce.friendUsername);
 
 					Query.ExecuteNonQuery();
-
-					if (ce.notification == true)
-					{
-						// Send notification to user via email based upon the current time and amount of minutes before starting time
-					}
-
-					/*if (ce.guest)
-					{
-						MySqlCommand InsertIntoGuestTable = conn.CreateCommand();
-						InsertIntoGuestTable.CommandText = "insert into Calendar_Schema.guest_tbl (user_id, event_id, guest_username, guest_email, isFriend) VALUES (@user_id, @eventid, @guestusername, " +
-							"@guestemail, @isfriend)";
-
-						InsertIntoGuestTable.Parameters.AddWithValue("@user_id", nUserID);
-						InsertIntoGuestTable.Parameters.AddWithValue("@eventid", GetEventID(ce.eventName, ce.event_date, ce.start_at, ce.end_at, nUserID));
-						InsertIntoGuestTable.Parameters.AddWithValue("@guestusername", ce.guestUsername);
-						InsertIntoGuestTable.Parameters.AddWithValue("@guestemail", ce.guestEmail);
-						InsertIntoGuestTable.Parameters.AddWithValue("@isfriend", ce.friend);
-						InsertIntoGuestTable.ExecuteNonQuery();
-					}*/
 				}
 			}
 			return bRet;
@@ -452,29 +430,6 @@ namespace Productivity_X.Models
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
-				/*				MySqlCommand CheckData = conn.CreateCommand();
-								// Checks to see if user invited any guests or friends
-								CheckData.Parameters.AddWithValue("@inviteguest", true);
-								CheckData.Parameters.AddWithValue("@userid", userid);
-								CheckData.CommandText = "SELECT event_id FROM Calendar_Schema.events_tbl where guest = @inviteguest and user_id=@userid";
-								CheckData.ExecuteNonQuery();
-								// Execute the SQL command against the DB:
-								MySqlDataReader reader = CheckData.ExecuteReader();
-								// If can find and read eventid, will delete event connection to guest table...
-								if (reader.Read())
-								{
-									int id = Convert.ToInt32(reader[0]);
-									reader.Close();
-									MySqlCommand deleteGuestRow = conn.CreateCommand();
-									deleteGuestRow.Parameters.AddWithValue("@eventid", id);
-									deleteGuestRow.Parameters.AddWithValue("@userid", userid);
-									deleteGuestRow.CommandText = "delete FROM Calendar_Schema.guest_tbl where event_id = @eventid and user_id=@userid";
-
-									deleteGuestRow.ExecuteNonQuery();
-								}
-								else
-									reader.Close();
-				*/
 				MySqlCommand deleteEventRow = conn.CreateCommand();
 				deleteEventRow.Parameters.AddWithValue("@eventid", eventid);
 				deleteEventRow.Parameters.AddWithValue("@userid", userid);
@@ -516,72 +471,10 @@ namespace Productivity_X.Models
 			return bRet;
 		}
 
-
-
-		/*
-				public bool EditEvent(EditEvent ee)
-				{
-					bool bRet = true;
-					using (MySqlConnection conn = GetConnection())
-					{
-						conn.Open();
-						MySqlCommand UpdateEvent = conn.CreateCommand();
-						UpdateEvent.CommandText = "update Calendar_Schema.events_tbl set user_id = @user_id, event_date = @event_date, " +
-							"start_at = @start_at, end_at = @end_at, notification = @notification, reminder = @reminder, location = @location, description = @description, categoryname = @categoryname, " +
-							"guest = @guest, friend = @friendbool where eventname = @eventname and event_id = @eventid";
-						UpdateEvent.Parameters.AddWithValue("@user_id", DBObject.id);
-						UpdateEvent.Parameters.AddWithValue("@eventname", ee.m_sEventName);
-						UpdateEvent.Parameters.AddWithValue("@eventid", DBObject.eventid);
-						// Saved as date
-						UpdateEvent.Parameters.AddWithValue("@event_date", Convert.ToDateTime(ee.m_sEventDate));
-						// Saved as time
-						UpdateEvent.Parameters.AddWithValue("@start_at", ee.m_sTimeStartAt);
-						// Saved as time
-						UpdateEvent.Parameters.AddWithValue("@end_at", ee.m_sTimeEndAt);
-						UpdateEvent.Parameters.AddWithValue("@notification", ee.m_nNotification);
-						UpdateEvent.Parameters.AddWithValue("@reminder", ee.m_nReminder);
-						UpdateEvent.Parameters.AddWithValue("@location", ee.m_sLocation);
-						UpdateEvent.Parameters.AddWithValue("@description", ee.m_sDescription);
-						UpdateEvent.Parameters.AddWithValue("@categoryname", ee.m_sCategory);
-						UpdateEvent.Parameters.AddWithValue("@guest", ee.m_bGuest);
-						UpdateEvent.Parameters.AddWithValue("@friendbool", ee.m_bIsFriend);
-						UpdateEvent.ExecuteNonQuery();
-						if (ee.m_nNotification == true)
-						{
-							// Send notification to user via email based upon the current time and amount of minutes before starting time
-						}
-						if (ee.m_bGuest)
-						{
-							MySqlCommand InsertIntoGuestTable = conn.CreateCommand();
-							InsertIntoGuestTable.CommandText = "update Calendar_Schema.guest_tbl user_id = @user_id, event_id = @eventid, guest_username = @guestusername, " +
-								"guest_email = @guestemail, isfriend = @isfriend)";
-							InsertIntoGuestTable.Parameters.AddWithValue("@user_id", DBObject.id);
-							InsertIntoGuestTable.Parameters.AddWithValue("@eventid", DBObject.eventid);
-							InsertIntoGuestTable.Parameters.AddWithValue("@guestusername", ee.m_sGuestUsername);
-							InsertIntoGuestTable.Parameters.AddWithValue("@guestemail", ee.m_sGuestEmail);
-							InsertIntoGuestTable.Parameters.AddWithValue("@isfriend", ee.m_bIsFriend);
-							InsertIntoGuestTable.ExecuteNonQuery();
-						}
-						else
-						{
-							MySqlCommand deleteGuestRow = conn.CreateCommand();
-							deleteGuestRow.CommandText = "delete FROM Calendar_Schema.guest_tbl where event_id = @eventid";
-							deleteGuestRow.Parameters.AddWithValue("@eventid", DBObject.eventid);
-							deleteGuestRow.ExecuteNonQuery();
-						}
-					}
-					// Returns true if successful
-					return bRet;
-				}
-
-				
-		*/
-
 		public List<Events> GetEventsFromDB(int nUserID)
 		{
 			int eventid;
-			int reminder;
-			object[] eventDataList = new object[11];
+			object[] eventDataList = new object[8];
 			List<Events> eventData = new List<Events>();
 			using (MySqlConnection conn = GetConnection())
 			{
@@ -601,13 +494,11 @@ namespace Productivity_X.Models
 					eventDataList[1] = (Convert.ToString(reader[3]));
 					eventDataList[2] = (Convert.ToString(reader[4]));
 					eventDataList[3] = (Convert.ToString(reader[5]));
-					eventDataList[4] = (Convert.ToBoolean(reader[6]));
-					reminder = Convert.ToInt32(reader[7]);
+					eventDataList[4] = (Convert.ToString(reader[6]));
+					eventDataList[5] = (Convert.ToString(reader[7]));
 					eventDataList[6] = (Convert.ToString(reader[8]));
 					eventDataList[7] = (Convert.ToString(reader[9]));
-					eventDataList[8] = (Convert.ToString(reader[10]));
-					eventDataList[9] = (Convert.ToString(reader[11]));
-					eventData.Add(new Events(eventDataList, eventid, reminder));
+					eventData.Add(new Events(eventDataList, eventid));
 				}
 				reader.Close();
 				for (int counter = 0; counter < eventData.Count(); counter++)
@@ -1146,7 +1037,6 @@ namespace Productivity_X.Models
 
 		public void SaveUserProfilePicDB(string filename, int userid)
 		{
-			bool bRet = false;
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
@@ -1160,11 +1050,7 @@ namespace Productivity_X.Models
 				// if 1 then already exist
 				int sameFilename = Convert.ToInt32(CheckUser.ExecuteScalar());
 
-				if (sameFilename >= 1)
-				{
-					bRet = true;
-				}
-				else
+				if(sameFilename == 0)
 				{
 					// Inserting data into profilepic field of database
 					MySqlCommand Query = conn.CreateCommand();
