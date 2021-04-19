@@ -12,8 +12,6 @@ namespace Productivity_X.Models
 		private string eventdate;
 		private string startat;
 		private string endat;
-		private bool notification;
-		private int reminder;
 		private string location;
 		private string description;
 		private string category;
@@ -25,21 +23,18 @@ namespace Productivity_X.Models
 		{
 		}
 
-		public Events(object[] savedEventData, int nEventID, int nReminder)
+		public Events(object[] savedEventData, int nEventID)
 		{
 			eventData = savedEventData;
 			eventid = nEventID;
 			eventname = Convert.ToString(eventData.ElementAt(0));
 			eventdate = Convert.ToString(eventData.ElementAt(1)).Remove(9);
-
 			startat = Convert.ToString(eventData.ElementAt(2));
 			endat = Convert.ToString(eventData.ElementAt(3));
-			notification = Convert.ToBoolean(eventData.ElementAt(4));
-			reminder = nReminder;
-			location = Convert.ToString(eventData.ElementAt(6));
-			description = Convert.ToString(eventData.ElementAt(7));
-			category = Convert.ToString(eventData.ElementAt(8));
-			friendname = Convert.ToString(eventData.ElementAt(9));
+			location = Convert.ToString(eventData.ElementAt(4));
+			description = Convert.ToString(eventData.ElementAt(5));
+			category = Convert.ToString(eventData.ElementAt(6));
+			friendname = Convert.ToString(eventData.ElementAt(7));
 		}
 
 
@@ -72,10 +67,7 @@ namespace Productivity_X.Models
 		{
 			return description;
 		}
-		public bool GetNotification()
-		{
-			return notification;
-		}
+
 		public string GetFriendName()
 		{
 			return friendname;
