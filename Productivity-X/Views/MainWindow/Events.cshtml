@@ -297,15 +297,25 @@
                                                         </select>
 
                                                     </div>
-                                                    <div class="form-group" id="eventFriend" style="padding-right: 25px;">
-                                                        <small>&nbsp;Invite a Friend (optional)&nbsp;</small>
-                                                        <select asp-for="friendUsername" style="background-color: #C2C2C2; opacity: 90%; width: 360px; height: 45px; border-radius: 5px;">
-                                                            <option value="" disabled selected hidden>Choose friend...</option>
-
-                                                            @*Place friend code here*@
-
-                                                        </select>
-                                                    </div>
+													<div class="form-group" id="eventFriend" style="padding-right: 25px;">
+														<small>&nbsp;Invite a Friend (optional)&nbsp;</small>
+														<select asp-for="friendUsername" style="background-color: #C2C2C2; opacity: 90%; width: 360px; height: 45px; border-radius: 5px;">
+															<option value="Not Selected">Choose Friend</option>
+															@{
+																List<FriendsView> friendlist = new List<FriendsView>();
+																friendlist = ViewData["friendobjects"] as List<FriendsView>;
+																if (friendlist != null)
+																{
+																	for (int counter = 0; counter < friendlist.Count; counter++)
+																	{
+																		<option value="@friendlist[counter].friendname">
+																			@friendlist[counter].friendname
+																		</option>
+																	}
+																}
+															}
+														</select>
+													</div>
 
                                                 </div>
                                             </form>
@@ -352,43 +362,62 @@
                     List<Events> eventlist = new List<Events>();
                     eventlist = ViewData["eventobjects"] as List<Events>;
                     for (int counter = 0; counter < eventlist.Count; counter++)
-                    {
-                        <tr style="background-color:@eventlist[counter].GetEventColor()">
-                            <td value="@eventlist[counter].GetEventName()">
-                                @eventlist[counter].GetEventName().Trim(';')
-                            </td>
-                            <td value="@eventlist[counter].GetDate()">
-                                @eventlist[counter].GetDate()
-                            </td>
-                            <td value="@eventlist[counter].StartTime()">
-                                @eventlist[counter].StartTime()
-                            </td>
-                            <td value="@eventlist[counter].EndTime()">
-                                @eventlist[counter].EndTime()
-                            </td>
-                            <td value="@eventlist[counter].GetCategory()">
-                                @eventlist[counter].GetCategory()
-                            </td>
-                            <td value="@eventlist[counter].GetLocation()">
-                                @eventlist[counter].GetLocation()
-                            </td>
-                            <td value="@eventlist[counter].GetDescription()">
-                                @eventlist[counter].GetDescription()
-                            </td>
-                            <td value="@eventlist[counter].GetFriendName()">
-                                @eventlist[counter].GetFriendName()
-                            </td>
-                            <td>
-                                <button id="deletebutton" type="button" value="@eventlist[counter]" onclick="window.location.href = '@Url.Action("DeleteEvent", "MainWindow")?eventid=@eventlist[counter].GetEventID()'">
-                                    <i class="fas fa-trash fa-lg"></i>
-                                </button>
-                            </td>
-                        </tr>
+                    {       
+						<tr style="background-color:@eventlist[counter].GetEventColor()">
+							<td value="@eventlist[counter].GetEventName()">
+								@eventlist[counter].GetEventName().Trim(';')
+							</td>
+							<td value="@eventlist[counter].GetDate()">
+								@eventlist[counter].GetDate()
+							</td>
+							<td value="@eventlist[counter].StartTime()">
+								@eventlist[counter].StartTime()
+							</td>
+							<td value="@eventlist[counter].EndTime()">
+								@eventlist[counter].EndTime()
+							</td>
+							<td value="@eventlist[counter].GetCategory()">
+								@eventlist[counter].GetCategory()
+							</td>
+							@if (eventlist[counter].GetLocation() != "")
+							{
+								<td value="@eventlist[counter].GetLocation()">
+									@eventlist[counter].GetLocation()
+								</td>
+							}
+							else
+							{
+								<td value="@eventlist[counter].GetLocation()">
+									No Text Written
+								</td>
+							}
+							@if (eventlist[counter].GetLocation() != "")
+							{
+								<td value="@eventlist[counter].GetDescription()">
+									@eventlist[counter].GetDescription()
+								</td>
+							}
+							else
+							{
+								<td value="@eventlist[counter].GetDescription()">
+									No Text Written
+								</td>
+							}
+							<td value="@eventlist[counter].GetFriendName()">
+								@eventlist[counter].GetFriendName()
+							</td>
+							<td>
+								<button id="deletebutton" type="button" value="@eventlist[counter]" onclick="window.location.href = '@Url.Action("DeleteEvent", "MainWindow")?eventid=@eventlist[counter].GetEventID()'">
+									<i class="fas fa-trash fa-lg"></i>
+								</button>
+							</td>
+						</tr>
                     }
                 }
             </thead>
             <tbody>
             </tbody>
+
         </table>
     </div>
 

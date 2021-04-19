@@ -1050,7 +1050,7 @@ namespace Productivity_X.Models
 				// if 1 then already exist
 				int sameFilename = Convert.ToInt32(CheckUser.ExecuteScalar());
 
-				if(sameFilename == 1)
+				if(sameFilename == 0)
 				{
 					// Inserting data into profilepic field of database
 					MySqlCommand Query = conn.CreateCommand();
