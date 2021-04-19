@@ -438,15 +438,18 @@
 					@{
 						List<FriendsView> friendslist = new List<FriendsView>();
 						friendslist = ViewData["friendobjects"] as List<FriendsView>;
+						if(friendslist.Count == 0)
+						{
+							<li style="color:dodgerblue"><span style="color: white">No Connections or Friend Request Still in Review</span></li>
+						}
 						for (int counter = 0; counter < friendslist.Count; counter++)
 						{
 							if (friendslist.Count == 0 || friendslist[counter].request == true)
 							{
-								<li style="color:dodgerblue"><span style="color: white">No Connections or Friend Request Still in Review</span></li>
+								<li style="color:dodgerblue"><span style="color: white">@friendslist[counter].friendname request still in review!</span></li>
 							}
 							else
 							{
-							
 								if (friendslist[counter].request == false)
 								{
 									<li style="color: dodgerblue"><span value="friendslist[counter].friendname" style="color: white">@friendslist[counter].friendname</span></li>
