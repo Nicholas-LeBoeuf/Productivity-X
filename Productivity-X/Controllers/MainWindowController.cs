@@ -326,12 +326,12 @@ namespace Productivity_X.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult CombineUserFriendSchedules(int friendId)
+        public IActionResult CombineUserFriendSchedules(int? friendID)
         {
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
             TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
             TempData.Keep("ProfilePicFromDB");
-            HttpContext.Session.SetString("userid", friendId.ToString());
+            HttpContext.Session.SetString("friendid", friendID.ToString());
             return View();
         }
 

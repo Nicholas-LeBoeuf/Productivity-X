@@ -625,7 +625,8 @@ namespace Productivity_X.Models
 				conn.Open();
 				MySqlCommand FindEvents = conn.CreateCommand();
 				FindEvents.Parameters.AddWithValue("@user_id", userid);
-				FindEvents.CommandText = "SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname, e.friendname, bAcceptEvent FROM Calendar_Schema.events_tbl e where e.user_id = @user_id and friend_id";
+				FindEvents.Parameters.AddWithValue("@friendid", friendid);
+				FindEvents.CommandText = "SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname, e.friendname, bAcceptEvent FROM Calendar_Schema.events_tbl e where e.user_id in (@user_id, @friendid)";
 
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = FindEvents.ExecuteReader();

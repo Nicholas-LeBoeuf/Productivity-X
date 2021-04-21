@@ -1,7 +1,7 @@
 ﻿@model Productivity_X.Models.FriendsView;
 @{
-    ViewData["Title"] = "Friends";
-    Layout = "~/Views/Shared/_MainPageLayout.cshtml";
+	ViewData["Title"] = "Friends";
+	Layout = "~/Views/Shared/_MainPageLayout.cshtml";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -136,8 +136,8 @@
                             <ul>
                                 <li class="list" v-for='list in friendList' v-bind:key='list.id'>
                                     <button id="deletebutton" type="button" v-on:click='DeleteFriend(list.friendid)'><i class="fas fa-minus-circle"></i></button>
-                                    <button id="combinebutton" type="button" v-on:click='CombineUserFriendSchedules(list.friendid)'><i class="fas fa-calendar-alt"></i></button>
-                                    {{list.friendname}}
+                                    <button id="combinebutton" type="button" onclick="window.location.href = '@Url.Action("CombineUserFriendSchedules", "MainWindow")?friendID=list.friendid'"><i class="fas fa-calendar-alt"></i></button>
+								    {{ list.friendname}}	
                                 </li>
                             </ul>
                         </div>
