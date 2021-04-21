@@ -626,15 +626,17 @@ namespace Productivity_X.Models
 				MySqlCommand FindEvents = conn.CreateCommand();
 				FindEvents.Parameters.AddWithValue("@user_id", userid);
 				FindEvents.Parameters.AddWithValue("@friendid", friendid);
-				FindEvents.CommandText = "SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname, e.friendname, bAcceptEvent FROM Calendar_Schema.events_tbl e where e.user_id in (@user_id, @friendid)";
+				FindEvents.CommandText = "SELECT e.user_id, e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname, bAcceptEvent FROM Calendar_Schema.events_tbl e where e.user_id in (@user_id, @friendid)";
 
 				// Execute the SQL command against the DB:
 				MySqlDataReader reader = FindEvents.ExecuteReader();
 				while (reader.Read()) // Read returns false if the event does not exist!
 				{
-					if (Convert.ToBoolean(reader[5]))
+					// if friend has not accepted event, do not display event
+					if (Convert.ToBoolean(reader[6]))
 					{
-						if (Convert.ToString(reader[5]) != "Not Selected" || Convert.ToString(reader[5]) == "Not Selected")
+						// Friend event
+						if (Convert.ToInt32(reader[0]) == friendid)
 						{
 							color = "pink";
 						}
@@ -646,10 +648,9 @@ namespace Productivity_X.Models
 						// Read the DB values:
 						result.Add(new CombinedEvents()
 						{
-							name = reader[0].ToString(),
-							start = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[2].ToString(),
-							end = Convert.ToDateTime(reader[1].ToString()).ToString("yyyy-MM-dd") + "  " + reader[3].ToString(),
-							friendname = Convert.ToString(reader[5]),
+							name = reader[1].ToString(),
+							start = Convert.ToDateTime(reader[2].ToString()).ToString("yyyy-MM-dd") + "  " + reader[3].ToString(),
+							end = Convert.ToDateTime(reader[2].ToString()).ToString("yyyy-MM-dd") + "  " + reader[4].ToString(),
 							color = color
 						});
 					}

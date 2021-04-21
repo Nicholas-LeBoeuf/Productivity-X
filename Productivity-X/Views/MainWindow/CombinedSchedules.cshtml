@@ -185,14 +185,14 @@
             getData() {
                 const that = this;
 				axios.get('/MainWindow/GetFriendUserEvents')
-                    .then(function (response) {
-                        that.events = response.data;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+					.then(function (response) {
+						that.events = response.data;
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
             }
-        }
+        },
     })
 </script>
 

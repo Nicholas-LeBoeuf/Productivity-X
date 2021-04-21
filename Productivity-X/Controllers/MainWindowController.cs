@@ -326,20 +326,25 @@ namespace Productivity_X.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult CombineUserFriendSchedules(int? friendID)
-        {
+        public void SaveFriendID(int friendID)
+		{
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
             TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
             TempData.Keep("ProfilePicFromDB");
             HttpContext.Session.SetString("friendid", friendID.ToString());
-            return View();
+        }
+
+        public IActionResult CombineSchedules()
+        {
+            return View("CombinedSchedules");
         }
 
         public IActionResult GetFriendUserEvents()
         {
             int userid = (int)TempData["userid"];
             TempData["userid"] = userid;
-            return Json(_manager.GetCombinedEvents(userid, Convert.ToInt32(HttpContext.Session.GetString("friendid"))));
+            int friendid = Convert.ToInt32(HttpContext.Session.GetString("friendid"));
+            return Json(_manager.GetCombinedEvents(userid, friendid));
         }
 
         #region Friends
