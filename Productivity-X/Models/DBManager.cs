@@ -23,7 +23,7 @@ namespace Productivity_X.Models
 			return new MySqlConnection(ConnectionString);
 		}
 
-// User, login, forgot password queries....
+		// User, login, forgot password queries....
 		// Saves user info to database
 		public bool SaveUser(UserCreateAccnt uc)
 		{
@@ -270,7 +270,7 @@ namespace Productivity_X.Models
 		}
 
 		public void UpdatePassword(ForgotPw3 forgotPassword, int nUserID)
-		{			
+		{
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
@@ -337,7 +337,7 @@ namespace Productivity_X.Models
 			return bRet;
 		}
 
-	// Event Queries:
+		// Event Queries:
 		// Saves event info to database
 		public bool SaveEvent(UserCreateEvent ce, int nUserID)
 		{
@@ -443,7 +443,7 @@ namespace Productivity_X.Models
 				deleteEventRow.Parameters.AddWithValue("@userid", userid);
 				deleteEventRow.CommandText = "delete FROM Calendar_Schema.events_tbl where event_id = @eventid and user_id=@userid";
 				deleteEventRow.ExecuteNonQuery();
-			} 
+			}
 		}
 
 
@@ -479,11 +479,11 @@ namespace Productivity_X.Models
 			return bRet;
 		}
 
-		public List<Events> GetEventsFromDB(int nUserID)
+		public List<UserEvents> GetEventsFromDB(int nUserID)
 		{
 			int eventid;
 			object[] eventDataList = new object[9];
-			List<Events> eventData = new List<Events>();
+			List<UserEvents> eventData = new List<UserEvents>();
 			using (MySqlConnection conn = GetConnection())
 			{
 				conn.Open();
@@ -508,7 +508,7 @@ namespace Productivity_X.Models
 					eventDataList[7] = (Convert.ToString(reader[9]));
 					eventDataList[8] = (Convert.ToBoolean(reader[10]));
 
-					eventData.Add(new Events(eventDataList, eventid));
+					eventData.Add(new UserEvents(eventDataList, eventid));
 				}
 				reader.Close();
 				for (int counter = 0; counter < eventData.Count(); counter++)
@@ -542,7 +542,7 @@ namespace Productivity_X.Models
 
 			return eventData;
 		}
-		
+
 		// Get weekly events for weekly calendar....
 		public List<WeeklyEventsView> GetWeeklyEvents(int userid)
 		{
@@ -666,11 +666,12 @@ namespace Productivity_X.Models
 			var result = new List<TodayEventView>();
 			string color = "", categoryname = "";
 
-			using (MySqlConnection conn = GetConnection()) { 
+			using (MySqlConnection conn = GetConnection())
+			{
 				conn.Open();
 				var date = DateTime.Now.ToString("yyyy-MM-dd");
 				// Find events that match todays date
-				using (MySqlCommand cmd = new MySqlCommand("SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname, bAcceptEvent FROM Calendar_Schema.events_tbl e where e.user_id = @user_id and e.event_date= " + "'" + date + "'",conn))
+				using (MySqlCommand cmd = new MySqlCommand("SELECT e.eventName,e.event_date,e.start_at,e.end_at,e.categoryname, bAcceptEvent FROM Calendar_Schema.events_tbl e where e.user_id = @user_id and e.event_date= " + "'" + date + "'", conn))
 				{
 					cmd.Parameters.AddWithValue("@user_id", userid);
 
@@ -760,7 +761,7 @@ namespace Productivity_X.Models
 				}
 		*/
 
-	// Category queries.... 
+		// Category queries.... 
 		public string GetCategoryNameFromDB(int categoryid, int nUserID)
 		{
 			string categoryname = "";
@@ -869,7 +870,7 @@ namespace Productivity_X.Models
 				updateEventsTable.Parameters.AddWithValue("@userid", userid);
 				updateEventsTable.CommandText = "update Calendar_Schema.events_tbl set categoryname = \"Default\" where categoryname = @categoryname and user_id = @userid";
 				updateEventsTable.ExecuteNonQuery();
-			
+
 				MySqlCommand deleteCategoryRow = conn.CreateCommand();
 				deleteCategoryRow.Parameters.AddWithValue("@categoryid", categoryid);
 				deleteCategoryRow.CommandText = "delete FROM Calendar_Schema.category_tbl where category_id = @categoryid";
@@ -877,8 +878,8 @@ namespace Productivity_X.Models
 			}
 		}
 
-	
-	// To-Do queries...
+
+		// To-Do queries...
 		public bool SaveTask(UserCreateTask ct, int nUserID)
 		{
 			bool bRet = true;
@@ -914,7 +915,7 @@ namespace Productivity_X.Models
 		}
 		public List<ToDoTasks> GetTasksFromDB(int userid)
 		{
-//			object[] tasksDataList = new object[3];
+			//			object[] tasksDataList = new object[3];
 			List<ToDoTasks> taskObj = new List<ToDoTasks>();
 			using (MySqlConnection conn = GetConnection())
 			{
@@ -1029,8 +1030,8 @@ namespace Productivity_X.Models
 					}
 
 				}
-					
-					
+
+
 			}
 		}
 
@@ -1110,7 +1111,7 @@ namespace Productivity_X.Models
 				// if 1 then already exist
 				int sameFilename = Convert.ToInt32(CheckUser.ExecuteScalar());
 
-				if(sameFilename == 0)
+				if (sameFilename == 0)
 				{
 					// Inserting data into profilepic field of database
 					MySqlCommand Query = conn.CreateCommand();
@@ -1327,5 +1328,151 @@ namespace Productivity_X.Models
 			}
 			return result;
 		}
+
+		public List<int> GetFriendIDs(int userid)
+		{
+			List<int> listids = new List<int>();
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+
+				MySqlCommand findFriendIds = conn.CreateCommand();
+				findFriendIds.Parameters.AddWithValue("@user_id", userid);
+				findFriendIds.CommandText = "select friend_id from Calendar_Schema.friends_tbl where user_id = @user_id order by Rand() limit 2";
+				MySqlDataReader reader = findFriendIds.ExecuteReader();
+				while (reader.Read()) // Read returns false if the user does not exist!
+				{
+					listids.Add(Convert.ToInt32(reader[0]));
+				}
+				reader.Close();
+			}
+			return listids;
+		}
+
+		// Get events that represent your freetime or where other events do not line up
+		public List<RcmdEvntsFrndsPg> GetRecommendedEvents(int nUserID, List<UserEvents> userevents, List<int> friendIDS)
+		{
+			int eventid;
+			object[] eventDataList = new object[9];
+			List<RcmdEvntsFrndsPg> eventData = new List<RcmdEvntsFrndsPg>();
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				userevents.RemoveAll(delegate (UserEvents ue)
+				{
+					return Convert.ToDateTime(ue.GetDate()) < Convert.ToDateTime(DateTime.Now.ToString("MM/dd/yyyy"));
+				});
+
+				for (int counter = 0; counter < friendIDS.Count; counter++)
+				{
+					for (int index = 0; index < userevents.Count; index++)
+					{
+						MySqlCommand FindEventData = conn.CreateCommand();
+						FindEventData.CommandText = "select * from Calendar_Schema.events_tbl where user_id=@userid and start_at not between @startat and @endat and event_date != @date and bacceptevent = true order by Rand() limit 2";
+						FindEventData.Parameters.AddWithValue("@userid", nUserID);
+						FindEventData.Parameters.AddWithValue("@startat", userevents[counter].StartTime());
+						FindEventData.Parameters.AddWithValue("@endat", userevents[counter].EndTime());
+						FindEventData.Parameters.AddWithValue("@date", Convert.ToDateTime(userevents[counter].GetDate()));
+
+						FindEventData.ExecuteNonQuery();
+
+						// Execute the SQL command against the DB:
+						MySqlDataReader reader = FindEventData.ExecuteReader();
+						while (reader.Read())
+						{
+							eventid = Convert.ToInt32(reader[1]);
+							//eventname
+							eventDataList[0] = (Convert.ToString(reader[2]));
+							//event_date
+							eventDataList[1] = (Convert.ToString(reader[3]));
+							//start_at
+							eventDataList[2] = (Convert.ToString(reader[4]));
+							//end_at
+							eventDataList[3] = (Convert.ToString(reader[5]));
+							//location
+							eventDataList[4] = (Convert.ToString(reader[6]));
+							//description
+							eventDataList[5] = (Convert.ToString(reader[7]));
+							//categoryname
+							eventDataList[6] = "Friends";
+							//friendname
+							eventDataList[7] = (Convert.ToString(reader[9]));
+							//bacceptevent
+							eventDataList[8] = (Convert.ToBoolean(reader[10]));
+
+							eventData.Add(new RcmdEvntsFrndsPg(eventDataList, eventid));
+						}
+						reader.Close();
+					}
+				}
+			}
+
+			return eventData;
+		}
+
+		//Find events that will allow you to join from friends
+		public List<RcmdEvntsFrndsPg> GetEventsFromFriends(int nUserID, List<UserEvents> userevents, List<int> friendIDS)
+		{
+			int eventid;
+			object[] eventDataList = new object[9];
+			List<RcmdEvntsFrndsPg> eventData = new List<RcmdEvntsFrndsPg>();
+			using (MySqlConnection conn = GetConnection())
+			{
+				conn.Open();
+				userevents.RemoveAll(delegate (UserEvents ue)
+				{
+					return Convert.ToDateTime(ue.GetDate()) < Convert.ToDateTime(DateTime.Now.ToString("MM/dd/yyyy"));
+				});
+				for (int counter = 0; counter < friendIDS.Count; counter++)
+				{
+					for (int index = 0; index < userevents.Count; index++)
+					{
+						MySqlCommand FindEventData = conn.CreateCommand();
+						FindEventData.CommandText = "select * from Calendar_Schema.events_tbl where user_id=@userid and start_at not between @startat and @endat and event_date != @date and bacceptevent = false";
+						FindEventData.Parameters.AddWithValue("@userid", nUserID);
+						FindEventData.Parameters.AddWithValue("@startat", userevents[counter].StartTime());
+						FindEventData.Parameters.AddWithValue("@endat", userevents[counter].EndTime());
+						FindEventData.Parameters.AddWithValue("@date", Convert.ToDateTime(userevents[counter].GetDate()));
+
+						FindEventData.ExecuteNonQuery();
+
+						// Execute the SQL command against the DB:
+						MySqlDataReader reader = FindEventData.ExecuteReader();
+						while (reader.Read())
+						{
+							eventid = Convert.ToInt32(reader[1]);
+							//eventname
+							eventDataList[0] = (Convert.ToString(reader[2]));
+							//event_date
+							eventDataList[1] = (Convert.ToString(reader[3]));
+							//start_at
+							eventDataList[2] = (Convert.ToString(reader[4]));
+							//end_at
+							eventDataList[3] = (Convert.ToString(reader[5]));
+							//location
+							eventDataList[4] = (Convert.ToString(reader[6]));
+							//description
+							eventDataList[5] = (Convert.ToString(reader[7]));
+							//categoryname
+							eventDataList[6] = "Friends";
+							//friendname
+							eventDataList[7] = (Convert.ToString(reader[9]));
+							//bacceptevent
+							eventDataList[8] = (Convert.ToBoolean(reader[10]));
+
+							eventData.Add(new RcmdEvntsFrndsPg(eventDataList, eventid));
+						}
+						reader.Close();
+					}
+				}
+				eventData.RemoveAll(delegate (RcmdEvntsFrndsPg re)
+				{
+					return Convert.ToDateTime(re.GetDate()) < Convert.ToDateTime(DateTime.Now.ToString("MM/dd/yyyy"));
+				});
+			}
+			int num = eventData.Count;
+			return eventData;
+		}
 	}
 }
+	

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Productivity_X.Models
 {
-	public class Events
+	public class RcmdEvntsFrndsPg
 	{
 		private int eventid;
 		private string eventname;
@@ -19,14 +19,9 @@ namespace Productivity_X.Models
 		private string eventColor;
 		private bool bAcceptEvent = false;
 
-
 		private object[] eventData = new object[9];
 
-		public Events()
-		{
-		}
-
-		public Events(object[] savedEventData, int nEventID)
+		public RcmdEvntsFrndsPg(object[] savedEventData, int nEventID)
 		{
 			eventData = savedEventData;
 			eventid = nEventID;
@@ -40,7 +35,6 @@ namespace Productivity_X.Models
 			friendname = Convert.ToString(eventData.ElementAt(7));
 			bAcceptEvent = Convert.ToBoolean(eventData.ElementAt(8));
 		}
-
 
 		public string GetEventName()
 		{

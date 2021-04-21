@@ -54,20 +54,24 @@ namespace Productivity_X.Controllers
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            
             ViewData["friendobjects"] = _manager.GetFriends(userid);
-            GetTasksHelper();
-            GetCategoriesHelper();
+            ViewData["taskobjects"] = _manager.GetTasksFromDB(userid);
+            ViewData["categoryobjects"] = _manager.GetCategoriesFromDB(userid);
+
+            //           GetTasksHelper();
+           // GetCategoriesHelper();
             return View();
         }
         public IActionResult Weekly()
         {
-            List<Categories> categoriesSaved = new List<Categories>();
+//            List<Categories> categoriesSaved = new List<Categories>();
             int userid = (int)TempData["userid"];       
-            categoriesSaved = _manager.GetCategoriesFromDB(userid);
+//            categoriesSaved = _manager.GetCategoriesFromDB(userid);
 
-            ViewData["friendobjects"] = _manager.GetFriends(userid);
+ //           ViewData["friendobjects"] = _manager.GetFriends(userid);
 
-            ViewData["categoryobjects"] = categoriesSaved;
+//            ViewData["categoryobjects"] = categoriesSaved;
             TempData["userid"] = userid;
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
@@ -111,7 +115,7 @@ namespace Productivity_X.Controllers
 		{
             int userid = (int)TempData["userid"];
             _manager.DeleteEvent(Convert.ToInt32(eventid), userid);
-            GetEventsHelper();
+ //           GetEventsHelper();
             TempData["userid"] = userid;
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
@@ -133,7 +137,7 @@ namespace Productivity_X.Controllers
 
         public void GetEventsHelper()
         {
-            List<Events> eventsSaved = new List<Events>();
+            List<UserEvents> eventsSaved = new List<UserEvents>();
 
             int userid = (int)TempData["userid"];
 
@@ -147,9 +151,10 @@ namespace Productivity_X.Controllers
         public IActionResult Events()
         {
             GetCategoriesHelper();
+            // Get events created by user
             GetEventsHelper();
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
-            ViewData["friendobjects"] = _manager.GetFriends(userid);
+//            ViewData["friendobjects"] = _manager.GetFriends(userid);
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
             return View();
@@ -184,8 +189,8 @@ namespace Productivity_X.Controllers
 //            string taskname = _manager.GetTaskNameFromDB(Convert.ToInt32(taskid), userid);
             _manager.DeleteTask(Convert.ToInt32(taskid), userid);
 
-            // Update Category list
-            GetTasksHelper();
+//            // Update Category list
+//            GetTasksHelper();
             TempData["userid"] = userid;
             return View("ToDo");
         }
@@ -296,13 +301,12 @@ namespace Productivity_X.Controllers
         }
         public void GetCategoriesHelper()
 		{
-            List<Categories> categoriesSaved = new List<Categories>();
+//            List<Categories> categoriesSaved = new List<Categories>();
             
             int userid = (int)TempData["userid"];
 
-            categoriesSaved = _manager.GetCategoriesFromDB(userid);
+            ViewData["categoryobjects"] = _manager.GetCategoriesFromDB(userid);
 
-            ViewData["categoryobjects"] = categoriesSaved;
             TempData["userid"] = userid;
         }
         public IActionResult Categories()
@@ -336,6 +340,9 @@ namespace Productivity_X.Controllers
 
         public IActionResult CombineSchedules()
         {
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
+            TempData.Keep("ProfilePicFromDB");
             return View("CombinedSchedules");
         }
 
@@ -343,6 +350,8 @@ namespace Productivity_X.Controllers
         {
             int userid = (int)TempData["userid"];
             TempData["userid"] = userid;
+            TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
+            TempData.Keep("ProfilePicFromDB");
             int friendid = Convert.ToInt32(HttpContext.Session.GetString("friendid"));
             return Json(_manager.GetCombinedEvents(userid, friendid));
         }
@@ -354,6 +363,7 @@ namespace Productivity_X.Controllers
             GetFriends();
             GetFriendsRequest();
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            ViewData["EventsRecommended"] = FindRecommendedEvents();
             TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
             TempData.Keep("ProfilePicFromDB");
             return View();
@@ -412,6 +422,19 @@ namespace Productivity_X.Controllers
             TempData.Keep("ProfilePicFromDB");
             return View("Friends");
         }
+
+
+
+        // Finds events of friends that are during your freetime and events that friends may have invited you too  
+        public List<RcmdEvntsFrndsPg> FindRecommendedEvents()
+		{
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            List<RcmdEvntsFrndsPg> list = new List<RcmdEvntsFrndsPg>();
+            list = _manager.GetRecommendedEvents(userid, _manager.GetEventsFromDB(userid), _manager.GetFriendIDs(userid));
+            return list;
+        }
+
+
         #endregion
     }
 }

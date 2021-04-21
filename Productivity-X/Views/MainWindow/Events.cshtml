@@ -362,10 +362,10 @@
                     <th>Invitation Accepted</th>
                 </tr>
                 @{
-                    List<Events> eventlist = new List<Events>();
-                    eventlist = ViewData["eventobjects"] as List<Events>;
-                    for (int counter = 0; counter < eventlist.Count; counter++)
-                    {       
+					List<UserEvents> eventlist = new List<UserEvents>();
+					eventlist = ViewData["eventobjects"] as List<UserEvents>;
+					for (int counter = 0; counter < eventlist.Count; counter++)
+					{
 					    <tr style="background-color:@eventlist[counter].GetEventColor()">
 						    <td value="@eventlist[counter].GetEventName()">
 							    @eventlist[counter].GetEventName().Trim(';')

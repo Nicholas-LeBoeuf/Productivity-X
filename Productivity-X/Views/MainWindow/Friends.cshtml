@@ -1,4 +1,4 @@
-﻿@model Productivity_X.Models.FriendsView;
+﻿@model Productivity_X.Models.RcmdEvntsFrndsPg;
 @{
 	ViewData["Title"] = "Friends";
 	Layout = "~/Views/Shared/_MainPageLayout.cshtml";
@@ -165,28 +165,31 @@
 							</el-option>
 						</el-select>
 					</template>
+
+					<div class="title" style="padding-top:6%">Recommended Events</div>
+					<ul>
+						@{
+							List<RcmdEvntsFrndsPg> eventlist = new List<RcmdEvntsFrndsPg>();
+							eventlist = ViewData["EventsRecommended"] as List<RcmdEvntsFrndsPg>;
+							for (int counter = 0; counter < eventlist.Count; counter++)
+							{
+
+								<li class="list" v-for='list in requestList' v-bind:key='list.id' style="padding-left: 0%; color:white">
+									<!-- User can join event -->
+									@if (eventlist[counter].DidFriendAcceptEvent() == true)
+									{
+										<button id="acceptbutton" type="button" v-on:click='KeepEvent(list.friendid)'><i class="fas fa-check-circle"></i></button>
+										<button id="deletebutton" type="button" v-on:click='DeleteEventSuggestion(list.friendid)'><i class="fas fa-minus-circle"></i></button>
+										<label value="@eventlist[counter].GetEventName()">@eventlist[counter].GetEventName()</label>
+									}
+								</li>
+							}
+						}
+					</ul>
+
 				</div>
 			</el-col>
 
-
-
-			<div class="NeedFriendApproval" style="padding-top: 10%;">Recommended Events</div>
-				<div id="request">
-					<ul>
-						@{ 
-							List<Events> eventlist = new List<Events>();
-							eventlist = ViewData["eventobjects"] as List<Events>;
-							for (int counter = 0; counter < eventlist.Count; counter++)
-
-							<li class="list" v-for='list in requestList' v-bind:key='list.id'>
-								<button id="acceptbutton" type="button" v-on:click='KeepEvent(list.friendid)'><i class="fas fa-check-circle"></i></button>
-								<button id="deletebutton" type="button" v-on:click='DeleteEventSuggestion(list.friendid)'><i class="fas fa-minus-circle"></i></button>
-								{{list.friendname}}
-							</li>
-						}
-					</ul>
-				</div>
-			</div>
 
 
 			<el-col :span="6" class="box">
