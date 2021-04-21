@@ -17,7 +17,10 @@ namespace Productivity_X.Models
 		private string category;
 		private string friendname;
 		private string eventColor;
-		private object[] eventData = new object[11];
+		private bool bAcceptEvent = false;
+
+
+		private object[] eventData = new object[9];
 
 		public Events()
 		{
@@ -35,6 +38,7 @@ namespace Productivity_X.Models
 			description = Convert.ToString(eventData.ElementAt(5));
 			category = Convert.ToString(eventData.ElementAt(6));
 			friendname = Convert.ToString(eventData.ElementAt(7));
+			bAcceptEvent = Convert.ToBoolean(eventData.ElementAt(8));
 		}
 
 
@@ -85,6 +89,10 @@ namespace Productivity_X.Models
 		public int GetEventID()
 		{
 			return eventid;
+		}
+		public bool DidFriendAcceptEvent()
+		{
+			return bAcceptEvent;
 		}
 	}
 }

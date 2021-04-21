@@ -326,11 +326,12 @@ namespace Productivity_X.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult CombinedSchedules()
+        public IActionResult CombineUserFriendSchedules(int friendId)
         {
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
             TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
             TempData.Keep("ProfilePicFromDB");
+            HttpContext.Session.SetString("userid", friendId.ToString());
             return View();
         }
 
@@ -338,13 +339,15 @@ namespace Productivity_X.Controllers
         {
             int userid = (int)TempData["userid"];
             TempData["userid"] = userid;
-            return Json(_manager.GetCombinedEvents(userid));
+            return Json(_manager.GetCombinedEvents(userid, Convert.ToInt32(HttpContext.Session.GetString("friendid"))));
         }
 
         #region Friends
 
         public IActionResult Friends()
         {
+            GetFriends();
+            GetFriendsRequest();
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
             TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
             TempData.Keep("ProfilePicFromDB");
