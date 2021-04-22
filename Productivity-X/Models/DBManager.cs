@@ -454,14 +454,14 @@ namespace Productivity_X.Models
 					cmd2.Parameters.AddWithValue("@user_id", nUserID);
 					cmd2.Parameters.AddWithValue("@eventname", eventDataList[0]);
 					// Saved as date
-					cmd2.Parameters.AddWithValue("@event_date", eventDataList[1]);
+					cmd2.Parameters.AddWithValue("@event_date", Convert.ToDateTime(eventDataList[1]));
 					cmd2.Parameters.AddWithValue("@start_at", eventDataList[2]);
 					// Saved as time
 					cmd2.Parameters.AddWithValue("@end_at", eventDataList[3]);
 					cmd2.Parameters.AddWithValue("@location", eventDataList[4]);
 					cmd2.Parameters.AddWithValue("@description", eventDataList[5]);
 					cmd2.Parameters.AddWithValue("@categoryname", "Friends");
-					cmd2.Parameters.AddWithValue("@friendname", eventDataList[6]);
+					cmd2.Parameters.AddWithValue("@friendname", eventDataList[7]);
 					cmd2.Parameters.AddWithValue("@accept", true);
 					cmd2.ExecuteNonQuery();
 				}
