@@ -69,7 +69,7 @@ namespace Productivity_X.Controllers
             int userid = (int)TempData["userid"];       
 //            categoriesSaved = _manager.GetCategoriesFromDB(userid);
 
- //           ViewData["friendobjects"] = _manager.GetFriends(userid);
+            ViewData["friendobjects"] = _manager.GetFriends(userid);
 
 //            ViewData["categoryobjects"] = categoriesSaved;
             TempData["userid"] = userid;
@@ -91,7 +91,7 @@ namespace Productivity_X.Controllers
             }*/
 
             int userid = (int)TempData["userid"];
-
+            ViewData["friendobjects"] = _manager.GetFriends(userid);
             // True, save event to the database
             if (bRet)
 			{
@@ -154,7 +154,7 @@ namespace Productivity_X.Controllers
             // Get events created by user
             GetEventsHelper();
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
-//            ViewData["friendobjects"] = _manager.GetFriends(userid);
+            ViewData["friendobjects"] = _manager.GetFriends(userid);
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
             return View();
@@ -434,6 +434,15 @@ namespace Productivity_X.Controllers
             return list;
         }
 
+        public IActionResult AddEventFromFriendsPage(int? eventid)
+		{
+            _manager.SaveRecommendedEvent(Convert.ToInt32(eventid), Convert.ToInt32(HttpContext.Session.GetString("userid")));
+            ViewBag.message = "Successfully Saved Recommended Event!";
+            TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(Convert.ToInt32(HttpContext.Session.GetString("userid")));
+            TempData.Keep("ProfilePicFromDB");
+            ViewData["EventsRecommended"] = FindRecommendedEvents();
+            return View("Friends");
+        }
 
         #endregion
     }

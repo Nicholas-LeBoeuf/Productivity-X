@@ -173,20 +173,32 @@
 							eventlist = ViewData["EventsRecommended"] as List<RcmdEvntsFrndsPg>;
 							for (int counter = 0; counter < eventlist.Count; counter++)
 							{
-
 								<li class="list" v-for='list in requestList' v-bind:key='list.id' style="padding-left: 0%; color:white">
 									<!-- User can join event -->
-									@if (eventlist[counter].DidFriendAcceptEvent() == true)
+								<li style="color:white; position:center; overflow:scroll; overflow-x:hidden">
+									<button id="acceptbutton" type="button" onclick="window.location.href = '@Url.Action("AddEventFromFriendsPage", "MainWindow")?eventID=@eventlist[counter].GetEventID()'"><i class="fas fa-check-circle"></i></button>
+									<!--	<button id="deletebutton" type="button" v-on:click='DeleteEventSuggestion(list.friendid)'><i class="fas fa-minus-circle"></i></button>-->
+									@if (eventlist[counter].GetFriendName() != "Not Selected")
 									{
-										<button id="acceptbutton" type="button" v-on:click='KeepEvent(list.friendid)'><i class="fas fa-check-circle"></i></button>
-										<button id="deletebutton" type="button" v-on:click='DeleteEventSuggestion(list.friendid)'><i class="fas fa-minus-circle"></i></button>
-										<label value="@eventlist[counter].GetEventName()">@eventlist[counter].GetEventName()</label>
+										<label title="Friend name" value="@eventlist[counter].GetFriendName()">@eventlist[counter].GetFriendName() </label>
+									}
+									else
+									{
+										<label title="No Friend Tied to Event">N/A </label>
+									}
+									<label title="Event name" value="@eventlist[counter].GetEventName()">@eventlist[counter].GetEventName() </label>
+									<label title="Event Date" value="@eventlist[counter].GetDate()">@eventlist[counter].GetDate() </label>
+									<label title="Start at" value="@eventlist[counter].StartTime()">@eventlist[counter].StartTime() </label>
+									<label title="End at" value="@eventlist[counter].EndTime()">@eventlist[counter].EndTime() </label>
+									@if (eventlist[counter].GetDescription() != "" && eventlist[counter].GetLocation() != "")
+									{
+										<label title="Description: @eventlist[counter].GetDescription(),  location: @eventlist[counter].GetLocation()" value="@eventlist[counter].GetDescription()">Event Description</label>
 									}
 								</li>
+								</li class="list">
 							}
 						}
 					</ul>
-
 				</div>
 			</el-col>
 
