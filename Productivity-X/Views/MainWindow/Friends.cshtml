@@ -1,7 +1,7 @@
-﻿@model Productivity_X.Models.UserCreateEvent;
+﻿@model Productivity_X.Models.RcmdEvntsFrndsPg;
 @{
-    ViewData["Title"] = "Friends";
-    Layout = "~/Views/Shared/_MainPageLayout.cshtml";
+	ViewData["Title"] = "Friends";
+	Layout = "~/Views/Shared/_MainPageLayout.cshtml";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -118,6 +118,9 @@
             border-radius: 15px;
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
+
+
+
     </style>
 
     <link href="~/css/index.css" rel="stylesheet" />
@@ -128,57 +131,94 @@
         <div id="weekHeader">
             <div class="headerTitle">Friends</div>
         </div>
-            <el-row :gutter="20" type="flex" justify="center" style="margin-left: auto; margin-right: auto;">
-                <el-col :span="6" class="box">
-                    <div class="grid-content bg-purple">
-                        <div class="title" style="padding-top: 5px;">Friends List</div>
-                        <div id="friend" style="padding-right: 0px;">
-                            <ul>
-                                <li class="list" v-for='list in friendList' v-bind:key='list.id'>
-                                    <button id="deletebutton" type="button" v-on:click='DeleteFriend(list.friendid)'><i class="fas fa-minus-circle"></i></button>
-                                    <button id="combinebutton" type="button" onclick="window.location= '@Url.Action("CombinedSchedules", "MainWindow")'"><i class="fas fa-calendar-alt"></i></button>
-                                    {{list.friendname}}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="6">
-                    <div class="grid-content bg-purple">
-                        <div class="title">Add Friend</div>
-                        <template>
-                            <el-select v-model="user" style="padding-left: 67px;"
-                                       filterable
-                                       remote
-                                       reserve-keyword
-                                       placeholder="Search"
-                                       :remote-method="remoteMethod"
-                                       :loading="loading"
-                                       @@change="addFriend($event)">
-                                <el-option v-for="item in options"
-                                           :key="item.userid"
-                                           :label="item.username"
-                                           :value="item">
-                                </el-option>
-                            </el-select>
-                        </template>
-                    </div>
-                </el-col>
-                <el-col :span="6" class="box">
-                    <div class="grid-content bg-purple">
-                        <div class="title" style="padding-top: 5px;">Friends Requests</div>
-                        <div id="request">
-                            <ul>
-                                <li class="list" v-for='list in requestList' v-bind:key='list.id'>
-                                    <button id="acceptbutton" type="button" v-on:click='verifyFriend(list.friendid)'><i class="fas fa-check-circle"></i></button>
-                                    <button id="deletebutton" type="button" v-on:click='DeleteRequest(list.friendid)'><i class="fas fa-minus-circle"></i></button>
-                                    {{list.friendname}}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </el-col>
-            </el-row>
+		<el-row :gutter="20" type="flex" justify="center" style="margin-left: auto; margin-right: auto;">
+			<el-col :span="6" class="box">
+				<div class="grid-content bg-purple">
+					<div class="title" style="padding-top: 5px;">Friends List</div>
+					<div id="friend" style="padding-right: 0px;">
+						<ul>
+							<li class="list" v-for='list in friendList' v-bind:key='list.id'>
+								<button id="deletebutton" type="button" v-on:click='DeleteFriend(list.friendid)'><i class="fas fa-minus-circle"></i></button>
+								<button id="combinebutton" type="button" v-on:click='CombineCalendar(list.friendid)'><i class="fas fa-calendar-alt"></i></button>
+								{{ list.friendname}}
+							</li>
+						</ul>
+					</div>
+				</div>
+			</el-col>
+			<el-col :span="6">
+				<div class="grid-content bg-purple">
+					<div class="title">Add Friend</div>
+					<template>
+						<el-select v-model="user" style="padding-left: 67px;"
+								   filterable
+								   remote
+								   reserve-keyword
+								   placeholder="Search"
+								   :remote-method="remoteMethod"
+								   :loading="loading"
+								   @@change="addFriend($event)">
+							<el-option v-for="item in options"
+									   :key="item.userid"
+									   :label="item.username"
+									   :value="item">
+							</el-option>
+						</el-select>
+					</template>
+
+					<div class="title" style="padding-top:6%">Recommended Events</div>
+					<ul>
+						@{
+							List<RcmdEvntsFrndsPg> eventlist = new List<RcmdEvntsFrndsPg>();
+							eventlist = ViewData["EventsRecommended"] as List<RcmdEvntsFrndsPg>;
+							for (int counter = 0; counter < eventlist.Count; counter++)
+							{
+								<li class="list" v-for='list in requestList' v-bind:key='list.id' style="padding-left: 0%; color:white">
+									<!-- User can join event -->
+								<li style="color:white; position:center; overflow:scroll; overflow-x:hidden">
+									<button id="acceptbutton" type="button" onclick="window.location.href = '@Url.Action("AddEventFromFriendsPage", "MainWindow")?eventID=@eventlist[counter].GetEventID()'"><i class="fas fa-check-circle"></i></button>
+									<!--	<button id="deletebutton" type="button" v-on:click='DeleteEventSuggestion(list.friendid)'><i class="fas fa-minus-circle"></i></button>-->
+									@if (eventlist[counter].GetFriendName() != "Not Selected")
+									{
+										<label title="Friend name" value="@eventlist[counter].GetFriendName()">@eventlist[counter].GetFriendName() </label>
+									}
+									else
+									{
+										<label title="No Friend Tied to Event">N/A </label>
+									}
+									<label title="Event name" value="@eventlist[counter].GetEventName()">@eventlist[counter].GetEventName() </label>
+									<label title="Event Date" value="@eventlist[counter].GetDate()">@eventlist[counter].GetDate() </label>
+									<label title="Start at" value="@eventlist[counter].StartTime()">@eventlist[counter].StartTime() </label>
+									<label title="End at" value="@eventlist[counter].EndTime()">@eventlist[counter].EndTime() </label>
+									@if (eventlist[counter].GetDescription() != "" && eventlist[counter].GetLocation() != "")
+									{
+										<label title="Description: @eventlist[counter].GetDescription(),  location: @eventlist[counter].GetLocation()" value="@eventlist[counter].GetDescription()">Event Description</label>
+									}
+								</li>
+								</li class="list">
+							}
+						}
+					</ul>
+				</div>
+			</el-col>
+
+
+
+			<el-col :span="6" class="box">
+				<div class="grid-content bg-purple">
+					<div class="title" style="padding-top: 5px;">Friends Requests</div>
+					<div id="request">
+						<ul>
+							<li class="list" v-for='list in requestList' v-bind:key='list.id'>
+								<button id="acceptbutton" type="button" v-on:click='verifyFriend(list.friendid)'><i class="fas fa-check-circle"></i></button>
+								<button id="deletebutton" type="button" v-on:click='DeleteRequest(list.friendid)'><i class="fas fa-minus-circle"></i></button>
+								{{list.friendname}}
+							</li>
+						</ul>
+					</div>
+				</div>
+			</el-col>
+		</el-row>
         </div>
 </body>
 </html>
@@ -190,92 +230,111 @@
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script>
 
-    new Vue({
-        el: '#app',
-        data: {
-            requestList: [],
-            friendList: [],
-            userList: [],
-            options: [],
-            value: [],
-            loading: false
-        },
-        mounted() {
-            this.getData();
-        },
-        methods: {
-            getData() {
-                const that = this;
-                axios.get('/MainWindow/GetSearchUser', {
-                    params: { 'keyword': that.searchUser }
-                })
-                    .then(function (response) {
-                        that.userList = response.data;
-                        //that.options = response.data.map(obj => { return obj.username })
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-                axios.get('/MainWindow/GetFriendsRequest')
-                    .then(function (response) {
-                        that.requestList = response.data;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-                axios.get('/MainWindow/GetFriends')
-                    .then(function (response) {
-                        that.friendList = response.data;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            addFriend: function (e) {
-                axios.get('/MainWindow/AddFriend', {
-                    params: { 'friendId': e.userid }
-                })
-                    .then(function (response) {
-                        console.log(response);
-                        alert("send success");
-                        window.location.reload();
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            verifyFriend: function (friendId) {
-                const that = this;
-                axios.get('/MainWindow/VerifyFriend', {
-                    params: { 'friendId': friendId }
-                })
-                    .then(function (response) {
-                        console.log(response);
-                        alert("send success");
-                        window.location.reload();
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-                this.getData();
+	new Vue({
+		el: '#app',
+		data: {
+			requestList: [],
+			friendList: [],
+			userList: [],
+			options: [],
+			value: [],
+			loading: false
+		},
+		mounted() {
+			this.getData();
+		},
+		methods: {
+			getData() {
+				const that = this;
+				axios.get('/MainWindow/GetSearchUser', {
+					params: { 'keyword': that.searchUser }
+				})
+					.then(function (response) {
+						that.userList = response.data;
+						//that.options = response.data.map(obj => { return obj.username })
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+				axios.get('/MainWindow/GetFriendsRequest')
+					.then(function (response) {
+						that.requestList = response.data;
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+				axios.get('/MainWindow/GetFriends')
+					.then(function (response) {
+						that.friendList = response.data;
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+			},
+			addFriend: function (e) {
+				axios.get('/MainWindow/AddFriend', {
+					params: { 'friendId': e.userid }
+				})
+					.then(function (response) {
+						console.log(response);
+						alert("send success");
+						window.location.reload();
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+			},
+			verifyFriend: function (friendId) {
+				const that = this;
+				axios.get('/MainWindow/VerifyFriend', {
+					params: { 'friendId': friendId }
+				})
+					.then(function (response) {
+						console.log(response);
+						alert("send success");
+						window.location.reload();
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+				this.getData();
 
-            },
-            DeleteRequest: function (id) {
-                const that = this;
-                axios.get('/MainWindow/DeleteRequest', {
-                    params: { 'friendId': id }
+			},
+			DeleteRequest: function (id) {
+				const that = this;
+				axios.get('/MainWindow/DeleteRequest', {
+					params: { 'friendId': id }
+				})
+					.then(function (response) {
+						that.userList = response.data;
+						alert("Delete success");
+						window.location.reload();
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+				this.getData();
+			},
+			CombineCalendar: function (id) {
+				const that = this;
+				axios.get('/MainWindow/SaveFriendID', {
+					params: { 'friendId': id }
                 })
-                    .then(function (response) {
-                        that.userList = response.data;
-                        alert("Delete success");
-                        window.location.reload();
+					.then(function (response) {
+						//redirect current page CombineSchedules view
+                       var link = "@Url.Action("CombineSchedules", "MainWindow")";
+                        window.location.href = link;
                     })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-                this.getData();
-            },
-            DeleteFriend: function (id) {
+					.catch(function (error) {
+						console.log(error);
+					});
+                    this.getData();
+                
+			},
+
+
+
+            Combine: function (id) {
                 const that = this;
                 axios.get('/MainWindow/DeleteFriend', {
                     params: { 'friendId': id }
@@ -290,6 +349,8 @@
                     });
                 this.getData();
             },
+
+
             remoteMethod(query) {
                 if (query !== '') {
                     this.loading = true;
@@ -308,5 +369,6 @@
             }
         },
     })
+	/**/
 
 </script>

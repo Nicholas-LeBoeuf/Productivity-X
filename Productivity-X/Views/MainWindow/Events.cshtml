@@ -359,62 +359,74 @@
                     <th>Location</th>
                     <th>Description</th>
                     <th>Friend</th>
-                    <th>Delete</th>
+                    <th>Invitation Accepted</th>
                 </tr>
                 @{
-                    List<Events> eventlist = new List<Events>();
-                    eventlist = ViewData["eventobjects"] as List<Events>;
-                    for (int counter = 0; counter < eventlist.Count; counter++)
-                    {       
-						<tr style="background-color:@eventlist[counter].GetEventColor()">
-							<td value="@eventlist[counter].GetEventName()">
-								@eventlist[counter].GetEventName().Trim(';')
-							</td>
-							<td value="@eventlist[counter].GetDate()">
-								@eventlist[counter].GetDate()
-							</td>
-							<td value="@eventlist[counter].StartTime()">
-								@eventlist[counter].StartTime()
-							</td>
-							<td value="@eventlist[counter].EndTime()">
-								@eventlist[counter].EndTime()
-							</td>
-							<td value="@eventlist[counter].GetCategory()">
-								@eventlist[counter].GetCategory()
-							</td>
-							@if (eventlist[counter].GetLocation() != "")
-							{
-								<td value="@eventlist[counter].GetLocation()">
-									@eventlist[counter].GetLocation()
-								</td>
-							}
-							else
-							{
-								<td value="@eventlist[counter].GetLocation()">
-									No Text Written
-								</td>
-							}
-							@if (eventlist[counter].GetLocation() != "")
-							{
-								<td value="@eventlist[counter].GetDescription()">
-									@eventlist[counter].GetDescription()
-								</td>
-							}
-							else
-							{
-								<td value="@eventlist[counter].GetDescription()">
-									No Text Written
-								</td>
-							}
-							<td value="@eventlist[counter].GetFriendName()">
-								@eventlist[counter].GetFriendName()
-							</td>
-							<td>
-								<button id="deletebutton" type="button" value="@eventlist[counter]" onclick="window.location.href = '@Url.Action("DeleteEvent", "MainWindow")?eventid=@eventlist[counter].GetEventID()'">
-									<i class="fas fa-trash fa-lg"></i>
-								</button>
-							</td>
-						</tr>
+					List<UserEvents> eventlist = new List<UserEvents>();
+					eventlist = ViewData["eventobjects"] as List<UserEvents>;
+					for (int counter = 0; counter < eventlist.Count; counter++)
+					{
+					    <tr style="background-color:@eventlist[counter].GetEventColor()">
+						    <td value="@eventlist[counter].GetEventName()">
+							    @eventlist[counter].GetEventName().Trim(';')
+						    </td>
+						    <td value="@eventlist[counter].GetDate()">
+							    @eventlist[counter].GetDate()
+						    </td>
+						    <td value="@eventlist[counter].StartTime()">
+							    @eventlist[counter].StartTime()
+						    </td>
+						    <td value="@eventlist[counter].EndTime()">
+							    @eventlist[counter].EndTime()
+						    </td>
+						    <td value="@eventlist[counter].GetCategory()">
+							    @eventlist[counter].GetCategory()
+						    </td>
+						    @if (eventlist[counter].GetLocation() != "")
+						    {
+							    <td value="@eventlist[counter].GetLocation()">
+								    @eventlist[counter].GetLocation()
+							    </td>
+						    }
+						    else
+						    {
+							    <td value="@eventlist[counter].GetLocation()">
+								    No Text Written
+							    </td>
+						    }
+						    @if (eventlist[counter].GetLocation() != "")
+						    {
+							    <td value="@eventlist[counter].GetDescription()">
+								    @eventlist[counter].GetDescription()
+							    </td>
+						    }
+						    else
+						    {
+							    <td value="@eventlist[counter].GetDescription()">
+								    No Text Written
+							    </td>
+						    }
+						    <td value="@eventlist[counter].GetFriendName()">
+							    @eventlist[counter].GetFriendName()
+						    </td>
+						    @if (eventlist[counter].GetFriendName() != "Not Selected")
+						    {
+							    <td value="@eventlist[counter].DidFriendAcceptEvent()">
+								    @eventlist[counter].DidFriendAcceptEvent()
+							    </td>
+						    }
+						    else
+						    {
+							    <td>
+								    N/A
+							    </td>
+						    }
+						    <td>
+							    <button id="deletebutton" type="button" value="@eventlist[counter]" onclick="window.location.href = '@Url.Action("DeleteEvent", "MainWindow")?eventid=@eventlist[counter].GetEventID()'">
+								    <i class="fas fa-trash fa-lg"></i>
+							    </button>
+						    </td>
+					    </tr>
                     }
                 }
             </thead>
