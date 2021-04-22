@@ -175,6 +175,7 @@
 							{
 								<li class="list" v-for='list in requestList' v-bind:key='list.id' style="padding-left: 0%; color:white">
 									<!-- User can join event -->
+								</li>
 								<li style="color:white; position:center; overflow:scroll; overflow-x:hidden">
 									<button id="acceptbutton" type="button" onclick="window.location.href = '@Url.Action("AddEventFromFriendsPage", "MainWindow")?eventID=@eventlist[counter].GetEventID()'"><i class="fas fa-check-circle"></i></button>
 									<!--	<button id="deletebutton" type="button" v-on:click='DeleteEventSuggestion(list.friendid)'><i class="fas fa-minus-circle"></i></button>-->
@@ -195,7 +196,7 @@
 										<label title="Description: @eventlist[counter].GetDescription(),  location: @eventlist[counter].GetLocation()" value="@eventlist[counter].GetDescription()">Event Description</label>
 									}
 								</li>
-								</li class="list">
+								
 							}
 						}
 					</ul>
@@ -334,7 +335,7 @@
 
 
 
-            Combine: function (id) {
+            DeleteFriend: function (id) {
                 const that = this;
                 axios.get('/MainWindow/DeleteFriend', {
                     params: { 'friendId': id }
