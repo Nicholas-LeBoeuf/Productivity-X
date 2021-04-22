@@ -190,7 +190,7 @@ namespace Productivity_X.Controllers
             _manager.DeleteTask(Convert.ToInt32(taskid), userid);
 
 //            // Update Category list
-//            GetTasksHelper();
+            GetTasksHelper();
             TempData["userid"] = userid;
             return View("ToDo");
         }
