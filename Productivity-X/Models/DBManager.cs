@@ -1461,7 +1461,8 @@ namespace Productivity_X.Models
 			ue = userevents;
 			fi = friendIDS;
 			List<string> usernames = new List<string>();
-
+			// Selects the first entry in the grouping if there are duplicates
+			var bar = new List<RcmdEvntsFrndsPg>();
 			for (int counter = 0; counter < fi.Count; counter++)
 			{
 				usernames.Add(GetFriendName(fi[counter]));
@@ -1522,8 +1523,9 @@ namespace Productivity_X.Models
 				{
 					return Convert.ToDateTime(rc.GetDate()) < Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
 				});
+				bar = eventData.GroupBy(x => x.GetEventID()).Select(x => x.First()).ToList();
 			}
-			return eventData;
+			return bar;
 		}
 	}
 }
