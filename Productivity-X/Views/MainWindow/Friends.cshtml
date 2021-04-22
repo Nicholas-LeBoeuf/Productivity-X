@@ -1,4 +1,4 @@
-﻿@model Productivity_X.Models.UserCreateEvent;
+@model Productivity_X.Models.UserCreateEvent;
 @{
     ViewData["Title"] = "Friends";
     Layout = "~/Views/Shared/_MainPageLayout.cshtml";
@@ -111,23 +111,32 @@
         #acceptbutton:hover {
             background: #343434;
         }
+
+        .box {
+            background-color: #353535;
+            height: 500px;
+            border-radius: 15px;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
     </style>
+
     <link href="~/css/index.css" rel="stylesheet" />
 </head>
+
 <body>
     <div id="app" style="width: 100%;padding-left: 12%;">
         <div id="weekHeader">
             <div class="headerTitle">Friends</div>
         </div>
             <el-row :gutter="20" type="flex" justify="center" style="margin-left: auto; margin-right: auto;">
-                <el-col :span="6">
+                <el-col :span="6" class="box">
                     <div class="grid-content bg-purple">
-                        <div class="title">Friends List</div>
-                        <div id="friend" style="padding-right: 0px; padding-left: ">
+                        <div class="title" style="padding-top: 5px;">Friends List</div>
+                        <div id="friend" style="padding-right: 0px;">
                             <ul>
                                 <li class="list" v-for='list in friendList' v-bind:key='list.id'>
                                     <button id="deletebutton" type="button" v-on:click='DeleteFriend(list.friendid)'><i class="fas fa-minus-circle"></i></button>
-                                    <button id="combinebutton" type="button"><i class="fas fa-calendar-alt"></i></button>
+                                    <button id="combinebutton" type="button" onclick="window.location= '@Url.Action("CombinedSchedules", "MainWindow")'"><i class="fas fa-calendar-alt"></i></button>
                                     {{list.friendname}}
                                 </li>
                             </ul>
@@ -136,21 +145,7 @@
                 </el-col>
                 <el-col :span="6">
                     <div class="grid-content bg-purple">
-                        <div class="title">Friends Requests</div>
-                        <div id="request">
-                            <ul>
-                                <li class="list" v-for='list in requestList' v-bind:key='list.id'>
-                                    <button id="acceptbutton" type="button" v-on:click='verifyFriend(list.friendid)'><i class="fas fa-check-circle"></i></button>
-                                    <button id="deletebutton" type="button" v-on:click='DeleteRequest(list.friendid)'><i class="fas fa-minus-circle"></i></button>
-                                    {{list.friendname}}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="6">
-                    <div class="grid-content bg-purple">
-                        <div class="title">Search</div>
+                        <div class="title">Add Friend</div>
                         <template>
                             <el-select v-model="user" style="padding-left: 67px;"
                                        filterable
@@ -167,6 +162,20 @@
                                 </el-option>
                             </el-select>
                         </template>
+                    </div>
+                </el-col>
+                <el-col :span="6" class="box">
+                    <div class="grid-content bg-purple">
+                        <div class="title" style="padding-top: 5px;">Friends Requests</div>
+                        <div id="request">
+                            <ul>
+                                <li class="list" v-for='list in requestList' v-bind:key='list.id'>
+                                    <button id="acceptbutton" type="button" v-on:click='verifyFriend(list.friendid)'><i class="fas fa-check-circle"></i></button>
+                                    <button id="deletebutton" type="button" v-on:click='DeleteRequest(list.friendid)'><i class="fas fa-minus-circle"></i></button>
+                                    {{list.friendname}}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </el-col>
             </el-row>
@@ -228,9 +237,8 @@
                     .then(function (response) {
                         console.log(response);
                         alert("send success");
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 1000);
+                        window.location.reload();
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -244,9 +252,8 @@
                     .then(function (response) {
                         console.log(response);
                         alert("send success");
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 1000);
+
+                        window.location.reload();
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -260,9 +267,8 @@
                     .then(function (response) {
                         that.userList = response.data;
                         alert("Delete success");
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 1000);
+
+                        window.location.reload();
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -276,10 +282,8 @@
                     .then(function (response) {
                         that.userList = response.data;
                         alert("Delete success");
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 1000);
 
+                        window.location.reload();
                     })
                     .catch(function (error) {
                         console.log(error);

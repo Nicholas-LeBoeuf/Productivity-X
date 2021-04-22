@@ -241,33 +241,36 @@
 			text-align: center;
 			vertical-align: middle;
 			line-height: 50px;
+			font-size: 25px;
 		}
 
-		.box #today2 {
-			position: relative;
-			right: -55px;
-			top: 75px;
-			width: 300px;
-			height: 50px;
-			background: magenta;
-			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-			text-align: center;
-			vertical-align: middle;
-			line-height: 50px;
-		}
+        .box #today2 {
+            position: relative;
+            right: -55px;
+            top: 75px;
+            width: 300px;
+            height: 50px;
+            background: magenta;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 50px;
+            font-size: 25px;
+        }
 
-		.box #today3 {
-			position: relative;
-			right: -55px;
-			top: 175px;
-			width: 300px;
-			height: 100px;
-			background: #372304;
-			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-			text-align: center;
-			vertical-align: middle;
-			line-height: 100px;
-		}
+        .box #today3 {
+            position: relative;
+            right: -55px;
+            top: 175px;
+            width: 300px;
+            height: 100px;
+            background: #372304;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 100px;
+            font-size: 25px;
+        }
 
 		ul.categorynames li span {
 			font-size: 26px;
@@ -359,7 +362,7 @@
 				<a href='@Url.Action("Today", "MainWindow")'>
 					<div class="boxtitle" style="color: white;">Today</div>
 				</a>
-				<div class="currentday">
+				<div class="currentday" style="font-size: 20px; font-weight: bold;">
 					<span id="currentWeek"></span>&emsp;
 					<span id="currentMonth"></span>&emsp;
 					<span id="currentdate"></span>
@@ -438,15 +441,22 @@
 					@{
 						List<FriendsView> friendslist = new List<FriendsView>();
 						friendslist = ViewData["friendobjects"] as List<FriendsView>;
-						if (friendslist.Count == 0)
+						if(friendslist.Count == 0)
 						{
-							<li style="color:dodgerblue"><span style="color: white">No Connections</span></li>
+							<li style="color:dodgerblue"><span style="color: white">No Connections or Friend Request Still in Review</span></li>
 						}
-						else
+						for (int counter = 0; counter < friendslist.Count; counter++)
 						{
-							for (int counter = 0; counter < friendslist.Count; counter++)
+							if (friendslist.Count == 0 || friendslist[counter].request == false)
 							{
-								<li style="color: dodgerblue"><span value="friendslist[counter].friendname" style="color: white">@friendslist[counter].friendname</span></li>
+								<li style="color:dodgerblue"><span style="color: white">@friendslist[counter].friendname request still in review!</span></li>
+							}
+							else
+							{
+								if (friendslist[counter].request == true)
+								{
+									<li style="color: dodgerblue"><span value="friendslist[counter].friendname" style="color: white">@friendslist[counter].friendname</span></li>
+								}
 							}
 						}
 					}

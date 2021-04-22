@@ -13,8 +13,5 @@ namespace Productivity_X.Models
         public string color { get; set; }
 
         public string categoryname { get; set; }
-
-
-
     }
 }

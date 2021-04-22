@@ -75,7 +75,7 @@ body {
     top: 0px;
     left: 50%;
     width: 50%;
-    height: 795px;
+    height: 100%;
     z-index: -1;
     background-image: url('../Images/ProductivityXLogin.png');
     background-position: 0 0;
@@ -89,7 +89,7 @@ body {
     top: 0px;
     right: 50%;
     width: 50%;
-    height: 795px;
+    height: 100%;
     z-index: -1;
     background-image: url(../Images/background.jpg);
     background-position: 0 0;
@@ -103,7 +103,7 @@ body {
     top: 0px;
     right: 50%;
     width: 1%;
-    height: 795px;
+    height: 100%;
     z-index: -1;
     background-image: url(../Images/middleBar.PNG);
     background-position: 0 0;
