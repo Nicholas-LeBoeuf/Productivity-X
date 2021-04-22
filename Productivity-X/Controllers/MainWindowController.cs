@@ -115,7 +115,7 @@ namespace Productivity_X.Controllers
 		{
             int userid = (int)TempData["userid"];
             _manager.DeleteEvent(Convert.ToInt32(eventid), userid);
- //           GetEventsHelper();
+            GetEventsHelper();
             TempData["userid"] = userid;
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
