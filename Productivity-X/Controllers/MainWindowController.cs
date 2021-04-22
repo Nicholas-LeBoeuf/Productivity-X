@@ -71,7 +71,7 @@ namespace Productivity_X.Controllers
 
             ViewData["friendobjects"] = _manager.GetFriends(userid);
 
-//            ViewData["categoryobjects"] = categoriesSaved;
+            GetCategoriesHelper();
             TempData["userid"] = userid;
             TempData["ProfilePicFromDB"] = TempData["ProfilePicFromDB"] as string;
             TempData.Keep("ProfilePicFromDB");
