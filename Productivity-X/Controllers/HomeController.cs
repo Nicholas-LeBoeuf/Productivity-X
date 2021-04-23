@@ -59,10 +59,6 @@ namespace Productivity_X.Controllers
                 {
                     // Delete events that are older than 10 days...
                     bOldEventsExist = _manager.DeleteEventsGreaterThan10Days(nUserID);
-					if (bOldEventsExist)
-					{
-                        ViewBag.message = "Deleted events that are greater than 10 days!";
-					}
 
                     GetCategoriesHelper();
 
