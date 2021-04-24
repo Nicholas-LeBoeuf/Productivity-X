@@ -119,6 +119,28 @@
             border-radius: 15px;
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
+
+
+
+
+		.RecommendedEvents {
+			color: white;
+			font-size: 20px;
+			font-weight: bold;
+			text-align: center;
+			height: 200%
+		}
+
+		.EventInvitations {
+			color: white;
+			font-size: 20px;
+			font-weight: bold;
+			text-align: center;
+			height: 200%
+		}
+
+
+
     </style>
 
     <link href="~/css/index.css" rel="stylesheet" />
@@ -165,41 +187,74 @@
                         </el-select>
                     </template>
 
-                    <div class="title" style="padding-top:6%">Recommended Events</div>
-                    <ul>
-                        @{
-                            List<RcmdEvntsFrndsPg> eventlist = new List<RcmdEvntsFrndsPg>();
-                            eventlist = ViewData["EventsRecommended"] as List<RcmdEvntsFrndsPg>;
-                            for (int counter = 0; counter < eventlist.Count; counter++)
-                            {
-                                <li class="list" v-for='list in requestList' v-bind:key='list.id' style="padding-left: 0%; color:white">
-                                    <!-- User can join event -->
-                                <li style="color:white; position:center; overflow:scroll; overflow-x:hidden">
-                                    <button id="acceptbutton" type="button" onclick="window.location.href = '@Url.Action("AddEventFromFriendsPage", "MainWindow")?eventID=@eventlist[counter].GetEventID()'"><i class="fas fa-check-circle"></i></button>
-                                    <!--	<button id="deletebutton" type="button" v-on:click='DeleteEventSuggestion(list.friendid)'><i class="fas fa-minus-circle"></i></button>-->
-                                    @if (eventlist[counter].GetFriendName() != "Not Selected")
-                                    {
-                                        <label title="Friend name" value="@eventlist[counter].GetFriendName()">@eventlist[counter].GetFriendName() </label>
-                                    }
-                                    else
-                                    {
-                                        <label title="No Friend Tied to Event">N/A </label>
-                                    }
-                                    <label title="Event name" value="@eventlist[counter].GetEventName()">@eventlist[counter].GetEventName() </label>
-                                    <label title="Event Date" value="@eventlist[counter].GetDate()">@eventlist[counter].GetDate() </label>
-                                    <label title="Start at" value="@eventlist[counter].StartTime()">@eventlist[counter].StartTime() </label>
-                                    <label title="End at" value="@eventlist[counter].EndTime()">@eventlist[counter].EndTime() </label>
-                                    @if (eventlist[counter].GetDescription() != "" && eventlist[counter].GetLocation() != "")
-                                    {
-                                        <label title="Description: @eventlist[counter].GetDescription(),  location: @eventlist[counter].GetLocation()" value="@eventlist[counter].GetDescription()">Event Description</label>
-                                    }
-                                </li>
-                                </li class="list">
-                            }
-                        }
-                    </ul>
-                </div>
-            </el-col>
+					<div class="title" style="padding-top:6%">Recommended Events</div>
+					<ul>
+						@{
+							List<RcmdEvntsFrndsPg> eventlist = new List<RcmdEvntsFrndsPg>();
+							eventlist = ViewData["EventsRecommended"] as List<RcmdEvntsFrndsPg>;
+							for (int counter = 0; counter < eventlist.Count; counter++)
+							{							
+								<!-- User can join event -->
+								<li style="color:white; position:center; overflow-x:auto">
+									<button id="acceptbutton" type="button" onclick="window.location.href = '@Url.Action("AddEventFromFriendsPage", "MainWindow")?eventID=@eventlist[counter].GetEventID()'"><i class="fas fa-check-circle"></i></button>
+
+									@if (eventlist[counter].GetFriendName() != "Not Selected")
+									{
+										<button id="deletebutton" type="button" onclick="window.location.href = '@Url.Action("DeleteEventFromFriendsPage", "MainWindow")?eventID=@eventlist[counter].GetEventID()'"><i class="fas fa-minus-circle"></i></button>
+										<label title="Friend name" value="@eventlist[counter].GetFriendName()">@eventlist[counter].GetFriendName() </label>
+									}
+									else
+									{
+										<label title="No Friend Tied to Event">N/A </label>
+									}
+									<label title="Event name" value="@eventlist[counter].GetEventName()">@eventlist[counter].GetEventName() </label>
+									<label title="Event Date" value="@eventlist[counter].GetDate()">@eventlist[counter].GetDate() </label>
+									<label title="Start at" value="@eventlist[counter].StartTime()">@eventlist[counter].StartTime() </label>
+									<label title="End at" value="@eventlist[counter].EndTime()">@eventlist[counter].EndTime() </label>
+									@if (eventlist[counter].GetDescription() != "" && eventlist[counter].GetLocation() != "")
+									{
+										<label title="Description: @eventlist[counter].GetDescription(),  location: @eventlist[counter].GetLocation()" value="@eventlist[counter].GetDescription()">Event Description</label>
+									}
+								</li>
+								
+							}
+						}
+					</ul>
+					<div>
+
+					<div class="EventInvitations" style="padding-top:39%">Event Invitations</div>
+					<ul>
+						@{
+							List<RcmdEvntsFrndsPg> eventlist2 = new List<RcmdEvntsFrndsPg>();
+							eventlist2 = ViewData["FriendInvitationEvent"] as List<RcmdEvntsFrndsPg>;
+							for (int counter = 0; counter < eventlist2.Count; counter++)
+							{
+								<li style="color:white; position:center; overflow-x:hidden">
+									<button id="acceptbutton" type="button" onclick="window.location.href = '@Url.Action("AddEventFromFriendsPage", "MainWindow")?eventID=@eventlist2[counter].GetEventID()'"><i class="fas fa-check-circle"></i></button>
+									<button id="deletebutton" type="button" onclick="window.location.href = '@Url.Action("DeleteEventFromFriendsPage", "MainWindow")?eventID=@eventlist2[counter].GetEventID()'"><i class="fas fa-minus-circle"></i></button>
+									@if (eventlist2[counter].GetFriendName() != "Not Selected")
+									{
+										<label title="Friend name" value="@eventlist2[counter].GetFriendName()">@eventlist2[counter].GetFriendName() </label>
+									}
+									else
+									{
+										<label title="No Friend Tied to Event">N/A </label>
+									}
+									<label title="Event name" value="@eventlist2[counter].GetEventName()">@eventlist2[counter].GetEventName() </label>
+									<label title="Event Date" value="@eventlist2[counter].GetDate()">@eventlist2[counter].GetDate() </label>
+									<label title="Start at" value="@eventlist2[counter].StartTime()">@eventlist2[counter].StartTime() </label>
+									<label title="End at" value="@eventlist2[counter].EndTime()">@eventlist2[counter].EndTime() </label>
+									@if (eventlist2[counter].GetDescription() != "" && eventlist2[counter].GetLocation() != "")
+									{
+										<label title="Description: @eventlist2[counter].GetDescription(),  location: @eventlist2[counter].GetLocation()" value="@eventlist2[counter].GetDescription()">Event Description</label>
+									}
+								</li>
+							}
+						}
+					</ul>
+					</div>
+				</div>
+			</el-col>
 
 
 
