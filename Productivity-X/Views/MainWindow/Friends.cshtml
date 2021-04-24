@@ -38,6 +38,7 @@
             font-size: 18px;
             padding-left: 41.6px;
             padding-right: 41.6px;
+            padding-top: 5px;
         }
 
         #friend {
@@ -139,6 +140,12 @@
 			height: 200%
 		}
 
+        .pfp {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-size: cover;
+        }
 
 
     </style>
@@ -160,7 +167,7 @@
                             <li class="list" v-for='list in friendList' v-bind:key='list.id'>
                                 <button id="deletebutton" type="button" v-on:click='DeleteFriend(list.friendid)'><i class="fas fa-minus-circle"></i></button>
                                 <button id="combinebutton" type="button" v-on:click='CombineCalendar(list.friendid)'><i class="fas fa-calendar-alt"></i></button>
-                                <img :src="list.profilepic" style="width:50px;height:50px;" />
+                                <img :src="list.profilepic" class="pfp" @*style="width:50px;height:50px;"*@ />
                                 {{ list.friendname}}
                             </li>
                         </ul>
