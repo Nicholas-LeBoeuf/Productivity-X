@@ -364,6 +364,7 @@ namespace Productivity_X.Controllers
             GetFriendsRequest();
             int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
             ViewData["EventsRecommended"] = FindRecommendedEvents();
+            ViewData["FriendInvitationEvent"] = FindEventsWithFriendInvitation();
             TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(userid);
             TempData.Keep("ProfilePicFromDB");
             return View();
@@ -434,6 +435,15 @@ namespace Productivity_X.Controllers
             return list;
         }
 
+        // Finds events of friends that are during your freetime and events that friends may have invited you too  
+        public List<RcmdEvntsFrndsPg> FindEventsWithFriendInvitation()
+        {
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("userid"));
+            List<RcmdEvntsFrndsPg> list = new List<RcmdEvntsFrndsPg>();
+            list = _manager.GetFriendInvitationEvents(userid, _manager.GetFriendIDs(userid));
+            return list;
+        }
+
         public IActionResult AddEventFromFriendsPage(int? eventid)
 		{
             _manager.SaveRecommendedEvent(Convert.ToInt32(eventid), Convert.ToInt32(HttpContext.Session.GetString("userid")));
@@ -441,6 +451,18 @@ namespace Productivity_X.Controllers
             TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(Convert.ToInt32(HttpContext.Session.GetString("userid")));
             TempData.Keep("ProfilePicFromDB");
             ViewData["EventsRecommended"] = FindRecommendedEvents();
+            ViewData["FriendInvitationEvent"] = FindEventsWithFriendInvitation();
+            return View("Friends");
+        }
+
+        public IActionResult DeleteEventFromFriendsPage(int? eventid)
+        {
+            _manager.DeleteRecommendedEvent(Convert.ToInt32(eventid), Convert.ToInt32(HttpContext.Session.GetString("userid")));
+            ViewBag.message = "Successfully Saved Recommended Event!";
+            TempData["ProfilePicFromDB"] = _manager.GetProfilePicFromDB(Convert.ToInt32(HttpContext.Session.GetString("userid")));
+            TempData.Keep("ProfilePicFromDB");
+            ViewData["EventsRecommended"] = FindRecommendedEvents();
+            ViewData["FriendInvitationEvent"] = FindEventsWithFriendInvitation();
             return View("Friends");
         }
 
