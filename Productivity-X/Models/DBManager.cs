@@ -1520,17 +1520,66 @@ namespace Productivity_X.Models
 					return Convert.ToDateTime(ue.GetDate()) < Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
 				});
 
-				for (int counter = 0; counter < fi.Count; counter++)
+				if (ue.Count != 0)
 				{
-					for (int index = 0; index < ue.Count; index++)
+					for (int counter = 0; counter < fi.Count; counter++)
+					{
+						for (int index = 0; index < ue.Count; index++)
+						{
+							MySqlCommand FindEventData = conn.CreateCommand();
+							FindEventData.CommandText = "select * from Calendar_Schema.events_tbl where user_id=@userid and start_at not between @startat and @endat order by Rand() limit 10";
+							//		FindEventData.CommandText = "select * from Calendar_Schema.events_tbl where user_id=@userid and start_at not between @startat and @endat and event_date != @date bacceptevent = true order by Rand() limit 2";
+							FindEventData.Parameters.AddWithValue("@userid", fi[counter]);
+							FindEventData.Parameters.AddWithValue("@startat", ue[counter].StartTime());
+							FindEventData.Parameters.AddWithValue("@endat", ue[counter].EndTime());
+							//FindEventData.Parameters.AddWithValue("@date", Convert.ToDateTime(ue[counter].GetDate()));
+
+							FindEventData.ExecuteNonQuery();
+
+							// Execute the SQL command against the DB:
+							MySqlDataReader reader = FindEventData.ExecuteReader();
+							while (reader.Read())
+							{
+								eventid = Convert.ToInt32(reader[1]);
+								//eventname
+								eventDataList[0] = (Convert.ToString(reader[2]));
+								//event_date
+								eventDataList[1] = (Convert.ToString(reader[3]));
+								//start_at
+								eventDataList[2] = (Convert.ToString(reader[4]));
+								//end_at
+								eventDataList[3] = (Convert.ToString(reader[5]));
+								//location
+								eventDataList[4] = (Convert.ToString(reader[6]));
+								//description
+								eventDataList[5] = (Convert.ToString(reader[7]));
+								//categoryname
+								eventDataList[6] = "Friends";
+								//friendname
+								eventDataList[7] = (usernames[counter]);
+								//bacceptevent
+								eventDataList[8] = (Convert.ToBoolean(reader[10]));
+
+								eventData.Add(new RcmdEvntsFrndsPg(eventDataList, eventid));
+							}
+							reader.Close();
+						}
+					}
+
+					eventData.RemoveAll(delegate (RcmdEvntsFrndsPg rc)
+					{
+						return Convert.ToDateTime(rc.GetDate()) < Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+					});
+					bar = eventData.GroupBy(x => x.GetEventID()).Select(x => x.First()).ToList();
+					return bar;
+				}
+				else
+				{
+					for (int counter = 0; counter < fi.Count; counter++)
 					{
 						MySqlCommand FindEventData = conn.CreateCommand();
-						 FindEventData.CommandText = "select * from Calendar_Schema.events_tbl where user_id=@userid and start_at not between @startat and @endat order by Rand() limit 10";
-				//		FindEventData.CommandText = "select * from Calendar_Schema.events_tbl where user_id=@userid and start_at not between @startat and @endat and event_date != @date bacceptevent = true order by Rand() limit 2";
+						FindEventData.CommandText = "select * from Calendar_Schema.events_tbl where user_id=@userid order by Rand() limit 2";
 						FindEventData.Parameters.AddWithValue("@userid", fi[counter]);
-						FindEventData.Parameters.AddWithValue("@startat", ue[counter].StartTime());
-						FindEventData.Parameters.AddWithValue("@endat", ue[counter].EndTime());
-						//FindEventData.Parameters.AddWithValue("@date", Convert.ToDateTime(ue[counter].GetDate()));
 
 						FindEventData.ExecuteNonQuery();
 
@@ -1563,13 +1612,8 @@ namespace Productivity_X.Models
 						reader.Close();
 					}
 				}
-				eventData.RemoveAll(delegate (RcmdEvntsFrndsPg rc)
-				{
-					return Convert.ToDateTime(rc.GetDate()) < Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
-				});
-				bar = eventData.GroupBy(x => x.GetEventID()).Select(x => x.First()).ToList();
+				return eventData;
 			}
-			return bar;
 		}
 
 		// Find all events where user has been invited too
