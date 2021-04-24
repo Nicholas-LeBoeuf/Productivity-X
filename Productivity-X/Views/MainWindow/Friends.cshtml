@@ -138,6 +138,7 @@
                             <li class="list" v-for='list in friendList' v-bind:key='list.id'>
                                 <button id="deletebutton" type="button" v-on:click='DeleteFriend(list.friendid)'><i class="fas fa-minus-circle"></i></button>
                                 <button id="combinebutton" type="button" v-on:click='CombineCalendar(list.friendid)'><i class="fas fa-calendar-alt"></i></button>
+                                <img :src="list.profilepic" style="width:50px;height:50px;" />
                                 {{ list.friendname}}
                             </li>
                         </ul>
@@ -210,6 +211,7 @@
                             <li class="list" v-for='list in requestList' v-bind:key='list.id'>
                                 <button id="acceptbutton" type="button" v-on:click='verifyFriend(list.friendid)'><i class="fas fa-check-circle"></i></button>
                                 <button id="deletebutton" type="button" v-on:click='DeleteRequest(list.friendid)'><i class="fas fa-minus-circle"></i></button>
+                                <img :src="list.profilepic" style="width:50px;height:50px;" />
                                 {{list.friendname}}
                             </li>
                         </ul>

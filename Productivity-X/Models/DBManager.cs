@@ -1364,7 +1364,7 @@ namespace Productivity_X.Models
 				conn.Open();
 				MySqlCommand FindEvents = conn.CreateCommand();
 				FindEvents.Parameters.AddWithValue("@user_id", userid);
-				FindEvents.CommandText = "SELECT u.user_id,u.username,u.email,f.request,f.id FROM Calendar_Schema.friends_tbl f join user_tbl u on f.friend_id = u.user_id where f.user_id = @user_id and f.request = 0;";
+				FindEvents.CommandText = "SELECT u.user_id,u.username,u.email,f.request,f.id,u.profilepic FROM Calendar_Schema.friends_tbl f join user_tbl u on f.friend_id = u.user_id where f.user_id = @user_id and f.request = 0;";
 
 				MySqlDataReader reader = FindEvents.ExecuteReader();
 				while (reader.Read()) // Read returns false if the user does not exist!
@@ -1375,7 +1375,8 @@ namespace Productivity_X.Models
 						friendname = reader[1].ToString(),
 						friendemail = reader[2].ToString(),
 						request = Convert.ToBoolean(reader[3].ToString()),
-						id = Convert.ToInt32(reader[4])
+						id = Convert.ToInt32(reader[4]),
+						profilepic = reader[5].ToString()
 					});
 				}
 				reader.Close();
@@ -1391,7 +1392,7 @@ namespace Productivity_X.Models
 				conn.Open();
 				MySqlCommand FindEvents = conn.CreateCommand();
 				FindEvents.Parameters.AddWithValue("@user_id", userid);
-				FindEvents.CommandText = "SELECT u.user_id,u.username,u.email,f.request,f.id FROM Calendar_Schema.friends_tbl f join user_tbl u on f.friend_id = u.user_id where f.user_id = @user_id and f.request = 1;";
+				FindEvents.CommandText = "SELECT u.user_id,u.username,u.email,f.request,f.id,u.profilepic FROM Calendar_Schema.friends_tbl f join user_tbl u on f.friend_id = u.user_id where f.user_id = @user_id and f.request = 1;";
 
 				MySqlDataReader reader = FindEvents.ExecuteReader();
 				while (reader.Read()) // Read returns false if the user does not exist!
@@ -1402,7 +1403,8 @@ namespace Productivity_X.Models
 						friendname = reader[1].ToString(),
 						friendemail = reader[2].ToString(),
 						request = Convert.ToBoolean(reader[3].ToString()),
-						id = Convert.ToInt32(reader[4])
+						id = Convert.ToInt32(reader[4]),
+						profilepic = reader[5].ToString()
 					});
 				}
 				reader.Close();
