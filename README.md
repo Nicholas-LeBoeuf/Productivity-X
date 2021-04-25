@@ -24,6 +24,7 @@ The purpose of this application is to allow you to enhance your productivity by 
 6) Category page - Allows you to see what categories you have created. Able to create a category on this same page in order to put a label on events that may happen regularly, such as your classes.
 8) To-Do - You are able to create tasks that may need to get completed for today. If you were not able to finish a task from the day before, don't worry, it will display in a "Recommended Tasks" box to the right of the To-Do list.
 9) Friends section - Invite a friend to an event and find common time between the two of you. 
+10) Combined Schedules: Combine you and your friends calendars for the week. See your friends events marked with pink and your events marked with green.
 
 # Future Features
 - Weekly and Today sections on Main page will update when you add/delete an event
