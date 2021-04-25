@@ -1085,7 +1085,7 @@ namespace Productivity_X.Models
 
 				if (nOldEvents > 0)
 				{
-					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date = curdate() - interval 1 day and complete = @finished", conn))
+					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date <= curdate() - interval 1 day and complete = @finished", conn))
 					{
 						cmd.Parameters.AddWithValue("@userid", userid);
 						cmd.Parameters.AddWithValue("@finished", true);
@@ -1108,7 +1108,7 @@ namespace Productivity_X.Models
 					}
 
 					// Check for events that have not been completed and keep for next day
-					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date = curdate() - interval 1 day and complete = @finished", conn))
+					using (MySqlCommand cmd = new MySqlCommand("select task_id from Calendar_Schema.todo_tbl where user_id=@userid and task_date <= curdate() - interval 1 day and complete = @finished", conn))
 					{
 						cmd.Parameters.AddWithValue("@userid", userid);
 						cmd.Parameters.AddWithValue("@finished", false);
