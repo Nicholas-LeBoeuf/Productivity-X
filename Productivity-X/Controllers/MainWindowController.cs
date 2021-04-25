@@ -90,6 +90,11 @@ namespace Productivity_X.Controllers
                 bRet = false;
             }*/
 
+            if (createEvent.eventName == null || createEvent.event_date == null || createEvent.start_at == null || createEvent.end_at == null || createEvent.category == null)
+			{
+                bRet = false;
+			}
+
             int userid = (int)TempData["userid"];
             ViewData["friendobjects"] = _manager.GetFriends(userid);
             // True, save event to the database
