@@ -102,9 +102,8 @@
 
 				<form asp-controller="MainWindow" asp-action="UploadImage" method="post" enctype="multipart/form-data">
 					<div class="form-group">
-						<label style="color:black; text-align:center">Make sure image chosen is saved in wwwroot/Images file before continuing! Press "upload image" when finished!</label>
-						<input asp-for="MyImage" type="file" id="user_image" style="display: normal; color:black" />
-						<div class="form-group">
+						<input asp-for="MyImage" type="file" id="user_image" style="display: normal; color:black; margin-left: 15%;" />
+						<div class="form-group" style="text-align: center;">
 							<input type="submit" value="Upload Image" class="btn btn-default" style="color:black; text-align:center" />
 						</div>
 					</div>

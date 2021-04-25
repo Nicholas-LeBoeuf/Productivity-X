@@ -121,25 +121,6 @@
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
-
-
-
-		.RecommendedEvents {
-			color: white;
-			font-size: 20px;
-			font-weight: bold;
-			text-align: center;
-			height: 200%
-		}
-
-		.EventInvitations {
-			color: white;
-			font-size: 20px;
-			font-weight: bold;
-			text-align: center;
-			height: 200%
-		}
-
         .pfp {
             width: 45px;
             height: 45px;
@@ -159,16 +140,16 @@
             <div class="headerTitle">Friends</div>
         </div>
         <el-row :gutter="20" type="flex" justify="center" style="margin-left: auto; margin-right: auto;">
-            <el-col :span="6" class="box">
+            <el-col :span="7" class="box">
                 <div class="grid-content bg-purple">
                     <div class="title" style="padding-top: 5px;">Friends List</div>
                     <div id="friend" style="padding-right: 0px;">
-                        <ul>
+                        <ul style="font-size: 20px;">
                             <li class="list" v-for='list in friendList' v-bind:key='list.id'>
                                 <button id="deletebutton" type="button" v-on:click='DeleteFriend(list.friendid)'><i class="fas fa-minus-circle"></i></button>
                                 <button id="combinebutton" type="button" v-on:click='CombineCalendar(list.friendid)'><i class="fas fa-calendar-alt"></i></button>
-                                <img :src="list.profilepic" class="pfp" @*style="width:50px;height:50px;"*@ />
-                                {{ list.friendname}}
+                                <img :src="list.profilepic" class="pfp" />
+                                &nbsp; {{ list.friendname}}
                             </li>
                         </ul>
                     </div>
@@ -194,104 +175,116 @@
                         </el-select>
                     </template>
 
-					<div class="title" style="padding-top:6%">Recommended Events</div>
-					<ul>
-						@{
-							List<RcmdEvntsFrndsPg> eventlist = new List<RcmdEvntsFrndsPg>();
-							eventlist = ViewData["EventsRecommended"] as List<RcmdEvntsFrndsPg>;
-							for (int counter = 0; counter < eventlist.Count; counter++)
-							{							
-								<!-- User can join event -->
-								<li style="color:white; position:center; overflow-x:auto">
-									<button id="acceptbutton" type="button" onclick="window.location.href = '@Url.Action("AddEventFromFriendsPage", "MainWindow")?eventID=@eventlist[counter].GetEventID()'"><i class="fas fa-check-circle"></i></button>
+                    <div>
 
-									@if (eventlist[counter].GetFriendName() != "Not Selected")
-									{
-										<button id="deletebutton" type="button" onclick="window.location.href = '@Url.Action("DeleteEventFromFriendsPage", "MainWindow")?eventID=@eventlist[counter].GetEventID()'"><i class="fas fa-minus-circle"></i></button>
-										<label title="Friend name" value="@eventlist[counter].GetFriendName()">@eventlist[counter].GetFriendName() </label>
-									}
-									else
-									{
-										<label title="No Friend Tied to Event">N/A </label>
-									}
-									<label title="Event name" value="@eventlist[counter].GetEventName()">@eventlist[counter].GetEventName() </label>
-									<label title="Event Date" value="@eventlist[counter].GetDate()">@eventlist[counter].GetDate() </label>
-									<label title="Start at" value="@eventlist[counter].StartTime()">@eventlist[counter].StartTime() </label>
-									<label title="End at" value="@eventlist[counter].EndTime()">@eventlist[counter].EndTime() </label>
-									@if (eventlist[counter].GetDescription() != "" && eventlist[counter].GetLocation() != "")
-									{
-										<label title="Description: @eventlist[counter].GetDescription(),  location: @eventlist[counter].GetLocation()" value="@eventlist[counter].GetDescription()">Event Description</label>
-									}
-								</li>
-								
-							}
-						}
-					</ul>
-					<div>
+                        
+                        </div>
+                </div>
+            </el-col>
 
-					<div class="EventInvitations" style="padding-top:39%">Event Invitations</div>
-					<ul>
-						@{
-							List<RcmdEvntsFrndsPg> eventlist2 = new List<RcmdEvntsFrndsPg>();
-							eventlist2 = ViewData["FriendInvitationEvent"] as List<RcmdEvntsFrndsPg>;
-							for (int counter = 0; counter < eventlist2.Count; counter++)
-							{
-								<li style="color:white; position:center; overflow-x:hidden">
-									<button id="acceptbutton" type="button" onclick="window.location.href = '@Url.Action("AddEventFromFriendsPage", "MainWindow")?eventID=@eventlist2[counter].GetEventID()'"><i class="fas fa-check-circle"></i></button>
-									<button id="deletebutton" type="button" onclick="window.location.href = '@Url.Action("DeleteEventFromFriendsPage", "MainWindow")?eventID=@eventlist2[counter].GetEventID()'"><i class="fas fa-minus-circle"></i></button>
-									@if (eventlist2[counter].GetFriendName() != "Not Selected")
-									{
-										<label title="Friend name" value="@eventlist2[counter].GetFriendName()">@eventlist2[counter].GetFriendName() </label>
-									}
-									else
-									{
-										<label title="No Friend Tied to Event">N/A </label>
-									}
-									<label title="Event name" value="@eventlist2[counter].GetEventName()">@eventlist2[counter].GetEventName() </label>
-									<label title="Event Date" value="@eventlist2[counter].GetDate()">@eventlist2[counter].GetDate() </label>
-									<label title="Start at" value="@eventlist2[counter].StartTime()">@eventlist2[counter].StartTime() </label>
-									<label title="End at" value="@eventlist2[counter].EndTime()">@eventlist2[counter].EndTime() </label>
-									@if (eventlist2[counter].GetDescription() != "" && eventlist2[counter].GetLocation() != "")
-									{
-										<label title="Description: @eventlist2[counter].GetDescription(),  location: @eventlist2[counter].GetLocation()" value="@eventlist2[counter].GetDescription()">Event Description</label>
-									}
-								</li>
-							}
-						}
-					</ul>
-					</div>
-				</div>
-			</el-col>
-
-
-
-            <el-col :span="6" class="box">
+            <el-col :span="7" class="box">
                 <div class="grid-content bg-purple">
                     <div class="title" style="padding-top: 5px;">Friends Requests</div>
                     <div id="request">
-                        <ul>
+                        <ul style="font-size: 20px;">
                             <li class="list" v-for='list in requestList' v-bind:key='list.id'>
                                 <button id="acceptbutton" type="button" v-on:click='verifyFriend(list.friendid)'><i class="fas fa-check-circle"></i></button>
                                 <button id="deletebutton" type="button" v-on:click='DeleteRequest(list.friendid)'><i class="fas fa-minus-circle"></i></button>
-                                <img :src="list.profilepic" style="width:50px;height:50px;" />
-                                {{list.friendname}}
+                                <img :src="list.profilepic" class="pfp" />
+                                &nbsp; {{list.friendname}}
                             </li>
                         </ul>
                     </div>
                 </div>
             </el-col>
         </el-row>
+
+        <el-row :gutter="20" type="flex" justify="center" style="margin-left: auto; margin-right: auto;">
+            <el-col :span="11" class="box" style="margin: 18px; overflow-y: auto;">
+                <div class="grid-content bg-purple">
+                    <div class="title" style="padding-top:5px">Recommended Events</div>
+                    <ul style="font-size: 20px;">
+                        @{ List<RcmdEvntsFrndsPg> eventlist = new List<RcmdEvntsFrndsPg>();
+                            eventlist = ViewData["EventsRecommended"] as List<RcmdEvntsFrndsPg>;
+                            for (int counter = 0; counter < eventlist.Count; counter++)
+                            { <!-- User can join event -->
+                                <li style="color:white; position:center; overflow-x:auto">
+                                    <button id="acceptbutton" type="button" onclick="window.location.href = '@Url.Action("AddEventFromFriendsPage", "MainWindow")?eventID=@eventlist[counter].GetEventID()'"><i class="fas fa-check-circle"></i></button>
+
+                                    @if (eventlist[counter].GetFriendName() != "Not Selected")
+                                    {
+                                        <button id="deletebutton" type="button" onclick="window.location.href = '@Url.Action("DeleteEventFromFriendsPage", "MainWindow")?eventID=@eventlist[counter].GetEventID()'"><i class="fas fa-minus-circle"></i></button>
+                                        <label title="Friend name" value="@eventlist[counter].GetFriendName()">@eventlist[counter].GetFriendName() </label> 
+                                    }
+                                    else
+                                    {
+                                        <label title="No Friend Tied to Event">N/A </label>
+                                    }
+
+                                    <label title="Event name" value="@eventlist[counter].GetEventName()">@eventlist[counter].GetEventName() </label>
+                                    <label title="Event Date" value="@eventlist[counter].GetDate()">@eventlist[counter].GetDate() </label>
+                                    <label title="Start at" value="@eventlist[counter].StartTime()">@eventlist[counter].StartTime() </label>
+                                    <label title="End at" value="@eventlist[counter].EndTime()">@eventlist[counter].EndTime() </label>
+
+                                    @if (eventlist[counter].GetDescription() != "" && eventlist[counter].GetLocation() != "")
+                                    {
+                                        <label title="Description: @eventlist[counter].GetDescription(),  location: @eventlist[counter].GetLocation()" value="@eventlist[counter].GetDescription()">Event Description</label>
+                                    }
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </el-col>
+
+            <el-col :span="11" class="box" style="margin: 18px; overflow-y: auto;">
+                <div class="grid-content bg-purple">
+                    <div class="title" style="padding-top:5px">Event Invitations</div>
+                    <ul style="font-size: 20px;">
+                        @{ List<RcmdEvntsFrndsPg> eventlist2 = new List<RcmdEvntsFrndsPg>();
+                            eventlist2 = ViewData["FriendInvitationEvent"] as List<RcmdEvntsFrndsPg>;
+                            for (int counter = 0; counter < eventlist2.Count; counter++)
+                            {
+                                <li style="color:white; position:center; overflow-x:hidden">
+                                    <button id="acceptbutton" type="button" onclick="window.location.href = '@Url.Action("AddEventFromFriendsPage", "MainWindow")?eventID=@eventlist2[counter].GetEventID()'"><i class="fas fa-check-circle"></i></button>
+                                    <button id="deletebutton" type="button" onclick="window.location.href = '@Url.Action("DeleteEventFromFriendsPage", "MainWindow")?eventID=@eventlist2[counter].GetEventID()'"><i class="fas fa-minus-circle"></i></button>
+                                    @if (eventlist2[counter].GetFriendName() != "Not Selected")
+                                    {
+                                        <label title="Friend name" value="@eventlist2[counter].GetFriendName()">@eventlist2[counter].GetFriendName() </label>
+                                    }
+                                    else
+                                    {
+                                        <label title="No Friend Tied to Event">N/A </label>
+                                    }
+
+                                        <label title="Event name" value="@eventlist2[counter].GetEventName()">@eventlist2[counter].GetEventName() </label>
+                                        <label title="Event Date" value="@eventlist2[counter].GetDate()">@eventlist2[counter].GetDate() </label>
+                                        <label title="Start at" value="@eventlist2[counter].StartTime()">@eventlist2[counter].StartTime() </label>
+                                        <label title="End at" value="@eventlist2[counter].EndTime()">@eventlist2[counter].EndTime() </label>
+
+                                    @if (eventlist2[counter].GetDescription() != "" && eventlist2[counter].GetLocation() != "")
+                                    {
+                                        <label title="Description: @eventlist2[counter].GetDescription(),  location: @eventlist2[counter].GetLocation()" value="@eventlist2[counter].GetDescription()">Event Description</label>
+                                    }
+                                </li>
+                            } 
+                        }
+                    </ul>
+                </div>
+            </el-col>
+        </el-row>
     </div>
 </body>
 </html>
+
 <script src="~/js/vue.js"></script>
 <script src="~/js/vuetify.js"></script>
 <script src="~/js/axios.js"></script>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- import JavaScript -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-<script>
 
+<script>
 	new Vue({
 		el: '#app',
 		data: {
@@ -332,7 +325,8 @@
 					.catch(function (error) {
 						console.log(error);
 					});
-			},
+            },
+
 			addFriend: function (e) {
 				axios.get('/MainWindow/AddFriend', {
 					params: { 'friendId': e.userid }
@@ -345,7 +339,8 @@
 					.catch(function (error) {
 						console.log(error);
 					});
-			},
+            },
+
 			verifyFriend: function (friendId) {
 				const that = this;
 				axios.get('/MainWindow/VerifyFriend', {
@@ -361,7 +356,8 @@
 					});
 				this.getData();
 
-			},
+            },
+
 			DeleteRequest: function (id) {
 				const that = this;
 				axios.get('/MainWindow/DeleteRequest', {
@@ -376,7 +372,8 @@
 						console.log(error);
 					});
 				this.getData();
-			},
+            },
+
 			CombineCalendar: function (id) {
 				const that = this;
 				axios.get('/MainWindow/SaveFriendID', {
@@ -394,8 +391,6 @@
 
 			},
 
-
-
             DeleteFriend: function (id) {
                 const that = this;
                 axios.get('/MainWindow/DeleteFriend', {
@@ -411,7 +406,6 @@
                     });
                 this.getData();
             },
-
 
             remoteMethod(query) {
                 if (query !== '') {
@@ -431,6 +425,4 @@
             }
         },
     })
-	/**/
-
 </script>
