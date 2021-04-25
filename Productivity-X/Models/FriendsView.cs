@@ -11,6 +11,8 @@ namespace Productivity_X.Models
         public int friendid { get; set; }
         public string friendname { get; set; }
         public string friendemail { get; set; }
-        public bool request { get; set; }
+        public bool request { get; set; }        
+        public string profilepic { get; set; }
+
     }
 }
