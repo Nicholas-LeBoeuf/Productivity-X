@@ -435,7 +435,7 @@ namespace Productivity_X.Models
 				// Get username of friend
 				using (MySqlCommand getusername = new MySqlCommand("select username from Calendar_Schema.user_tbl where user_id = @friendid", conn))
 				{
-					getusername.Parameters.AddWithValue("@friendid", friendid);
+					getusername.Parameters.AddWithValue("@friendid", nUserID);
 					using (var reader = getusername.ExecuteReader())
 					{
 						while (reader.Read())
