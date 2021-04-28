@@ -1,6 +1,7 @@
 # Calendar Application by Productivity-X
-This is a software project created by the Productivity-X group, conisting of Nicholas LeBoeuf, Jason McKearney and Jack Wulanbatu. 
-This project was created ​to enhance the user's productivity and to better organize your life.
+This is a software project created by the Productivity-X group, consisting of Nicholas LeBoeuf, Jason McKearney and Jack Wulanbatu. This project was created ​to enhance the user's productivity and to better organize your life. 
+
+The purpose of this application is to allow you to enhance your productivity by allowing you to have less stress of trying to remember all your obligations and tasks throughout the day. Also helps you with time management each day.
 
 # Description
 The purpose of this application is to allow you to enhance your productivity by allowing you to have less stress of trying to remember all your obligations and tasks throughout the day. Also helps you with time management each day.
